@@ -1,0 +1,391 @@
+/* PÁGINA INICIO */
+
+button:hover {
+    cursor: pointer;
+    background-color: #f1c40f; /* Color de fondo al pasar el mouse */
+}
+
+/* Distribución usando grid, estructura general de la web / plataforma web*/
+
+/*.parent div {
+    outline: black solid 1px;
+}
+*/
+.containerI {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ecf0f1; /* Color de fondo general */
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: auto 0.1fr 0.1fr 1fr;
+    grid-template-areas:
+        "contLogo contCabecera "
+        "contCateg contPublis "
+        "contMenuLateral contPublis "
+        "contMenuFiltrosDesp contPublis ";
+    gap: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f9; /* Fondo de la página */
+}
+
+/* Contenedores */
+
+.contLogo {
+    grid-area: contLogo;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: #34495e; /* Fondo del logo */
+}
+
+.contCabecera {
+    grid-area: contCabecera;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 5%;
+    width: 100%;
+    background-color: #2c3e50; /* Fondo de la cabecera */
+}
+
+.contCateg {
+    grid-area: contCateg;
+    background-color: #ecf0f1; /* Fondo de categorías */
+}
+
+.contMenuLateral {
+    grid-area: contMenuLateral;
+    background-color: #bdc3c7; /* Fondo del menú lateral */
+}
+
+.contMenuFiltrosDesp {
+    grid-area: contMenuFiltrosDesp;
+    background-color: #ecf0f1; /* Fondo de filtros */
+}
+
+.contPublis {
+    grid-area: contPublis;
+    background-color: #fff; /* Fondo de las publicaciones */
+}
+
+.contMapa {
+    position: absolute;
+}
+
+.contChat {
+    position: absolute;
+}
+
+/* Logo */
+
+.contLogo img {
+    width: 100px;
+    height: auto;
+}
+
+/* Cabecera */
+
+.buscar {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: #34495e; /* Fondo de la búsqueda */
+}
+
+.buscar input {
+    width: 60%;
+    height: 40%;
+    border: none;
+    border-bottom: 1px solid #666;
+    background-color: #fff; /* Fondo del input */
+}
+
+/* Usuario */
+.usuario {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-right: 1%;
+    gap: 5%;
+    background-color: #34495e; /* Fondo de usuario */
+}
+
+.usuario img {
+    width: 70px;
+    height: auto;
+}
+
+/* Categorias */
+
+.contCateg p {
+    margin-left: 5%;
+    color: #2c3e50; /* Color de texto de las categorías */
+}
+
+.categ {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5%;
+    border-radius: 20px;
+    height: 40px;
+    width: 80%;
+    outline: solid;
+    background-color: #f39c12; /* Fondo de los botones de categorías */
+}
+
+.categ button {
+    height: 100%;
+    width: 100%;
+    font-size: 0.7em;
+    background-color: #f39c12; /* Fondo de los botones de categorías */
+    color: white; /* Color del texto */
+}
+
+.categ button[id="btnHabitantes"] {
+    border-radius: 20px 0 0 20px;
+}
+
+.categ button[id="btnEmpresas"] {
+    border-radius: 0 20px 20px 0;
+}
+
+/* Menu Lateral*/
+
+.menuLateral {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #bdc3c7; /* Fondo del menú lateral */
+}
+
+.menuLateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menuLateral li {
+    padding: 18px 0;
+    outline: 1px black solid;
+}
+
+.menuLateral a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #333;
+}
+
+.menuLateral img {
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    margin-left: 5%;
+}
+
+/* Menu de Filtros Desplegable  */
+
+.contMenuFiltrosDesp {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 1.1em;
+    background-color: #ecf0f1; /* Fondo de filtros */
+}
+
+.filtrosContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Títulos de secciones */
+.filtrosContent p {
+    margin: 0;
+    padding: 10px 0px;
+    font-weight: bold;
+    color: #333;
+}
+
+.filtrosContent select {
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff; /* Fondo de select */
+}
+
+/* Número de habitaciones y Baños*/
+.filNumHabitaciones,.filNumBanos {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+}
+
+.numHabitaciones input[type="radio"],.numBanos input[type="radio"]  {
+    display: none;
+}
+
+.numHabitaciones label,.numBanos label  {
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 7px;
+    background-color: #3498db; /* Fondo de las etiquetas de habitaciones y baños */
+    color: white; /* Color del texto */
+}
+
+.hab1,
+.hab1 label,.ban1,
+.ban1 label  {
+    border-radius: 20px 0 0 20px;
+}
+
+.hab5,
+.hab5 label,.ban3,
+.ban3 label  {
+    border-radius: 0 20px 20px 0px;
+}
+
+/* Numero de baños*/
+
+.numHabitaciones {
+    display: flex;
+    width: 80%;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #ecf0f1; /* Fondo de número de habitaciones */
+}
+
+.numHabitaciones div {
+    height: 30px;
+    width: 20%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.numBanos {
+    display: flex;
+    width: 60%;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #ecf0f1; /* Fondo de número de baños */
+}
+
+.numBanos div {
+    height: 30px;
+    width: 33.3%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Estado vivienda y Características */
+
+.estadoViv
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    height: 50px;
+    background-color: #ecf0f1; /* Fondo de estado de vivienda */
+}
+
+.caracteristicas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    height: 80px;
+    background-color: #ecf0f1; /* Fondo de características */
+}
+
+.filEstadoVivienda label,
+.filCaracteristicas label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Boton Buscar Filtros */
+
+.buscarFiltros{
+    display: flex;
+    justify-content: center;
+}
+
+.btnBuscarFil{
+    width: 50%;
+    height: 40px;
+    background-color: #3498db; /* Fondo del botón buscar filtros */
+}
+
+/* Contenedor Principal PUBLICACIONES */
+.contPublis {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #ecf0f1; /* Fondo de publicaciones */
+}
+
+.publicaciones {
+    width: 70%;
+    margin-right: 15%;
+}
+
+/* Estilos del contenedor de publicación */
+.publiContainer {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.publiImagen{
+    width: 40%;
+    padding: 10px;
+}
+
+.publiImagen img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+}
+
+.detallesPubli {
+    width: 60%;
+    padding: 15px;
+}
+
+.detallesPubli h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #2c3e50; /* Color de título de publicación */
+}
+
+.detallesPubli p {
+    font-size: 1em;
+    color: #7f8c8d; /* Color de detalles de publicación */
+    margin-bottom: 10px;
+}
+
+.detallesPubli span {
+    font-size: 0.9em;
+    color: #3498db; /* Color de enlaces en detalles */
+}
+

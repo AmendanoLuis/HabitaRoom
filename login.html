@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="styleLogin.css">
+</head>
+
+<body class="containerL">
+    <!-- Presentación Login de la Plataforma-->
+    <aside class="informacion">
+        <h1>Habita <br>Room</h1>
+
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing </p>
+
+        <!-- Contenedor para enlace Login usando google o alguna red social -->
+        <div class="loginBySocialMedia">
+            <h3>Inicia sesión con redes sociales</h3>
+
+            <!-- Iconos y enlaces -->
+            <a href="#">
+                <picture class="google">
+                    <img src="resources/google_icon.png" alt="Login con Google">
+                </picture>
+            </a>
+            <a href="#">
+
+                <picture class="facebook">
+                    <img src="resources/facebook_iconpng.png" alt="Login con Facebook">
+                </picture>
+            </a>
+            <a href="#">
+
+                <picture class="instagram">
+                    <img src="resources/instagram_icon.png" alt="Login con Instagram">
+                </picture>
+            </a>
+
+        </div>
+    </aside>
+
+    <!-- Login -->
+
+    <main class="contLogin">
+        <section class="login">
+
+            <h1>Iniciar sesión</h1>
+            <!-- Enlace para crear cuenta -->
+            <div class="createAccount">
+                <p>No tienes una cuenta? <a href="#"><strong>Crea tu cuenta.</strong></a></p>
+            </div>
+            <form action="" class="loginForm" id="loginForm">
+
+                <div class="contUser">
+                    <input type="text" id="inpUser" class="inpUser" name="username"
+                        placeholder="Ingresa tu nombre de usuario" required>
+                    <p class="errorUser"></p>
+                </div>
+                <div class="contPasswd">
+                    <input type="password" id="inpPasswd" class="inpPasswd" name="password"
+                        placeholder="Ingresa tu contraseña" required>
+                    <p class="errorPasswd"></p>
+                </div>
+                <!-- Contenedor Remember Me y enlace por si se ha olvidado la contraseña -->
+
+                <div class="loginDetails" id="loginDetails">
+                    <label for="rememberMe">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        Recuérdame</label>
+                    <a href="#" id="forgotPasswd">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="contBtnLogin">
+                    <button id="btnLogin" class="btnLogin" type="submit">Iniciar sesión</button>
+                </div>
+            </form>
+            <div class="contNewUser" id="contNewUser">
+                <p>¿Nuevo usuario? <a href="#"><strong>Regístrate</strong></a></p>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>
