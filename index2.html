@@ -12,22 +12,36 @@
 </head>
 
 <body class="bg-dark">
-    <!-- Barra de Navegación -->
-    <nav class="navbar d-block navbar-dark navbar-expand-lg bg-black bg-opacity-75 shadow fixed-top">
 
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar d-block navbar-dark navbar-expand-lg bg-black bg-opacity-100 shadow fixed-top z-2">
         <div class="container-fluid">
-            <a class="navbar-brand ms-auto d-flex justify-content-center align-items-center" href="#">
+
+            <!-- Botón menú lateral izquierdo -->
+            <button class="navbar-toggler me-auto d-lg-none" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbarLeft" aria-controls="offcanvasNavbarLeft"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Logo -->
+            <a class="navbar-brand d-flex justify-content-center align-items-center" href="#">
                 <img src="resources/logo.jpg" alt="Logo" width="65" height="65"
                     class="d-inline-block align-text-center ms-3" id="imgLogo">
                 <h2 for="imgLogo" class="ms-2">HabitaRoom</h2>
             </a>
+
+            <!-- Botón menú lateral derecho -->
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="offcanvas offcanvas-end bg-dark" tabindex="-1" id="offcanvasNavbar"
+            <!-- Contenido menú lateral derecho -->
+            <div class="offcanvas offcanvas-end bg-dark  " tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
+
+                <!-- Cabecera menú derecho -->
                 <div class="offcanvas-header">
                     <a class="navbar-brand" href="#">
                         <img src="resources/logo.jpg" alt="Logo" width="65" height="65"
@@ -36,18 +50,22 @@
                     </a>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
+
+                <!-- Cuerpo menú lateral derecho -->
                 <div class="offcanvas-body mx-auto">
                     <hr>
 
+                    <!-- Usuario menú lateral -->
                     <a class="navbar-brand me-auto d-lg-none" href="#">
                         <img src="resources/imgUsuario.png" alt="Logo" width="50" height="50"
                             class="d-inline-block align-text-center rounded-circle">
                         <label for="imgUsuario" class="fs-5">Usuario</label>
-
                     </a>
                     <hr>
-                    <ul class="navbar-nav nav-underline justify-content-end  flex-grow-1 pe-3 me-5">
-                        <li class="nav-item ">
+
+                    <!-- Menú -->
+                    <ul class="navbar-nav nav-underline justify-content-end flex-grow-1 pe-3 me-5">
+                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">
                                 <i class="d-lg-none d-inline bi bi-house-door"></i> Inicio
                             </a>
@@ -59,43 +77,187 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="d-lg-none d-inline bi bi-postcard"></i></i> Novedades</a>
+                                <i class="d-lg-none d-inline bi bi-postcard"></i> Novedades
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="d-lg-none d-inline bi bi-bookmark"></i> Guardados</a>
+                                <i class="d-lg-none d-inline bi bi-bookmark"></i> Guardados
+                            </a>
                         </li>
-
-
                     </ul>
                     <hr>
+
+                    <!-- Barra de búsqueda -->
                     <form class="d-flex ms-auto" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
             </div>
+
+            <!-- Contenido menú lateral izquierdo -->
+            <div class="offcanvas offcanvas-start bg-dark text-light d-lg-none" tabindex="-1" id="offcanvasNavbarLeft"
+                aria-labelledby="offcanvasNavbarLeftLabel">
+
+                <!-- Cabecera menú izquierdo -->
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title ">
+                        <i class="bi bi-sliders"></i> Filtros <!-- Icono de ajustes -->
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+
+                <!-- Cuerpo menú lateral izquierdo -->
+                <div class="offcanvas-body mx-auto">
+                    <!-- Formulario de Filtros -->
+                    <form action="#">
+                        <div class="container p-3">
+                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
+                            <select class="form-select">
+                                <option selected>Alquiler, etc</option>
+                            </select>
+
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option selected>Min</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option selected>Max</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitación / Habitaciones</h5>
+                            <div class="btn-group" role="group" aria-label="Grupo de habitaciones">
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab1" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="hab1">1</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab2" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="hab2">+2</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab3" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="hab3">+3</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab4" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="hab4">+4</label>
+                            </div>
+
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
+                            <div class="btn-group" role="group" aria-label="Grupo de baños">
+                                <input type="radio" class="btn-check" name="banos" id="bano1" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="bano1">1</label>
+
+                                <input type="radio" class="btn-check" name="banos" id="bano2" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="bano2">+2</label>
+
+                                <input type="radio" class="btn-check" name="banos" id="bano3" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="bano3">+3</label>
+                            </div>
+
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Estado</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label">Checkbox</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Usuario Menú -->
             <a class="navbar-brand me-3 d-lg-block d-none" href="#">
                 <label for="imgUsuario" class="fs-5 me-2">Usuario</label>
-
                 <img src="resources/imgUsuario.png" alt="Logo" width="50" height="50"
                     class="d-inline-block align-text-center rounded-circle">
             </a>
         </div>
     </nav>
+
+    <!-- BLOQUE ESPACIO -->
     <div class="bloque-menu-nav"></div>
-    <!-- Contenido -->
+
+    <!-- CONTENIDO -->
     <div class="container-fluid text-light">
         <div class="row">
+
+            <!-- FILTROS -->
             <div class="col-3">
 
-                <!-- Contenedor de Categoria-->
-                <div class="row mb-auto position-fixed">
-                    <div class="container py-3 pb-4 px-5 bg-black bg-opacity-25 shadow-lg mb-5 rounded-bottom">
-                        <h4 class="mb-3">Filtrar publicaciones </h4>
+                <!-- Contenedor de Categoria | >= Large -->
+                <div class="row mb-auto position-fixed d-lg-block d-none z-1">
+                    <div class="container py-5 pb-4 px-5 bg-black bg-opacity-25 shadow-lg mb-5 rounded-bottom">
+                        <h4 class="mb-3">Filtrar Publicaciones </h4>
+
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btnradio1">Habitante </label>
+                            <label class="btn btn-outline-primary" for="btnradio1">Habitantes </label>
 
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
                             <label class="btn btn-outline-primary" for="btnradio2">Propietario</label>
@@ -106,29 +268,50 @@
                     </div>
                 </div>
 
-                <!-- Contenedor de Filtros -->
-                <div class="row ms-4 position-fixed fixed-bottom w-25" id="cont-filtros-desp">
+                <!-- Contenedor de Categoria | < Large -->
+                <div class="row mb-auto d-lg-none position-fixed z-1">
+                    <div class="container py-4 bg-black bg-opacity-25 shadow-lg mb-5 rounded-bottom text-center">
+                        <h5>Filtrar</h5>
+                        <h5 class="mb-3">Publicaciones</h5>
+                        <div class="btn-group d-flex flex-column px-3" role="group"
+                            aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-outline-primary py-2 rounded-0 rounded-top" for="btnradio1">Habitantes
+                            </label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-primary py-2 rounded-0" for="btnradio2">Propietario</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-primary py-2 rounded-0 rounded-bottom"
+                                for="btnradio3">Empresas
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Filtros | >= Large -->
+                <div class="row d-lg-block d-none position-fixed fixed-bottom " id="cont-filtros-desp">
                     <div class="accordion accordion-flush">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-success  bg-opacity-50" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                    aria-controls="flush-collapseOne" id="btn-desp-filtros">
+                                <button class="accordion-button collapsed bg-success bg-opacity-50 fs-md-6 fs-sm-5"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false" aria-controls="flush-collapseOne" id="btn-desp-filtros">
                                     Filtros
                                 </button>
                             </h2>
-
                             <!-- Formulario Filtros -->
-                            <div id="flush-collapseOne" class="accordion-collapse collapse ">
+                            <div id="flush-collapseOne" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <form action="#">
-                                        <div class="container p-4">
-                                            <h5 class="fw-bold">Tipo de Inmueble</h5>
+                                        <div class="container ps-lg-2 p-1">
+                                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
                                             <select class="form-select">
                                                 <option selected>Alquiler, etc</option>
                                             </select>
 
-                                            <h5 class="fw-bold mt-3">Precio</h5>
+                                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
                                             <div class="row">
                                                 <div class="col">
                                                     <select class="form-select">
@@ -142,7 +325,7 @@
                                                 </div>
                                             </div>
 
-                                            <h5 class="fw-bold mt-3">Habitación / Habitaciones</h5>
+                                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitación / Habitaciones</h5>
                                             <div class="btn-group" role="group" aria-label="Grupo de habitaciones">
                                                 <input type="radio" class="btn-check" name="habitaciones" id="hab1"
                                                     autocomplete="off">
@@ -161,9 +344,7 @@
                                                 <label class="btn btn-outline-primary" for="hab4">+4</label>
                                             </div>
 
-
-
-                                            <h5 class="fw-bold mt-3">Baños</h5>
+                                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
                                             <div class="btn-group" role="group" aria-label="Grupo de baños">
                                                 <input type="radio" class="btn-check" name="banos" id="bano1"
                                                     autocomplete="off">
@@ -178,8 +359,7 @@
                                                 <label class="btn btn-outline-primary" for="bano3">+3</label>
                                             </div>
 
-
-                                            <h5 class="fw-bold mt-3">Estado</h5>
+                                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Estado</h5>
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-check">
@@ -203,7 +383,7 @@
                                                 </div>
                                             </div>
 
-                                            <h5 class="fw-bold mt-3">Características</h5>
+                                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-check">
@@ -241,14 +421,11 @@
                                                         <label class="form-check-label">Checkbox</label>
                                                     </div>
                                                 </div>
-                                                <div class="d-grid gap-2 mt-3">
-                                                    <button type="submit" class="btn btn-primary">Aplicar
-                                                        Filtros</button>
-                                                </div>
-
+                                            </div>
+                                            <div class="d-grid gap-2 mt-3">
+                                                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
                                             </div>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
@@ -256,9 +433,11 @@
                     </div>
                 </div>
 
+
             </div>
 
-            <div class="col-9 mt-5 d-flex flex-column align-items-center">
+            <!-- PUBLICACIONES -->
+            <div class="col-9  mt-5 d-flex flex-column align-items-center">
 
                 <!-- PUBLICACION 1 -->
                 <div class="card mb-3 w-75">
@@ -287,9 +466,9 @@
                         </div>
                     </div>
                 </div>
- <hr class="">
+                <hr class="">
                 <!-- PUBLICACION 1 -->
-                <div class="card mb-3 w-75" >
+                <div class="card mb-3 w-75">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="resources/ejemploPiso1.jpg" class="img-fluid rounded-start"
@@ -315,7 +494,7 @@
                         </div>
                     </div>
                 </div><!-- PUBLICACION 1 -->
-                <div class="card mb-3 w-75" >
+                <div class="card mb-3 w-75">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="resources/ejemploPiso1.jpg" class="img-fluid rounded-start"
@@ -341,7 +520,7 @@
                         </div>
                     </div>
                 </div><!-- PUBLICACION 1 -->
-                <div class="card mb-3 w-75" >
+                <div class="card mb-3 w-75">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="resources/ejemploPiso1.jpg" class="img-fluid rounded-start"
@@ -367,7 +546,7 @@
                         </div>
                     </div>
                 </div><!-- PUBLICACION 1 -->
-                <div class="card mb-3 w-75" >
+                <div class="card mb-3 w-75">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="resources/ejemploPiso1.jpg" class="img-fluid rounded-start"
@@ -393,7 +572,7 @@
                         </div>
                     </div>
                 </div><!-- PUBLICACION 1 -->
-                <div class="card mb-3 w-75" >
+                <div class="card mb-3 w-75">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="resources/ejemploPiso1.jpg" class="img-fluid rounded-start"

@@ -1,6 +1,13 @@
-.bloque-menu-nav{
-    height: 9.2vh;
+.bloque-menu-nav {
+    height: 9vh;
 }
+
+#cont-filtros-desp {
+    max-height: 60vh;
+    width: 35%;
+    overflow-y: auto;
+}
+
 
 #btn-filtros {
     border-radius: 5px 5px 0px 0px;
@@ -9,7 +16,6 @@
 
 #form-filtros {
     border-radius: 5px 5px 0px 0px;
-
 }
 
 
@@ -21,4 +27,3 @@
 .accordion-button:not(.collapsed) {
     color: black !important;
 }
-
