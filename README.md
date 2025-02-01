@@ -5,26 +5,24 @@
 
 ## Tecnologías 🛠️
 
-- **Frontend**: 
-    - ![HTML5](public/img/html5.png)
-    - ![CSS3](public/img/css3.png)
-    - ![JavaScript](public/img/javascript.png)
-    - ![Bootstrap](public/img/bootstrap.png)
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap, AJAX
+    ![HTML5](public/img/html5.png)![CSS3](public/img/css3.png)![JavaScript](public/img/javascript.png)![Bootstrap](public/img/bootstrap.png)
 
-- **Control de versiones**: 
-    - ![Git](public/img/git.png)
-    - ![GitHub](public/img/github.png)
 
-- **Base de datos**: 
-    - ![MariaDB](public/img/mariadb.png)
+- **Control de versiones**: Git, GitHub
+    ![Git](public/img/git.png)![GitHub](public/img/github.png)
 
-- **API de mapa/ubicación**: Leaflet + 
-    - ![Leaflet](public/img/mariadb.png)
-    - ![OpenStreetMap Nominatim](public/img/mariadb.png)
+
+- **Base de datos**: MariaDB
+    ![MariaDB](public/img/mariadb.png)
+
+
+- **API de mapa/ubicación**: Leaflet y OpenStreetMap Nominatim 
+    ![Leaflet](public/img/leafletLogo.png)![OpenStreetMap Nominatim](public/img/OpenStreetMapLogo.png)![Nominatim](public/img/Nominatim.png)
 
 - **Sistema de chat/mensajería**: 
-    A decidir entre una solución personalizada o un servicio de chat en vivo como:
-    - ![Tawk.to](public/img/mariadb.png)
+    A decidir entre una solución personalizada o un servicio de chat en vivo como Tawk.to:
+    ![Tawk.to](public/img/tawk.to.png)
 
 - **Cookies**: Para usar filtros de búsqueda 🍪
 
