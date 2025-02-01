@@ -1,0 +1,22 @@
+# Archivos de configuración local
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuraciones de IDEs
+.idea/
+.vscode/
+
+# Archivos de bases de datos locales
+*.sql
+*.sqlite
+*.db
+
+# Caché de PHP
+cache/
+*.cache
+
+# Errores de PHP
+php_error.log
