@@ -44,43 +44,43 @@ La estructura de carpetas de **HabitaRoom** es la siguiente:
 
 ```
 HabitaRoom
-│── index.html  → Página principal  
+│── index.html  
 │── .gitignore  
 │── README.md  
 │  
-│── /public  → Archivos estáticos  
-│   ├── /css  → Estilos  
-│   ├── /js  → Funcionalidad responsiva  
-│   ├── /img  → Imágenes y recursos gráficos  
-│   ├── /fonts  → Tipografías usadas  
+│── /public  
+│   ├── /css  
+│   ├── /js  
+│   ├── /img  
+│   ├── /fonts  
 │  
 │── /assets  
-│   ├── /uploads  → Imágenes subidas por usuarios  
+│   ├── /uploads  
 │  
-│── /includes  → Componentes reutilizables  
-│   ├── header.php  → Cabecera común  
-│   ├── footer.php  → Pie de página común  
-│   ├── headerIndex.php  → Cabecerá con filtros index  
+│── /includes  
+│   ├── header.php  
+│   ├── footer.php  
+│   ├── headerIndex.php  
 │  
 │── /config   
 │   ├── /db
-│   │   ├── db.php  → Conexión a Base de Datos 
-│   ├── /jQuery  → jQuery local
-│   ├── app.js  → Funcionalidad de la web
+│   │   ├── db.php  
+│   ├── /jQuery  
+│   ├── app.js  
 │  
-│── /routes  → Gestión de rutas  
-│   ├── web.php  → Define rutas en PHP  
-│   ├── redireccionWeb.php  → Manejo de rutas
+│── /routes  
+│   ├── web.php  
+│   ├── redireccionWeb.php  
 │  
-│── /controllers  → Lógica de la aplicación  
-│   ├── IndexController.php  → Index  
-│   ├── RegisterController.php  → Index  
-│   ├── CrearPublicacionController.php  → Crear Publicaciones  
-│   ├── GuardadosController.php  → Favoritos  
-│   ├── NovedadesController.php  → Novedades  
-│   ├── LoginController.php  → Login  
+│── /controllers  
+│   ├── IndexController.php  
+│   ├── RegisterController.php  
+│   ├── CrearPublicacionController.php  
+│   ├── GuardadosController.php  
+│   ├── NovedadesController.php  
+│   ├── LoginController.php  
 │  
-│── /models  → Representación de datos  
+│── /models  
 │   ├── IndexModel.php  
 │   ├── RegisterModel.php  
 │   ├── CrearPublicacionModel.php  
@@ -88,7 +88,7 @@ HabitaRoom
 │   ├── NovedadesModel.php  
 │   ├── LoginModel.php  
 │  
-│── /views  → Plantillas de la web  
+│── /views  
 │   ├── IndexView.php  
 │   ├── RegisterView.php  
 │   ├── NovedadesView.php  
@@ -96,8 +96,9 @@ HabitaRoom
 │   ├── GuardadosView.php  
 │   ├── LoginView.php  
 │  
-│── /chat  → Chat en tiempo real  
+│── /chat  
 │   ├── chat.js  
+ 
 
 ```
 
