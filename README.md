@@ -44,40 +44,61 @@ La estructura de carpetas de **HabitaRoom** es la siguiente:
 
 ```
 HabitaRoom
-├── index.html  → Página principal  
+│── index.html  → Página principal  
 │── .gitignore  
 │── README.md  
-│── /public  
-│   ├── /css  → Archivos de estilos   
-│   ├── /js  → Scripts   
+│  
+│── /public  → Archivos estáticos  
+│   ├── /css  → Estilos  
+│   ├── /js  → Funcionalidad responsiva  
 │   ├── /img  → Imágenes y recursos gráficos  
-│   ├── /fonts  → Tipografías usadas en la web  
+│   ├── /fonts  → Tipografías usadas  
 │  
-│── /includes  
-│   ├── header.html  → Cabecera común  
-│   ├── footer.html  → Pie de página común  
-│   ├── navbar.html  → Menú de navegación  
-│   ├── navbar.html  → Menú de navegación para página inicio, incluye filtros
+│── /assets  
+│   ├── /uploads  → Imágenes subidas por usuarios  
 │  
-│── /config  
-│   ├── config.php  → Configuración global (credenciales, constantes, etc.)  
-│   │── /db  → Conexión con base de datos
-│   │── app.js -> Funcionalidad responsiva de la web
-│        
-│── /controllers  
-│   ├── novedadesController.js  → Controlador para gestionar novedades  
-│   ├── guardadosController.js  → Controlador para gestionar guardados  
+│── /includes  → Componentes reutilizables  
+│   ├── header.php  → Cabecera común  
+│   ├── footer.php  → Pie de página común  
+│   ├── headerIndex.php  → Cabecerá con filtros index  
 │  
-│── /models  
-│   ├── novedadesModel.php  → Modelo de datos para novedades  
-│   ├── guardadosModel.php  → Modelo de datos para guardados  
-│   ├── publicacionesModel.php  → Modelo de datos para publicaciones
+│── /config   
+│   ├── /db
+│   │   ├── db.php  → Conexión a Base de Datos 
+│   ├── /jQuery  → jQuery local
+│   ├── app.js  → Funcionalidad de la web
 │  
-│── /views  
-│   ├── novedades.html  → Página de novedades  
-│   ├── guardados.html  → Página de guardados  
-│   ├── publicacion.html  → Página de creación de publicaciones  
-│   ├── login.html  → Página de login
+│── /routes  → Gestión de rutas  
+│   ├── web.php  → Define rutas en PHP  
+│   ├── redireccionWeb.php  → Manejo de rutas
+│  
+│── /controllers  → Lógica de la aplicación  
+│   ├── IndexController.php  → Index  
+│   ├── RegisterController.php  → Index  
+│   ├── CrearPublicacionController.php  → Crear Publicaciones  
+│   ├── GuardadosController.php  → Favoritos  
+│   ├── NovedadesController.php  → Novedades  
+│   ├── LoginController.php  → Login  
+│  
+│── /models  → Representación de datos  
+│   ├── IndexModel.php  
+│   ├── RegisterModel.php  
+│   ├── CrearPublicacionModel.php  
+│   ├── GuardadosModel.php  
+│   ├── NovedadesModel.php  
+│   ├── LoginModel.php  
+│  
+│── /views  → Plantillas de la web  
+│   ├── IndexView.php  
+│   ├── RegisterView.php  
+│   ├── NovedadesView.php  
+│   ├── CrearPublicacionView.php  
+│   ├── GuardadosView.php  
+│   ├── LoginView.php  
+│  
+│── /chat  → Chat en tiempo real  
+│   ├── chat.js  
+
 ```
 
 
@@ -92,16 +113,3 @@ Para los publicistas, la sección publicación permite **crear una publicación*
 
 **Novedades**, la cual siempre será visible con lás útlimas publicaciónes en toda España a diferencia de **Inicio** que tendrá las publicaciones filtradas por la ubicación del usuario, la cual se solicitará al entrar a la web.
 
-
-## Pasos de Creación 🔨
-
-1. Pensar la idea 💡
-2. Pensar el diseño 🎨
-3. Realizar boceto de diseño en NinjaMock 🖌️
-4. Crear la estructura e idea de la web desde cero usando HTML5, CSS, CSS3 y JavaScript.
-5. Integrar Bootstrap y realizar la estructura final de las webs.
-6. Crear archivos y codificar las funciones de la web.
-7. Configuración, conexión a la base de datos y creación de las tablas.
-8. Integrar API de mapa y mensajería.
-9. Finalizar el diseño de la web, el dinamismo, colores y elección de color representativo.
-10. Documentar 📝

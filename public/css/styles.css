@@ -1,29 +1,68 @@
+/* INICIO */
+
+/* Espacio ocupado por nav */
 .bloque-menu-nav {
     height: 9vh;
 }
 
+/* Contenedor de filtro por categoria */
 #cont-filtros-desp {
     max-height: 60vh;
     width: 35%;
     overflow-y: auto;
 }
 
-
+/* Estilo botones filtros por categoria */
 #btn-filtros {
     border-radius: 5px 5px 0px 0px;
 }
-
 
 #form-filtros {
     border-radius: 5px 5px 0px 0px;
 }
 
-
+/* Botones filtro por categoria */
 #btn-desp-filtros {
     box-shadow: none;
 }
 
-/* Cambiar color del texto del encabezado cuando el acordeón está activo */
+/* Titulo Filtros desplegable*/
 .accordion-button:not(.collapsed) {
     color: black !important;
+}
+
+/* Contenedor Publicación */
+#contPublicacion {
+    max-width: 90%;
+    max-height: 300px;
+}
+
+/* Imagen Publicación */
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+
+/* Descripción Publicación */
+.descripccionPubli {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Barra de separación */
+.barraSeparacion {
+    width: 80%;
+}
+
+/* Asegura que los contenedores de imagen no cambien de tamaño sin imágenes */
+.carousel-item {
+    background-color: #f0f0f0;
+    /* Color de fondo si no hay imagen */
 }
