@@ -1,6 +1,3 @@
-# Archivos de configuración local
-.env
-
 # Archivos del sistema
 .DS_Store
 Thumbs.db
@@ -9,10 +6,6 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Archivos de bases de datos locales
-*.sql
-*.sqlite
-*.db
 
 # Caché de PHP
 cache/

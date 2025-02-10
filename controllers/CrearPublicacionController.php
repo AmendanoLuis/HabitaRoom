@@ -2,6 +2,6 @@
 
 class CrearPublicacionController {
     public function cargarFormulario() {
-        echo "Cargando publicaciones...";
+        require_once '../views/crearPublicacionView.php';
     }
 }

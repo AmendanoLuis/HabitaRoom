@@ -1,15 +1,15 @@
-<footer class="bg-primary text-light py-4">
+<footer class="bg-success text-light py-4">
     <div class="container">
         <div class="row">
             <!-- Columna de enlaces de navegación -->
             <div class="col-md-3">
                 <h5>Enlaces rápidos</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/" class="text-light">Inicio</a></li>
-                    <li><a href="/novedades" class="text-light">Novedades</a></li>
-                    <li><a href="/crearpublicacion" class="text-light">Crear publicación</a></li>
-                    <li><a href="/guardados" class="text-light">Guardados</a></li>
-                    <li><a href="/perfil" class="text-light">Perfil</a></li>
+                    <li><a href="/HabitaRoom/index" class="text-light routes">Inicio</a></li>
+                    <li><a href="/HabitaRoom/novedades" class="text-light">Novedades</a></li>
+                    <li><a href="/HabitaRoom/crearpublicacion" class="text-light">Crear publicación</a></li>
+                    <li><a href="/HabitaRoom/guardados" class="text-light">Guardados</a></li>
+                    <li><a href="/HabitaRoom/perfil" class="text-light">Perfil</a></li>
                 </ul>
             </div>
 

@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+
+
 //index.php 
 
 // Incluir las rutas
@@ -30,7 +34,7 @@ $dbConnection = Database::connect();
     <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
-<body class="bg-dark">
+<body class="bg-light-subtle">
 
     <!-- Barra de Navegación | Header -->
     <?php include __DIR__ . '/includes/headerIndex.php'; ?>
@@ -50,6 +54,9 @@ $dbConnection = Database::connect();
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Cookies para AJAX -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
 
     <!-- Scripts control contenido -->

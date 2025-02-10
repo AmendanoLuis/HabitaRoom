@@ -1,50 +1,141 @@
 /* INICIO */
 
+/* NAV BAR*/
+/* 
+Eliminamos el icono predeterminado de Bootstrap
+y agregamos un ícono personalizado con mask-image
+obtenido de https://heroicons.com/ y modificado en https://yoksel.github.io/url-encoder/
+
+ */
+#btnMenuLateralDerch,
+#btnMenuLateralIzq {
+    background-image: none !important;
+    width: 30px;
+    height: 30px;
+    background-color: green;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+
+}
+
 /* Espacio ocupado por nav */
 .bloque-menu-nav {
-    height: 9vh;
+    height: 5vh;
 }
+
+/* Navbar Lateral IZQUIERDA y DERECHA*/
+#offcanvasNavbar {
+    background-color: #AFF5B6;
+}
+
+#menuLateralIndex li a {
+    color: black;
+}
+
+#offcanvasNavbarLeft {
+    background-color: #AFF5B6;
+
+}
+
+
+
+
+/* FILTROS */
 
 /* Contenedor de filtro por categoria */
-#cont-filtros-desp {
-    max-height: 60vh;
-    width: 35%;
-    overflow-y: auto;
-}
-
-/* Estilo botones filtros por categoria */
-#btn-filtros {
-    border-radius: 5px 5px 0px 0px;
-}
-
-#form-filtros {
-    border-radius: 5px 5px 0px 0px;
-}
-
-/* Botones filtro por categoria */
+/* Botones filtro desplegable */
 #btn-desp-filtros {
     box-shadow: none;
 }
 
 /* Titulo Filtros desplegable*/
-.accordion-button:not(.collapsed) {
-    color: black !important;
+#btn-desp-filtros:not(.collapsed) {
+    color: rgb(17, 17, 17) !important;
 }
 
-/* Contenedor Publicación */
+#cont-filtros-desp {
+    top: clamp(225px, 18vh, 280px);
+    max-width: 22%;
+}
+
+#form-filtros-desp {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+
+
+/* Estilos para el contenedor de filtros desplegables en diferentes tamaños de pantalla */
+@media screen and (max-width: 1750px) {
+    #cont-filtros-desp {
+        max-width: 24%;
+    }
+}
+
+@media screen and (max-width: 1550px) {
+    #cont-filtros-desp {
+        max-width: 27%;
+    }
+}
+
+/* SCROLL BAR*/
+
+/* Ancho */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Color de fondo */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar-thumb {
+    background: #999;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+
+
+
+
+
+
+/* PUBLICACION */
+
+@media screen and (min-width: 992px) {
+    #contPublicacion {
+        width: 900px;
+        height: 301px;
+
+    }
+
+    #imgPublicIndex {
+        height: 300px;
+    }
+}
+
 #contPublicacion {
-    max-width: 90%;
-    max-height: 300px;
+    min-height: 300px;
+    max-height: 1000px;
+
 }
 
 /* Imagen Publicación */
-.carousel-item img {
+#imgPublicIndex {
     width: 100%;
-    height: auto;
-    max-height: 400px;
     object-fit: cover;
+    max-height: 300px;
 }
 
+.carousel {
+    width: 100%;
+}
 
 /* Descripción Publicación */
 .descripccionPubli {
@@ -56,13 +147,57 @@
     text-overflow: ellipsis;
 }
 
-/* Barra de separación */
-.barraSeparacion {
-    width: 80%;
-}
 
 /* Asegura que los contenedores de imagen no cambien de tamaño sin imágenes */
 .carousel-item {
     background-color: #f0f0f0;
-    /* Color de fondo si no hay imagen */
+}
+
+/* MAPA */
+#mapa {
+    width: 320px;
+    height: 350px;
+    top: clamp(70px, 4vh, 160px);
+    z-index: 1;
+    background-color: white;
+}
+
+#formBuscarMapa {
+    width: 100%;
+}
+
+/* CHAT */
+#chat {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #007bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    background-color: white;
+
+}
+
+
+
+/* CREAR PUBLICACIONES */
+
+
+.crear-publicacion {
+    font-size: 1.2em;
+}
+
+#label-tipo-inmueble {
+    padding-left: 3%;
+    font-size: 0.70em;
+    color: #198754;
+    box-shadow: none;
+
+}
+
+#tipo-inmueble {
+    box-shadow: none;
+    border: solid 1px#198754;
 }
