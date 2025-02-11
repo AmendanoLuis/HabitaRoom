@@ -47,7 +47,7 @@ if (isset($filtros['banos']) && !empty($filtros['banos'])) {
 
 if (isset($filtros['estado']) && is_array($filtros['estado'])) {
 
-    $estados_validos = ['nuevo', ' semi-nuevo', 'usado', 'renovado'];
+    $estados_validos = ['nuevo', 'semi-nuevo', 'usado', 'renovado'];
 
     foreach ($filtros['estado'] as $estado) {
         if (!in_array($estado, $estados_validos)) {
@@ -58,7 +58,7 @@ if (isset($filtros['estado']) && is_array($filtros['estado'])) {
 
 if (isset($filtros['caracteristicas']) && is_array($filtros['caracteristicas'])) {
 
-    $caract_validos = ['ascensor', 'piscina', ' gimnasio', ' garaje', ' terraza', ' jardin', ' aire acondicionado', ' calefaccion'];
+    $caract_validos = ['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'acondicionado', 'calefaccion'];
 
     foreach ($filtros['caracteristicas'] as $caract) {
         if (!in_array($caract, $caract_validos)) {
@@ -74,7 +74,8 @@ if (!empty($errores)) {
 
     echo '<div class="alert alert-danger">';
     foreach ($errores as $error) {
-        echo "<p>$error</p>";
+        echo "<h1>Error</h1>
+        <p>$error</p>";
     }
     echo '</div>';
     exit;

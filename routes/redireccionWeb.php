@@ -11,7 +11,7 @@ require '../models/IndexModel.php';
 require_once  '../controllers/IndexController.php';
 
 // Obtener la ruta actual
-$ruta_actual = $_GET['site'] ?? '/';
+$ruta_actual = $_POST['site'] ?? '/';
 
 
 // Eliminar .php de la ruta

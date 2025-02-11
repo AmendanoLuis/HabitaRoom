@@ -42,7 +42,11 @@ class IndexController
         // Obtener las publicaciones por filtro
         $publicaciones = $this->model->cargarPublicacionesFiltro($filtros);
 
-        // Incluir la vista
+        if($publicaciones){
         include $_SERVER['DOCUMENT_ROOT'] .'/HabitaRoom/views/IndexView.php';
+            
+        }else{
+            echo "No hay publicaciones disponibles con filtros.";
+        }
     }
 }

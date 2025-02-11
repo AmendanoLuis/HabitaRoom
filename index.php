@@ -1,10 +1,4 @@
 <?php
-session_start();
-
-
-
-//index.php 
-
 // Incluir las rutas
 $rutas = require 'routes/web.php';
 

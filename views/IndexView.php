@@ -1,3 +1,24 @@
+<?php
+
+if (isset($_COOKIE['filtros'])) {
+    $datos_filtros = json_decode($_COOKIE['filtros'], true);
+
+    $tipo_inmueble = isset($datos_filtros['tipo-inmueble-desp']) ? $datos_filtros['tipo-inmueble-desp'] : (isset($datos_filtros['tipo-inmueble-lateral']) ? $datos_filtros['tipo-inmueble-lateral'] : '');
+
+    $precio_min = isset($datos_filtros['precio-min-desp']) ? $datos_filtros['precio-min-desp'] : (isset($datos_filtros['precio-min-lateral']) ? $datos_filtros['precio-min-lateral'] : '500');
+    $precio_max = isset($datos_filtros['precio-max-desp']) ? $datos_filtros['precio-max-desp'] : (isset($datos_filtros['precio-max-lateral']) ? $datos_filtros['precio-max-lateral'] : '20000');
+
+    $habitaciones = isset($datos_filtros['habitaciones']) ? $datos_filtros['habitaciones'] : '';
+    $banos = isset($datos_filtros['banos']) ? $datos_filtros['banos'] : '';
+
+    $estado = isset($datos_filtros['estado']) ? $datos_filtros['estado'] : [];
+
+    $caracteristicas = isset($datos_filtros['caracteristicas']) ? $datos_filtros['caracteristicas'] : [];
+} else {
+    echo "No se han encontrado los filtros en las cookies.";
+}
+?>
+
 <div class="container-fluid text-light content">
     <div class="row ">
 
@@ -22,7 +43,6 @@
                 </div>
             </div>
 
-
             <!-- Categoria | < Medium -->
             <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
                 <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
@@ -41,7 +61,6 @@
                 </div>
             </div>
 
-
             <!-- Filtros | >= Medium -->
             <div class="row d-lg-block d-none position-fixed fixed-top" id="cont-filtros-desp">
                 <div class="accordion accordion-flush">
@@ -49,79 +68,76 @@
 
                         <!-- Cabecera Desplegable Formulario -->
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed bg-success bg-opacity-75 p-3 rounded-end text-light fs-md-6 fs-sm-5"
+                            <button class="accordion-button bg-success bg-opacity-75 p-3 rounded-end text-light fs-md-6 fs-sm-5"
                                 type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                aria-expanded="false" aria-controls="flush-collapseOne" id="btn-desp-filtros">
+                                aria-expanded="true" aria-controls="flush-collapseOne" id="btn-desp-filtros">
                                 Filtrar publicaciones
                             </button>
                         </h2>
 
                         <!-- Contenedor Desplegable Formulario -->
-                        <div id="flush-collapseOne" class="accordion-collapse collapse">
+                        <div id="flush-collapseOne" class="accordion-collapse collapse show">
                             <div class="accordion-body">
 
                                 <!-- Formulario Filtros -->
-                                <form id="form-filtros-desp" action="javascript:void(0);" method="POST">
+                                <form id="form-filtros-desp" method="POST">
                                     <div class="container ps-lg-2 p-1">
-
                                         <!-- Tipo Inmueble -->
                                         <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
-                                        <select class="form-select" id="tipo-inmueble" name="tipo-inmueble">
-                                            <option value ="Seleccionar"  >Seleccionar</option>
-                                            <option value="alquiler">Alquiler</option>
-                                            <option value="venta">Venta</option>
-                                            <option value="oficina">Oficina</option>
+                                        <select class="form-select" id="tipo-inmueble-desp" name="tipo-inmueble-desp">
+                                            <option value="Seleccionar" <?php echo ($tipo_inmueble == 'Seleccionar') ? 'selected' : ''; ?>>Seleccionar</option>
+                                            <option value="alquiler" <?php echo ($tipo_inmueble == 'alquiler') ? 'selected' : ''; ?>>Alquiler</option>
+                                            <option value="venta" <?php echo ($tipo_inmueble == 'venta') ? 'selected' : ''; ?>>Venta</option>
+                                            <option value="oficina" <?php echo ($tipo_inmueble == 'oficina') ? 'selected' : ''; ?>>Oficina</option>
                                         </select>
 
                                         <!-- Precio Inmueble -->
                                         <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
                                         <div class="row">
                                             <div class="col">
-                                                <select class="form-select" id="precio-min" name="precio-min">
-                                                    <option selected>Min</option>
-                                                    <option value="500">500</option>
-                                                    <option value="1000">1000</option>
-                                                    <option value="2000">2000</option>
-                                                    <option value="3000">3000</option>
+                                                <select class="form-select" id="precio-min-desp" name="precio-min-desp">
+                                                    <option value="500" <?php echo ($precio_min == '500') ? 'selected' : ''; ?>>500</option>
+                                                    <option value="1000" <?php echo ($precio_min == '1000') ? 'selected' : ''; ?>>1000</option>
+                                                    <option value="2000" <?php echo ($precio_min == '2000') ? 'selected' : ''; ?>>2000</option>
+                                                    <option value="3000" <?php echo ($precio_min == '3000') ? 'selected' : ''; ?>>3000</option>
                                                 </select>
                                             </div>
                                             <div class="col">
-                                                <select class="form-select" id="precio-max" name="precio-max">
-                                                    <option selected>Max</option>
-                                                    <option value="5000">5000</option>
-                                                    <option value="10000">10000</option>
-                                                    <option value="15000">15000</option>
-                                                    <option value="20000">20000</option>
+                                                <select class="form-select" id="precio-max-desp" name="precio-max-desp">
+                                                    <option value="5000" <?php echo ($precio_max == '5000') ? 'selected' : ''; ?>>5000</option>
+                                                    <option value="10000" <?php echo ($precio_max == '10000') ? 'selected' : ''; ?>>10000</option>
+                                                    <option value="15000" <?php echo ($precio_max == '15000') ? 'selected' : ''; ?>>15000</option>
+                                                    <option value="20000" <?php echo ($precio_max == '20000') ? 'selected' : ''; ?>>20000</option>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <!-- Habitacion/es Inmueble -->
+                                        <!-- Habitaciones -->
                                         <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitación / Habitaciones</h5>
                                         <div class="btn-group" role="group" aria-label="Grupo de habitaciones">
-                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-1" value="1" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-1" value="1" autocomplete="off" <?php echo ($habitaciones == '1') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="hab-desp-1">1</label>
 
-                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-2" value="2" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-2" value="2" autocomplete="off" <?php echo ($habitaciones == '2') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="hab-desp-2">+2</label>
 
-                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-3" value="3" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-3" value="3" autocomplete="off" <?php echo ($habitaciones == '3') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="hab-desp-3">+3</label>
 
-                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-4" value="4" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-4" value="4" autocomplete="off" <?php echo ($habitaciones == '4') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="hab-desp-4">+4</label>
                                         </div>
 
-                                        <!-- Baños Inmueble -->
+                                        <!-- Baños -->
                                         <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
                                         <div class="btn-group" role="group" aria-label="Grupo de baños">
-                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-1" value="1" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-1" value="1" autocomplete="off" <?php echo ($banos == '1') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="bano-desp-1">1</label>
 
-                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-2" value="2" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-2" value="2" autocomplete="off" <?php echo ($banos == '2') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="bano-desp-2">+2</label>
 
-                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-3" value="3" autocomplete="off">
+                                            <input type="radio" class="btn-check" name="banos" id="bano-desp-3" value="3" autocomplete="off" <?php echo ($banos == '3') ? 'checked' : ''; ?>>
                                             <label class="btn btn-outline-primary" for="bano-desp-3">+3</label>
                                         </div>
 
@@ -130,74 +146,76 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado1" name="estado[]" value="nuevo">
-                                                    <label class="form-check-label" for="estado1">Nuevo</label>
+                                                    <input class="form-check-input" type="checkbox" id="estado-desp-1" name="estado[]" value="nuevo" <?php echo (in_array('nuevo', $estado)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="estado-desp-1">Nuevo</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado2" name="estado[]" value="semi-nuevo">
-                                                    <label class="form-check-label" for="estado2">Semi-nuevo</label>
+                                                    <input class="form-check-input" type="checkbox" id="estado-desp-2" name="estado[]" value="semi-nuevo" <?php echo (in_array('semi-nuevo', $estado)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="estado-desp-2">Semi-nuevo</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado3" name="estado[]" value="usado">
-                                                    <label class="form-check-label" for="estado3">Usado</label>
+                                                    <input class="form-check-input" type="checkbox" id="estado-desp-3" name="estado[]" value="usado" <?php echo (in_array('usado', $estado)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="estado-desp-3">Usado</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado4" name="estado[]" value="renovado">
-                                                    <label class="form-check-label" for="estado4">Renovado</label>
+                                                    <input class="form-check-input" type="checkbox" id="estado-desp-4" name="estado[]" value="renovado" <?php echo (in_array('renovado', $estado)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="estado-desp-4">Renovado</label>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Caracteristicas Inmueble -->
+                                        <!-- Características -->
                                         <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica1" name="caracteristicas[]" value="ascensor">
-                                                    <label class="form-check-label" for="caracteristica1">Ascensor</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-1" name="caracteristicas[]" value="ascensor" <?php echo (in_array('ascensor', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-1">Ascensor</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica2" name="caracteristicas[]" value="piscina">
-                                                    <label class="form-check-label" for="caracteristica2">Piscina</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-2" name="caracteristicas[]" value="piscina" <?php echo (in_array('piscina', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-2">Piscina</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica3" name="caracteristicas[]" value="gimnasio">
-                                                    <label class="form-check-label" for="caracteristica3">Gimnasio</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-3" name="caracteristicas[]" value="gimnasio" <?php echo (in_array('gimnasio', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-3">Gimnasio</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica4" name="caracteristicas[]" value="garaje">
-                                                    <label class="form-check-label" for="caracteristica4">Garaje</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-4" name="caracteristicas[]" value="garaje" <?php echo (in_array('garaje', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-4">Garaje</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica5" name="caracteristicas[]" value="terraza">
-                                                    <label class="form-check-label" for="caracteristica5">Terraza</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-5" name="caracteristicas[]" value="terraza" <?php echo (in_array('terraza', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-5">Terraza</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica6" name="caracteristicas[]" value="jardin">
-                                                    <label class="form-check-label" for="caracteristica6">Jardín</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-6" name="caracteristicas[]" value="jardin" <?php echo (in_array('jardin', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for "caracteristica-desp-6">Jardín</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica7" name="caracteristicas[]" value="acondicionado">
-                                                    <label class="form-check-label" for="caracteristica7">Aire acondicionado</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-7" name="caracteristicas[]" value="acondicionado" <?php echo (in_array('acondicionado', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-7">Aire acondicionado</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="caracteristica8" name="caracteristicas[]" value="calefaccion">
-                                                    <label class="form-check-label" for="caracteristica8">Calefacción</label>
+                                                    <input class="form-check-input" type="checkbox" id="caracteristica-desp-8" name="caracteristicas[]" value="calefaccion" <?php echo (in_array('calefaccion', $caracteristicas)) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="caracteristica-desp-8">Calefacción</label>
                                                 </div>
                                             </div>
+                                            
                                         </div>
 
                                         <!-- Boton Aplicar Filtros -->
                                         <div class="d-grid gap-2 mt-3">
-                                            <button type="submit" id="enviar-formulario" class="btn btn-primary">Aplicar Filtros</button>
-
+                                            <button type="submit" id="enviar-formulario-desp" class="btn btn-primary">Aplicar Filtros</button>
                                         </div>
                                     </div>
                                 </form>
+
+
 
                             </div>
                         </div>
@@ -222,10 +240,10 @@
                             <div class="col-md-6 d-flex align-items-center justify-content-center position-relative" id="contImagenPubli">
 
                                 <!-- Tipo publicitsta -->
-                                <span class="badge position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5"><?php echo $publicacion->tipo_usuario_publicacion; ?></span>
+                                <span class="badge position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5"><?php echo $publicacion->tipo_publicitante; ?></span>
 
                                 <?php
-                                $imagenes = json_decode($publicacion->imagenes); // Decodificar JSON -> PHP Array
+                                $imagenes = json_decode($publicacion->fotos); // Decodificar JSON -> PHP Array
 
                                 if (!empty($imagenes) && is_array($imagenes)): ?>
                                     <div id="carousel<?php echo $publicacion->id; ?>" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -251,7 +269,7 @@
                                     </div>
 
                                 <?php else: ?>
-                                    <img src="assets/uploads/<?php echo $publicacion->imagenes; ?>" class="img-fluid rounded" alt="Imagen de la propiedad">
+                                    <img src="assets/uploads/<?php echo $publicacion->fotos; ?>" class="img-fluid rounded" alt="Imagen de la propiedad">
                                 <?php endif; ?>
 
                             </div>
@@ -268,11 +286,11 @@
                                 <h4 class="tituloPubli"><?php echo $publicacion->titulo; ?></h4>
 
                                 <!-- Ubicación en color gris -->
-                                <p class="text-muted ubicacionVivPubli"><?php echo $publicacion->direccion_ubicacion; ?></p>
+                                <p class="text-muted ubicacionVivPubli"><?php echo $publicacion->ubicacion; ?></p>
 
                                 <!-- Detalles adicionales -->
                                 <p class="text-muted infoVivPubli">
-                                    <?php echo $publicacion->habitaciones . " habs. | " . $publicacion->banos . " baños | " . $publicacion->superficie_m2 . " m²"; ?>
+                                    <?php echo $publicacion->habitaciones . " habs. | " . $publicacion->banos . " baños | " . $publicacion->superficie . " m²"; ?>
                                 </p>
 
                                 <!-- Descripción breve -->

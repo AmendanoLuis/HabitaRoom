@@ -6,7 +6,7 @@ class Database
     private static  $host = "localhost";
     private static $db = "habitaroomtest";
     private static $username = "root";
-    private static $password = "root";
+    private static $password = "";
     private static $conn = null;
 
     // Función para conectar a la base de datos
