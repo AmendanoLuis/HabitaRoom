@@ -1,15 +1,23 @@
 <?php
 
+$tipo_inmueble = '';
+$precio_min =  '';
+$precio_max = '';
+$habitaciones = '';
+$banos = '';
+$estado = '';
+$caracteristicas = [];
+
 if (isset($_COOKIE['filtros'])) {
     $datos_filtros = json_decode($_COOKIE['filtros'], true);
 
-    $tipo_inmueble = isset($datos_filtros['tipo-inmueble-desp']) ? $datos_filtros['tipo-inmueble-desp'] : (isset($datos_filtros['tipo-inmueble-lateral']) ? $datos_filtros['tipo-inmueble-lateral'] : '');
+    $tipo_inmueble = $datos_filtros['tipo-inmueble-desp'];
 
-    $precio_min = isset($datos_filtros['precio-min-desp']) ? $datos_filtros['precio-min-desp'] : (isset($datos_filtros['precio-min-lateral']) ? $datos_filtros['precio-min-lateral'] : '500');
-    $precio_max = isset($datos_filtros['precio-max-desp']) ? $datos_filtros['precio-max-desp'] : (isset($datos_filtros['precio-max-lateral']) ? $datos_filtros['precio-max-lateral'] : '20000');
+    $precio_min =  $datos_filtros['precio-min-desp'];
+    $precio_max = $datos_filtros['precio-max-desp'];
 
-    $habitaciones = isset($datos_filtros['habitaciones']) ? $datos_filtros['habitaciones'] : '';
-    $banos = isset($datos_filtros['banos']) ? $datos_filtros['banos'] : '';
+    $habitaciones = isset($datos_filtros['habitaciones']);
+    $banos = isset($datos_filtros['banos']);
 
     $estado = isset($datos_filtros['estado']) ? $datos_filtros['estado'] : [];
 
@@ -19,7 +27,7 @@ if (isset($_COOKIE['filtros'])) {
 }
 ?>
 
-<div class="container-fluid text-light content">
+<div class="container-fluid text-light">
     <div class="row ">
 
         <!-- Contenedores Filtros -->
@@ -146,25 +154,26 @@ if (isset($_COOKIE['filtros'])) {
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado-desp-1" name="estado[]" value="nuevo" <?php echo (in_array('nuevo', $estado)) ? 'checked' : ''; ?>>
+                                                    <input class="form-check-input" type="radio" id="estado-desp-1" name="estado" value="nuevo" <?php echo ($estado == 'nuevo') ? 'checked' : ''; ?>>
                                                     <label class="form-check-label" for="estado-desp-1">Nuevo</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado-desp-2" name="estado[]" value="semi-nuevo" <?php echo (in_array('semi-nuevo', $estado)) ? 'checked' : ''; ?>>
+                                                    <input class="form-check-input" type="radio" id="estado-desp-2" name="estado" value="semi-nuevo" <?php echo ($estado == 'semi-nuevo') ? 'checked' : ''; ?>>
                                                     <label class="form-check-label" for="estado-desp-2">Semi-nuevo</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado-desp-3" name="estado[]" value="usado" <?php echo (in_array('usado', $estado)) ? 'checked' : ''; ?>>
+                                                    <input class="form-check-input" type="radio" id="estado-desp-3" name="estado" value="usado" <?php echo ($estado == 'usado') ? 'checked' : ''; ?>>
                                                     <label class="form-check-label" for="estado-desp-3">Usado</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="estado-desp-4" name="estado[]" value="renovado" <?php echo (in_array('renovado', $estado)) ? 'checked' : ''; ?>>
+                                                    <input class="form-check-input" type="radio" id="estado-desp-4" name="estado" value="renovado" <?php echo ($estado == 'renovado') ? 'checked' : ''; ?>>
                                                     <label class="form-check-label" for="estado-desp-4">Renovado</label>
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <!-- Características -->
                                         <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
@@ -194,7 +203,7 @@ if (isset($_COOKIE['filtros'])) {
                                                 </div>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="caracteristica-desp-6" name="caracteristicas[]" value="jardin" <?php echo (in_array('jardin', $caracteristicas)) ? 'checked' : ''; ?>>
-                                                    <label class="form-check-label" for "caracteristica-desp-6">Jardín</label>
+                                                    <label class="form-check-label" for="caracteristica-desp-6">Jardín</label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="caracteristica-desp-7" name="caracteristicas[]" value="acondicionado" <?php echo (in_array('acondicionado', $caracteristicas)) ? 'checked' : ''; ?>>
@@ -205,7 +214,7 @@ if (isset($_COOKIE['filtros'])) {
                                                     <label class="form-check-label" for="caracteristica-desp-8">Calefacción</label>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
 
                                         <!-- Boton Aplicar Filtros -->
@@ -227,100 +236,7 @@ if (isset($_COOKIE['filtros'])) {
         </div>
 
         <!-- CONTENIDO PRINICIPAL -->
-        <div class="col-10 col-md-9  mt-5 d-flex flex-column align-items-center">
-
-            <!-- PUBLICACION -->
-            <?php if ($publicaciones): ?>
-                <?php foreach ($publicaciones as $publicacion): ?>
-
-                    <div class="card mb-4 shadow mx-auto ms-5 " id="contPublicacion">
-                        <div class="row g-0 rounded-2">
-
-                            <!-- Imagen de la propiedad -->
-                            <div class="col-md-6 d-flex align-items-center justify-content-center position-relative" id="contImagenPubli">
-
-                                <!-- Tipo publicitsta -->
-                                <span class="badge position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5"><?php echo $publicacion->tipo_publicitante; ?></span>
-
-                                <?php
-                                $imagenes = json_decode($publicacion->fotos); // Decodificar JSON -> PHP Array
-
-                                if (!empty($imagenes) && is_array($imagenes)): ?>
-                                    <div id="carousel<?php echo $publicacion->id; ?>" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <?php
-                                            foreach ($imagenes as $index => $imagen): ?>
-                                                <div class="carousel-item rounded-start <?php echo $index === 0 ? 'active' : ''; ?>">
-                                                    <img src="assets/uploads/<?php echo $imagen; ?>" class="rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
-                                                </div>
-
-                                            <?php endforeach; ?>
-
-                                        </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?php echo $publicacion->id; ?>" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel<?php echo $publicacion->id; ?>" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
-                                    </div>
-
-                                <?php else: ?>
-                                    <img src="assets/uploads/<?php echo $publicacion->fotos; ?>" class="img-fluid rounded" alt="Imagen de la propiedad">
-                                <?php endif; ?>
-
-                            </div>
-
-
-                            <!-- Contenido de la publicación -->
-                            <div class="col-md-6 ps-3 pt-3 mb-3">
-
-
-                                <!-- Titulo del precio -->
-                                <h2 class="card-title precioPubli"><?php echo $publicacion->precio . "€"; ?></h2>
-
-                                <!-- Título de la publicación -->
-                                <h4 class="tituloPubli"><?php echo $publicacion->titulo; ?></h4>
-
-                                <!-- Ubicación en color gris -->
-                                <p class="text-muted ubicacionVivPubli"><?php echo $publicacion->ubicacion; ?></p>
-
-                                <!-- Detalles adicionales -->
-                                <p class="text-muted infoVivPubli">
-                                    <?php echo $publicacion->habitaciones . " habs. | " . $publicacion->banos . " baños | " . $publicacion->superficie . " m²"; ?>
-                                </p>
-
-                                <!-- Descripción breve -->
-                                <p class="card-text descripccionPubli "><?php echo $publicacion->descripcion; ?></p>
-
-                                <!-- Botones de acción -->
-                                <!-- Añadir funciones por boton -->
-                                <div class="mt-auto d-flex gap-2 ">
-
-                                    <!-- Abrir modulo, formulario de contacto del usuario de publicación -->
-                                    <button class="btn btn-primary btn-sm">Contactar</button>
-
-                                    <!-- Abrir mensaje directo con el usuario de la publicación -->
-                                    <button class="btn btn-outline-secondary btn-sm">Mensaje</button>
-
-                                    <!-- Abrir model con contacto de WhatsApp del usuario de la publicación , si este lo ha permitido -->
-                                    <!-- Si no lo ha permitido aparecerá deshabilitado -->
-                                    <button class="btn btn-outline-success btn-sm">WhatsApp</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="alert alert-warning" role="alert">
-                    No hay publicaciones disponibles.
-                </div>
-            <?php endif; ?>
+        <div class="col-10 col-md-9  mt-5 d-flex flex-column align-items-center" id="contenedor-principal">
 
         </div>
 

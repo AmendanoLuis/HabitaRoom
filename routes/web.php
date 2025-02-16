@@ -2,8 +2,7 @@
 //web.php
 
 return [
-    '/HabitaRoom' => 'IndexController@cargarPublicaciones',
-    '/HabitaRoom/index' => 'IndexController@cargarPublicaciones',
+    '/HabitaRoom/index' => 'IndexController@cargarPagina',
     '/HabitaRoom/novedades' => 'NovedadesController@cargarNovedades',
     '/HabitaRoom/crearpublicacion' => 'CrearPublicacionController@cargarFormulario',
     '/HabitaRoom/guardados' => 'GuardadosController@cargarGuardados',

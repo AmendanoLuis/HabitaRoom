@@ -2,17 +2,13 @@ $(document).ready(function () {
 
     // ============ FUNCIONES ============
 
-    // Función para cargar el contenido de la página
-    function cargarContenido(url, newUrl = true) {
+    function cargarPagina(url) {
         $.ajax({
             url: 'routes/redireccionWeb.php',
             type: 'POST',
             data: { site: url },
             success: function (response) {
                 $('#contenidoMain').html(response);
-                if (newUrl) {
-                    window.history.pushState({ path: url }, '', url);
-                }
 
                 // Asignar el evento de envío a los formularios después de cargar el contenido
                 asignarEventosFormularios();
@@ -21,37 +17,42 @@ $(document).ready(function () {
                 console.error('Error al cargar el contenido: ', error);
             }
         });
+
     }
 
-    // Asignar eventos de validación y envío a los formularios
+    function cargarPublicacionesIndex() {
+
+        $.ajax({
+            url: 'models/cargarPublicaciones.php',
+            type: 'POST',
+            success: function (response) {
+
+                $('#contenedor-principal').html(response);
+
+            },
+            error: function (xhr, status, error) {
+                console.log('Error al cargar el publicaciones: ', error);
+            }
+        });
+    }
+
     function asignarEventosFormularios() {
 
-        // Evento para el formulario de la cabecera
-        $(document).on("submit", "#form-filtros-cabecera", function (event) {
-            console.log("Formulario cabecera enviado.");
-            event.preventDefault();
-
-            // Guardar filtros en cookies
-            guardarFiltrosEnCookies(this);  // Cambié esto para pasar el formulario actual
-
-            // Validar formulario de la cabecera
-            validarFormularioFiltros('#form-filtros-cabecera');
-        });
 
         // Evento para el formulario cargado por AJAX en el contenedor principal
         $(document).on("submit", "#form-filtros-desp", function (event) {
-            console.log("Formulario desp enviado.");
             event.preventDefault();
-
-            // Guardar filtros en cookies
-            guardarFiltrosEnCookies(this);  // Cambié esto para pasar el formulario actual
+            console.log("Formulario desp enviado.");
 
             // Validar formulario cargado por AJAX
             validarFormularioFiltros('#form-filtros-desp');
+
+            // Guardar filtros en cookies
+            guardarFiltrosEnCookies("#form-filtros-desp");
+
         });
     }
 
-    // Función para validar el formulario
     function validarFormularioFiltros(formulario) {
         var $formulario = $(formulario);
         console.log("Validando formulario: ", formulario);
@@ -61,7 +62,7 @@ $(document).ready(function () {
             type: 'POST',
             data: $formulario.serialize(),
             success: function (response) {
-                $('#contenidoMain').html(response);
+                $('#contenedor-principal').html(response);
             },
             error: function (error) {
                 console.error('Error en la validación Filtros:', error);
@@ -70,7 +71,6 @@ $(document).ready(function () {
         });
     }
 
-    // Función para guardar los filtros en cookies
     function guardarFiltrosEnCookies(formulario) {
         var filtros = {};
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
                 if (!filtros[name]) {
                     filtros[name] = [];
                 }
-                console.log("Valores Input y select: " + name + "=>" + $(this).val())
+                console.log("Valores Check: " + name + "=>" + $(this).val())
 
                 filtros[name].push($(this).val());
             }
@@ -105,53 +105,45 @@ $(document).ready(function () {
         Cookies.set('filtros', JSON.stringify(filtros), { expires: 1 });
     }
 
-    // Función para cargar filtros desde cookies
-    /*
-    function cargarFiltrosDesdeCookies() {
-        var filtros = Cookies.get('filtros');
-        if (filtros) {
-            filtros = JSON.parse(filtros);
-    
-            // Iterar sobre todos los formularios en la página
-            $('form').each(function () {
-                var form = $(this);
-    
-                // Asignar valores a los inputs de texto, número, y selects
-                form.find('input[type="text"], input[type="number"], select').each(function () {
-                    var name = $(this).attr('name');
-                    if (filtros[name]) {
-                        $(this).val(filtros[name]);
-                    }
-                });
-    
-                // Asignar valores a los checkboxes
-                form.find('input[type="checkbox"]').each(function () {
-                    var name = $(this).attr('name');
-                    if (filtros[name] && filtros[name].includes($(this).val())) {
-                        $(this).prop('checked', true);
-                    }
-                });
-            });
-    
-            // Ver para depuración
-            console.log("Filtros cargados desde cookies: ", filtros);
-        } else {
-            console.log("No se han cargado los filtros.")
-        }
-    }
-     */
-
     // ============ INICIO ============
-
-    // Cargar el contenido inicial de la página
     let ruta_actual = window.location.pathname;
     console.log('Ruta actual: ' + ruta_actual);
-    cargarContenido(ruta_actual, false);
 
-    // Navegación del menú
-    $(".routes a").click(function () {
-        cargarContenido($(this).attr('href'));
-    });
+    cargarPagina(ruta_actual);
+
+    if (ruta_actual === '/HabitaRoom/index') {
+
+        // Verificamos que contenidoMain exista
+        const contMain = document.getElementById('contenidoMain');
+        if (!contMain) {
+            console.log("No se encontro contenidoMain");
+            return
+        }
+
+        // Creamos el observador
+
+        const observ = new MutationObserver(()=>{
+            if($('#contenedor-principal')){
+                console.log("¡#contenedor-principal detectado dentro de #contenidoMain!");
+                cargarPublicacionesIndex();
+
+                // Cerrar observador
+                observ.disconnect(); 
+            }
+        });
+
+        observ.observe(contMain, { childList: true, subtree: true });
+
+
+    } else {
+        $('#contenedor-principal').html(`
+            <div class="alert alert-danger" role="alert"> No encontramos publicaciones disponibles. </div>
+            `);
+
+        console.log("PAGINA NO ES INDEX");
+    }
+
+
 
     // Cargar filtros desde cookies al inicio
 

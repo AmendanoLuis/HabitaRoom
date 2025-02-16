@@ -31,11 +31,13 @@ $dbConnection = Database::connect();
 <body class="bg-light-subtle">
 
     <!-- Barra de Navegación | Header -->
+
     <?php include __DIR__ . '/includes/headerIndex.php'; ?>
-    <div class="bloque-menu-nav"></div>
 
     <!-- Contenido principal -->
-    <div class="contenidoMain" id="contenidoMain"></div>
+    <div class="contenidoMain" id="contenidoMain">
+        <!-- aqui se carga contenido dinamico -->
+    </div>
 
     <!-- Footer -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
