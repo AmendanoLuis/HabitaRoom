@@ -1,8 +1,8 @@
 <footer class="bg-success text-light py-4">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <!-- Columna de enlaces de navegación -->
-            <div class="col-md-3">
+            <div class="col ms-5">
                 <h5>Enlaces rápidos</h5>
                 <ul class="list-unstyled">
                     <li><a href="/HabitaRoom/index" class="text-light routes">Inicio</a></li>
@@ -14,7 +14,7 @@
             </div>
 
             <!-- Columna de redes sociales (si quieres incluirlas) -->
-            <div class="col-md-3">
+            <div class="col ms-5">
                 <h5>Redes sociales</h5>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-light">Facebook</a></li>
@@ -25,17 +25,19 @@
             </div>
 
             <!-- Columna de contacto -->
-            <div class="col-md-3">
+            <div class="col ms-5">
                 <h5>Contacto</h5>
                 <ul class="list-unstyled">
                     <li><a href="/contactanos" class="text-light">Contáctanos</a></li>
                 </ul>
             </div>
 
-            <!-- Columna de copyright -->
-            <div class="col-md-3 text-center text-md-right">
-                <p class="mb-0">© 2025 TuWeb. Todos los derechos reservados.</p>
-            </div>
+            
         </div>
+
+        <!-- Columna de copyright -->
+        <div class="container-fluid mb-0 text-center">
+                <p >© 2025 TuWeb. Todos los derechos reservados.</p>
+            </div>
     </div>
 </footer>

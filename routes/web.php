@@ -1,7 +1,7 @@
 <?php
-//web.php
 
 return [
+    '/HabitaRoom/index.php' => 'IndexController@cargarPagina',
     '/HabitaRoom/index' => 'IndexController@cargarPagina',
     '/HabitaRoom/novedades' => 'NovedadesController@cargarNovedades',
     '/HabitaRoom/crearpublicacion' => 'CrearPublicacionController@cargarFormulario',

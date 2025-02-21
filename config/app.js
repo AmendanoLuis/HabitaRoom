@@ -111,7 +111,7 @@ $(document).ready(function () {
 
     cargarPagina(ruta_actual);
 
-    if (ruta_actual === '/HabitaRoom/index') {
+    if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
 
         // Verificamos que contenidoMain exista
         const contMain = document.getElementById('contenidoMain');
@@ -142,10 +142,5 @@ $(document).ready(function () {
 
         console.log("PAGINA NO ES INDEX");
     }
-
-
-
-    // Cargar filtros desde cookies al inicio
-
 
 });
