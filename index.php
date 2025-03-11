@@ -3,6 +3,7 @@
 $rutas = require 'routes/web.php';
 
 // Obtener la ruta actual
+$url = $_SERVER['REQUEST_URI'];
 
 // Incluir el controlador y la conexión a la base de datos
 require_once  'controllers/IndexController.php';
@@ -32,7 +33,14 @@ $dbConnection = Database::connect();
 
     <!-- Barra de Navegación | Header -->
 
-    <?php include __DIR__ . '/includes/headerIndex.php'; ?>
+    <?php
+
+    if ($url == '/HabitaRoom/login') {
+    } else {
+        include __DIR__ . '/includes/headerIndex.php';
+    }
+
+    ?>
 
     <!-- Contenido principal -->
     <div class="contenidoMain" id="contenidoMain">
@@ -40,7 +48,14 @@ $dbConnection = Database::connect();
     </div>
 
     <!-- Footer -->
-    <?php include __DIR__ . '/includes/footer.php'; ?>
+    <?php
+
+    if ($url == '/HabitaRoom/login') {
+    } else {
+        include __DIR__ . '/includes/footer.php';
+    }
+
+    ?>
 
 
     <!--SCRIPTS-->

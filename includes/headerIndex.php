@@ -258,11 +258,19 @@
         </div>
 
         <!-- Usuario Menú -->
-        <a class="navbar-brand me-3 d-lg-block d-none" id="usuarioMenu" href="/HabitaRoom/perfil">
-            <label for="imgUsuario" class="fs-5 me-2 text-success">Usuario</label>
-            <img src="public/img/imgUsuario.png" alt="Logo" width="50" height="50"
-                class="d-inline-block align-text-center  rounded-circle">
-        </a>
+        <?php if (isset($_SESSION['user'])): ?>
+            <a class="navbar-brand me-3 d-lg-block d-none" id="usuarioMenu" href="/HabitaRoom/perfil">
+                <label for="imgUsuario" class="fs-5 me-2 text-success"><?php echo $_SESSION['nombre_usuario'];?></label>
+                <img src="public/img/imgUsuario.png" alt="Logo" width="50" height="50"
+                    class="d-inline-block align-text-center  rounded-circle">
+            </a>
+        <?php else: ?>
+            <a class="navbar-brand me-3 d-lg-block d-none" id="usuarioMenu" href="/HabitaRoom/login">
+                <label for="imgUsuario" class="fs-5 me-2 text-success">Login</label>
+                <img src="public/img/imgUsuario.png" alt="Logo" width="50" height="50"
+                    class="d-inline-block align-text-center  rounded-circle">
+            </a>
+        <?php endif; ?>
     </div>
 </nav>
-<div class="bloque-menu-nav">    </div>
+<div class="bloque-menu-nav"> </div>

@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
-    // ============ FUNCIONES ============
+    // ============ FUNCIONES INDEX ============
 
+    // Función para cargar el contenido de una página en el contenedor principal
     function cargarPagina(url) {
         $.ajax({
             url: 'routes/redireccionWeb.php',
@@ -20,6 +21,7 @@ $(document).ready(function () {
 
     }
 
+    // Función para cargar las publicaciones en la página principal
     function cargarPublicacionesIndex() {
 
         $.ajax({
@@ -36,6 +38,7 @@ $(document).ready(function () {
         });
     }
 
+    // Función para asignar eventos a los formularios cargados por AJAX
     function asignarEventosFormularios() {
 
 
@@ -53,6 +56,7 @@ $(document).ready(function () {
         });
     }
 
+    // Función para validar el formulario de filtros
     function validarFormularioFiltros(formulario) {
         var $formulario = $(formulario);
         console.log("Validando formulario: ", formulario);
@@ -71,6 +75,7 @@ $(document).ready(function () {
         });
     }
 
+    // Función para guardar los filtros en cookies
     function guardarFiltrosEnCookies(formulario) {
         var filtros = {};
 
@@ -103,6 +108,17 @@ $(document).ready(function () {
         console.log(filtros);
 
         Cookies.set('filtros', JSON.stringify(filtros), { expires: 1 });
+    }
+
+    // ============ FUNCIONES LOGIN ============
+
+    function validarFormularioLogin() {
+    
+        var $formulario = $('#form-login');
+        console.log("Validando formulario:");
+
+        
+    
     }
 
     // ============ INICIO ============

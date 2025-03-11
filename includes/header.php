@@ -1,5 +1,6 @@
 <!-- BARRA DE NAVEGACIÓN -->
-<nav class="navbar d-block navbar-dark navbar-expand-lg bg-black bg-opacity-100 shadow fixed-top z-2">
+<nav class="navbar d-block navbar-dark navbar-expand-lg bg-body-tertiary shadow fixed-top z-5 ">
+
     <div class="container-fluid">
 
         <!-- Logo -->

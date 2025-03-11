@@ -1,22 +1,19 @@
-/* INICIO */
+/* LOGIN*/
+#cont_logo{
+    height: 100px;
+    overflow: hidden;
+}
+
+#logo_login:hover{
+    font-size: 5.2em !important;
+}
+
+
+
+
+/* INDEX */
 
 /* NAV BAR*/
-/* 
-Eliminamos el icono predeterminado de Bootstrap
-y agregamos un ícono personalizado con mask-image
-obtenido de https://heroicons.com/ y modificado en https://yoksel.github.io/url-encoder/
-
- */
-#btnMenuLateralDerch,
-#btnMenuLateralIzq {
-    background-image: none !important;
-    width: 30px;
-    height: 30px;
-    background-color: green;
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-
-}
 
 /* Espacio ocupado por nav */
 .bloque-menu-nav {
