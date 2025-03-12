@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Incluir las rutas
 $rutas = require 'routes/web.php';
 
@@ -35,7 +37,7 @@ $dbConnection = Database::connect();
 
     <?php
 
-    if ($url == '/HabitaRoom/login') {
+    if ($url == '/HabitaRoom/login' || $url == '/HabitaRoom/registro') {
     } else {
         include __DIR__ . '/includes/headerIndex.php';
     }
@@ -50,7 +52,7 @@ $dbConnection = Database::connect();
     <!-- Footer -->
     <?php
 
-    if ($url == '/HabitaRoom/login') {
+    if ($url == '/HabitaRoom/login' || $url == '/HabitaRoom/registro') {
     } else {
         include __DIR__ . '/includes/footer.php';
     }

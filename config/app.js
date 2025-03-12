@@ -113,12 +113,36 @@ $(document).ready(function () {
     // ============ FUNCIONES LOGIN ============
 
     function validarFormularioLogin() {
-    
-        var $formulario = $('#form-login');
-        console.log("Validando formulario:");
 
-        
-    
+        // Evento para el formulario de login
+        $(document).on("submit", "#form_login", function (event) {
+            event.preventDefault();
+
+            var formulario = $("#form_login");
+
+            console.log("Formulario de login enviado.");
+
+            $.ajax({
+                url: 'models/validarFormularioLogin.php',
+                type: 'POST',
+                data: formulario.serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    console.log("Respuesta del servidor:", response);
+
+                    if (response.status) {
+                        window.location.href = response.redirect;
+                    } else {
+                        alert("Error al iniciar sesión. Verifica tus credenciales.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error:', error);
+                    alert("Ocurrió un error al procesar la solicitud.");
+                }
+            });
+        });
+
     }
 
     // ============ INICIO ============
@@ -127,6 +151,7 @@ $(document).ready(function () {
 
     cargarPagina(ruta_actual);
 
+    // Verificar si estamos en la página de login
     if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
 
         // Verificamos que contenidoMain exista
@@ -137,14 +162,13 @@ $(document).ready(function () {
         }
 
         // Creamos el observador
-
-        const observ = new MutationObserver(()=>{
-            if($('#contenedor-principal')){
+        const observ = new MutationObserver(() => {
+            if ($('#contenedor-principal')) {
                 console.log("¡#contenedor-principal detectado dentro de #contenidoMain!");
                 cargarPublicacionesIndex();
 
                 // Cerrar observador
-                observ.disconnect(); 
+                observ.disconnect();
             }
         });
 
@@ -158,5 +182,7 @@ $(document).ready(function () {
 
         console.log("PAGINA NO ES INDEX");
     }
+
+    validarFormularioLogin();
 
 });

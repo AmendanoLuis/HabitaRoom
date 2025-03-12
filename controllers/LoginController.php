@@ -1,13 +1,13 @@
 <?php
+session_start();
 
-require_once '../config/db/db.php';
 require_once '../models/User.php';
 
 class LoginController
 {
 
     // Función para cargar el formulario de inicio de sesión
-    public function cargarFormulario()
+    public function cargarLogin()
     {
         require_once '../views/LoginView.php';
     }
@@ -18,7 +18,10 @@ class LoginController
         $userModel = new Usuario();
         $user = $userModel->obtenerUsuarioEmail($email);
 
-        if ($user && password_verify($password, $user->contrasena)) {
+        $respuesta = ['status' => false];
+
+        // Verificar si el usuario existe y si la contraseña es correcta (compara contraseña ingresada texto plano con la contraseña encriptada en la base de datos)
+        if ($user && password_verify($password, trim($user->contrasena))) {
 
             $_SESSION['user'] = $user;
             $_SESSION['nombre'] = $user->nombre;
@@ -32,16 +35,12 @@ class LoginController
             $_SESSION['descripcion'] = $user->descripcion;
             $_SESSION['preferencia_contacto'] = $user->preferencia_contacto;
             $_SESSION['terminos_aceptados'] = $user->terminos_aceptados;
-            
-            // Añadir loading spinner
-            
 
-
-            // Redirigir a la página principal
-            header('Location: /HabitaRoom/index');
+            $respuesta['status'] = true;
         } else {
-            echo 'Usuario o contraseña incorrectos';
+            $respuesta['status'] = false;
         }
+        return $respuesta;
     }
 
     // Función para cerrar sesión
@@ -49,7 +48,14 @@ class LoginController
     {
         session_destroy();
 
-        header("Location: /HabitaRoom/index");
+        header("Location: /HabitaRoom/login"); // Redirigir al login
+
         exit();
     }
+}
+
+// Cerrar sesión
+if (isset($_POST['logout'])) {
+    $loginController = new LoginController();
+    $loginController->logout();
 }

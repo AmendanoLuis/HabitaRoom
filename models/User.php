@@ -13,7 +13,7 @@ class Usuario
     // Funcion para obtener usuario por email
     public function obtenerUsuarioEmail($email)
     {
-        $query = $this->db->prepare('SELECT * FROM users WHERE email = :email');
+        $query = $this->db->prepare('SELECT * FROM usuarios WHERE correo_electronico = :email');
         $query->execute(['email' => $email]);
         return $query->fetch(PDO::FETCH_OBJ);
     }

@@ -12,7 +12,7 @@
                 <div>
                     <div id="cont_logo">
                         <a class="link-light link-underline-opacity-0 mh-100" href="/HabitaRoom/index">
-                            <h1 class="text-light rounded" style="font-size: 5em;" id="logo_login">Habita Room</h1>
+                            <h1 class="text-light rounded text-uppercase fw-bold" style="font-size: 4.8em;" id="logo_login">Habita Room</h1>
                         </a>
                     </div>
 
@@ -69,7 +69,6 @@
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-success w-100 ">Ingresar</button>
-
                     </div>
                 </form>
 

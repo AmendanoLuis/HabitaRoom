@@ -1,15 +1,20 @@
-/* LOGIN*/
-#cont_logo{
+/* LOGIN */
+#cont_logo {
     height: 100px;
     overflow: hidden;
 }
 
-#logo_login:hover{
-    font-size: 5.2em !important;
+#logo_login:hover {
+    font-size: 5em !important;
 }
 
 
+/* REGISTER */
 
+#cont_registro {
+    overflow-y: auto;
+    max-height: 100vh;
+}
 
 /* INDEX */
 

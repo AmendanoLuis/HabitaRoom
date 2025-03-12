@@ -7,5 +7,6 @@ return [
     '/HabitaRoom/crearpublicacion' => 'CrearPublicacionController@cargarFormulario',
     '/HabitaRoom/guardados' => 'GuardadosController@cargarGuardados',
     '/HabitaRoom/perfil' => 'PerfilController@cargarPerfil',
-    '/HabitaRoom/login' => 'LoginController@cargarFormulario',
+    '/HabitaRoom/login' => 'LoginController@cargarLogin',
+    '/HabitaRoom/registro' => 'RegistroController@cargarRegistro',
 ];
