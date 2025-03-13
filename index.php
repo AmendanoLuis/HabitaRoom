@@ -1,5 +1,12 @@
 <?php
+// Sesion
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/User.php';
 session_start();
+
+if(isset($_SESSION['id'])){
+    $userModel = new Usuario();
+    $usuario = $userModel->obtenerUsuarioId($_SESSION['id']);
+}
 
 // Incluir las rutas
 $rutas = require 'routes/web.php';

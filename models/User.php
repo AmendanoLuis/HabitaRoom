@@ -1,5 +1,5 @@
 <?php
-require_once '../config/db/db.php';
+require_once  $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
 
 class Usuario
 {
@@ -15,6 +15,14 @@ class Usuario
     {
         $query = $this->db->prepare('SELECT * FROM usuarios WHERE correo_electronico = :email');
         $query->execute(['email' => $email]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    // Funcion para obtener usuario por id
+    public function obtenerUsuarioId($id)
+    {
+        $query = $this->db->prepare('SELECT * FROM usuarios WHERE id = :id');
+        $query->execute(['id' => $id]);
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
