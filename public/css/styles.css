@@ -16,6 +16,16 @@
     max-height: 100vh;
 }
 
+/* HEADER */
+
+#imgUsuarioHeader {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
 /* INDEX */
 
 /* NAV BAR*/
@@ -202,4 +212,28 @@
 #tipo-inmueble {
     box-shadow: none;
     border: solid 1px#198754;
+}
+
+
+
+/* PERFIL USUARIO */
+
+.profile-header {
+    height: 250px;
+}
+
+.profile-header img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+
+.descripcion-perfil {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
