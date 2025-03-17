@@ -91,6 +91,8 @@
     }
 }
 
+
+
 /* SCROLL BAR*/
 
 /* Ancho */
@@ -165,6 +167,9 @@
     background-color: #f0f0f0;
 }
 
+
+
+
 /* MAPA */
 #mapa {
     width: 320px;
@@ -177,6 +182,10 @@
 #formBuscarMapa {
     width: 100%;
 }
+
+
+
+
 
 /* CHAT */
 #chat {
@@ -191,6 +200,8 @@
     background-color: white;
 
 }
+
+
 
 
 
@@ -216,6 +227,10 @@
 
 
 
+
+
+
+
 /* PERFIL USUARIO */
 
 .profile-header {
@@ -232,8 +247,20 @@
 
 .descripcion-perfil {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+#btn_accion_perfil {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#img_publi_perfil {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }

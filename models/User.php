@@ -58,10 +58,10 @@ class Usuario
     }
 
     // Funcion para actualizar usuario
-    public function actualizarUsuario($formActualizarUsuario, $userId)
+    public function actualizarUsuario($formActualizarUsuario, $id)
     {
         $campos = [];
-        $params = ['id' => $userId];
+        $params = ['id' => $id];
 
         $campos_permitidos = [
             'nombre',
@@ -108,5 +108,13 @@ class Usuario
             echo "Error al actualizar usuario";
             return false;
         }
+    }
+
+    // Funcion para obtener publicaciones de un usuario
+    public function obtenerPublicacionesUsuario($id)
+    {
+        $query = $this->db->prepare('SELECT * FROM publicaciones WHERE usuario_id = :id');
+        $query->execute(['id' => $id]);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 }

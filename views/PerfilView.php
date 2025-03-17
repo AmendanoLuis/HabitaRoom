@@ -3,6 +3,8 @@
 if (isset($_SESSION['id'])) {
     $userModel = new Usuario();
     $usuario = $userModel->obtenerUsuarioId($_SESSION['id']);
+
+    $publicaciones = $userModel->obtenerPublicacionesUsuario($usuario->id);
 }
 
 ?>
@@ -10,7 +12,7 @@ if (isset($_SESSION['id'])) {
 <div class="container w-75 text-dark mt-5 d-flex flex-column justify-content-center z-0">
 
     <!-- Encabezado del perfil -->
-    <div class="profile-header bg-light rounded text-center shadow-lg mt-5 m-3 p-3 d-flex">
+    <div class="profile-header bg-light rounded text-center shadow-lg mt-5   m-3 p-3 d-flex">
 
         <!-- La imagen de perfil se mostrará aquí -->
         <div class="row w-100">
@@ -24,16 +26,13 @@ if (isset($_SESSION['id'])) {
             <!-- Información del usuario -->
             <div class="col-8 d-flex flex-column position-relative">
                 <div class="w-100 text-start ms-2 mt-4">
-                    <div>
-                        <h2><?php echo  $usuario->nombre . ' ' .  $usuario->apellidos; ?></h2>
-                        <p class=""><?php echo  $usuario->correo_electronico; ?></p>
-                    </div>
-
+                    <h2><?php echo  $usuario->nombre . ' ' .  $usuario->apellidos; ?></h2>
+                    <p class=""><?php echo  $usuario->correo_electronico; ?></p>
                 </div>
 
                 <div class="w-100 text-start ms-2 mt-2">
+                    <h4>Descripción</h4>
                     <div class="descripcion-perfil">
-                        <h4>Descripción</h4>
                         <p><?php echo  $usuario->descripcion; ?></p>
                     </div>
                 </div>
@@ -50,37 +49,58 @@ if (isset($_SESSION['id'])) {
     </div>
 
     <!-- Información del perfil -->
-    <div class="profile-info bg-light rounded text-center shadow-lg mt-2 m-3 pt-4 p-3">
+    <div class="profile-info bg-light rounded shadow-lg mt-2 m-3 p-3">
 
-        <div class="row">
+        <!-- Información del usuario -->
+        <div class="row my-3 d-flex align-items-center justify-content-between text-center">
+
+            <!-- Ubicacion -->
             <div class="col">
-                <h3>Información del Perfil</h3>
-                <dl>
-                    <dt>Ubicacion: </dt>
-                    <dd id="ubicacion">Ciudad, País</dd>
-                    <dt>Telefono</dt>
-                    <dt>Preferencia contacto</dt>
-
-                </dl>
+                <p class="fs-5 fw-semibold">Ubicación</p>
+                <address class="fs-6 fw-normal text-muted m-0"><?php echo $usuario->ubicacion; ?></address>
             </div>
+
+            <!-- Tipo de contacto-->
             <div class="col">
-                <button class="btn btn-success">Editar Perfil</button>
-                <form class="mt-3" action="controllers/LoginController.php" method="POST">
+                <p class="fs-5 fw-semibold">Contacto</p>
+                <p class="fs-6 fw-normal text-capitalize text-muted m-0">
+                    <?php if ($usuario->preferencia_contacto === "whatsapp"): ?>
+                        <i class="bi bi-whatsapp"></i>
+                    <?php elseif ($usuario->preferencia_contacto === "email"): ?>
+                        <i class="bi bi-envelope-at"></i>
+                    <?php else: ?>
+                        <i class="bi bi-chat-dots"></i>
+                    <?php endif; ?>
+                    <?php echo $usuario->preferencia_contacto; ?>
+                </p>
+            </div>
+
+            <!-- Teléfono -->
+            <?php if ($usuario->preferencia_contacto === "whatsapp"): ?>
+                <div class="col">
+                    <p class="fs-5 fw-semibold">Número</p>
+                    <p class="fs-6 fw-normal text-muted m-0"><?php echo $usuario->telefono; ?></p>
+                </div>
+            <?php endif; ?>
+
+            <!-- Botones de accion-->
+            <div class="col d-flex justify-content-end align-items-center gap-2 mt-3">
+                <form method="POST">
+                    <input type="hidden" name="ed_perfil" value="2">
+                    <button type="submit" id="btn_accion_perfil" class="btn btn-success" style="width: 150px;">Editar Perfil</button>
+                </form>
+                <form action="controllers/LoginController.php" method="POST">
                     <input type="hidden" name="logout" value="1">
-                    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+                    <button type="submit" id="btn_accion_perfil" class="btn btn-danger" style="width: 150px;">Cerrar sesión</button>
                 </form>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
 
-            </div>
-        </div>
     </div>
-    <!-- Información del publicaciones -->
 
-    <div class="profile-info bg-light rounded text-center shadow-lg mt-2 m-3 pt-4 p-3">
+    <!-- Información del publicaciones -->
+    <div class="profile-info bg-light rounded text-center shadow-lg mt-2 m-3 p-3">
         <div class="row">
             <div class="col">
                 <h3>Publicaciones</h3>
@@ -89,12 +109,22 @@ if (isset($_SESSION['id'])) {
         <hr>
 
         <div class="row">
-            <div class="col">
+            <?php foreach ($publicaciones as $publicacion): ?>
+                <div class="col-4">
+                    <div class="mb-2">
+                        <?php
+                        $publicacion->fotos = explode(',', $publicacion->fotos);
+                        $publicacion->fotos = str_replace(['[', ']', '"'], '', $publicacion->fotos);
 
-            </div>
-            <div>
+                        if (isset($publicacion->fotos) && is_array($publicacion->fotos) && !empty($publicacion->fotos)): ?>
+                            <img src="<?php echo 'assets/uploads/' . trim($publicacion->fotos[0]); ?>" alt="Foto de la publicación"  id="img_publi_perfil">
+                        <?php else: ?>
+                            <p>No hay fotos disponibles.</p>
+                        <?php endif; ?>
 
-            </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
 
     </div>

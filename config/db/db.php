@@ -81,8 +81,7 @@ class Database
             $sqlInsertUsuarios = "
             INSERT INTO usuarios (nombre, apellidos, nombre_usuario, correo_electronico, telefono, contrasena, tipo_usuario, ubicacion, foto_perfil, descripcion, preferencia_contacto, terminos_aceptados) VALUES
             ('Juan', 'Pérez López', 'juanperez', 'juan.perez@email.com', '555-1234', 'clave123', 'habitante', 'Madrid, España', 'juan.jpg', 'Interesado en inmuebles modernos', 'email', TRUE),
-            ('Ana', 'García Fernández', 'anagf', 'ana.garcia@email.com', '555-5678', '$2b$12$.g/zZfZ5Fd5uZE0qkUSUf.4j1vFd2MVYeZ6YeSTy9JXiaidOm7QQy
-', 'propietario', 'Barcelona, España', 'ana.jpg', 'Dueña de varias propiedades', 'whatsapp', TRUE),
+            ('Ana', 'García Fernández', 'anagf', 'ana.garcia@email.com', '555-5678', '$2b$12$.g/zZfZ5Fd5uZE0qkUSUf.4j1vFd2MVYeZ6YeSTy9JXiaidOm7QQy', 'propietario', 'Barcelona, España', 'ana.jpg', 'Dueña de varias propiedades', 'whatsapp', TRUE),
             ('Carlos', 'Martínez Gómez', 'carlosm', 'carlos.martinez@email.com', '555-8765', 'clave789', 'empresa', 'Valencia, España', 'carlos.jpg', 'Agente inmobiliario con experiencia', 'mensaje', TRUE),
             ('Laura', 'Ruiz Sánchez', 'laurar', 'laura.ruiz@email.com', '555-4321', 'clave111', 'habitante', 'Sevilla, España', 'laura.jpg', 'Buscando una casa con jardín', 'whatsapp', TRUE),
             ('Pedro', 'López García', 'pedrolg', 'pedro.lopez@email.com', '555-2468', 'clave222', 'propietario', 'Málaga, España', 'pedro.jpg', 'Vendo propiedades en la costa', 'email', TRUE)
@@ -123,20 +122,18 @@ class Database
             echo "Tabla 'publicaciones' creada.<br>";
 
             // Insertar datos en la tabla publicaciones
-            $sqlInsertPublicaciones = `
+            $sqlInsertPublicaciones = "
             INSERT INTO publicaciones (usuario_id, tipo_anuncio, tipo_inmueble, ubicacion, titulo, descripcion, precio, habitaciones, banos, estado, ascensor, piscina, gimnasio, garaje, terraza, jardin, aire_acondicionado, calefaccion, tipo_publicitante, superficie, fotos, videos) VALUES
-            (1, 'venta', 'apartamento', 'Madrid, España', 'Moderno apartamento en el centro', 'Apartamento con excelentes vistas, recién reformado.', 250000.00, 3, 2, 'renovado', TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, 'habitante', 120.50, '["foto1.jpg", "foto2.jpg"]', '["video1.mp4"]'),
-            (2, 'alquiler', 'casa', 'Barcelona, España', 'Casa con jardín y piscina', 'Amplia casa con piscina privada y jardín.', 1800.00, 4, 3, 'nuevo', FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'propietario', 250.00, '["foto3.jpg", "foto4.jpg"]', NULL),
-            (3, 'venta', 'oficina', 'Valencia, España', 'Oficina en edificio corporativo', 'Oficina espaciosa con ascensor y aire acondicionado.', 300000.00, 0, 2, 'semi-nuevo', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, 'empresa', 85.75, '["foto5.jpg"]', '["video2.mp4"]'),
-            (4, 'alquiler', 'apartamento', 'Sevilla, España', 'Piso céntrico con garaje', 'Apartamento con buena ubicación y plaza de garaje.', 1200.00, 2, 1, 'usado', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, 'habitante', 90.00, '["foto6.jpg", "foto7.jpg"]', NULL),
+            (1, 'venta', 'apartamento', 'Madrid, España', 'Moderno apartamento en el centro', 'Apartamento con excelentes vistas, recién reformado.', 250000.00, 3, 2, 'renovado', TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, 'habitante', 120.50, '['foto1.jpg', 'foto2.jpg']', '['video1.mp4']'),
+            (2, 'alquiler', 'casa', 'Barcelona, España', 'Casa con jardín y piscina', 'Amplia casa con piscina privada y jardín.', 1800.00, 4, 3, 'nuevo', FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'propietario', 250.00, '['foto3.jpg', 'foto4.jpg']', NULL),
+            (3, 'venta', 'oficina', 'Valencia, España', 'Oficina en edificio corporativo', 'Oficina espaciosa con ascensor y aire acondicionado.', 300000.00, 0, 2, 'semi-nuevo', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, 'empresa', 85.75, '['foto5.jpg']', '['video2.mp4']'),
+            (4, 'alquiler', 'apartamento', 'Sevilla, España', 'Piso céntrico con garaje', 'Apartamento con buena ubicación y plaza de garaje.', 1200.00, 2, 1, 'usado', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, 'habitante', 90.00, '['foto6.jpg', 'foto7.jpg']', NULL),
             (5, 'venta', 'terreno', 'Málaga, España', 'Terreno con vista al mar', 'Terreno urbanizable en zona tranquila.', 150000.00, 0, 0, 'nuevo', FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, 'propietario', 500.00, NULL, NULL)
-            `;
+            ";
             $conn->exec($sqlInsertPublicaciones);
             echo "Datos insertados en la tabla 'publicaciones'.<br>";
-
         } catch (PDOException $exception) {
             die("Error al crear la base de datos o las tablas: " . $exception->getMessage());
         }
     }
 }
-

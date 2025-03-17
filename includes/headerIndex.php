@@ -260,13 +260,13 @@
         <!-- Usuario Menú -->
         <div class="ms-2">
             <?php if (isset($usuario)): ?>
-                <a class="navbar-brand d-lg-flex align-items-center d-none" id="usuarioMenu" href="/HabitaRoom/perfil">
+                <a class="navbar-brand d-lg-flex align-items-center d-none" id="usuario_header" href="/HabitaRoom/perfil">
                     <p for="imgUsuario" class="fs-5 me-2 mt-3 text-success"><?php echo $usuario->nombre_usuario; ?></p>
                     <img src="<?php echo 'assets/uploads/img_perfil/' . $usuario->foto_perfil; ?>" alt="Logo" id="imgUsuarioHeader" class="d-inline-block" style="max-height: 50px;">
                 </a>
             <?php else: ?>
-                <a class="navbar-brand me-3 d-lg-block d-none" id="usuarioMenu" href="/HabitaRoom/login">
-                    <label for="imgUsuario" class="fs-5 me-2 text-success">Login</label>
+                <a class="navbar-brand d-lg-flex align-items-center d-none" id="usuario_header" href="/HabitaRoom/login">
+                    <p for="imgUsuario" class="fs-5 me-2 mt-3 text-success">Login</p>
                     <img src="public/img/imgUsuario.png" alt="Logo" width="50" height="50"
                         class="d-inline-block align-text-center  rounded-circle">
                 </a>
