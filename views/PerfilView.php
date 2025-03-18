@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
 
 ?>
 
-<div class="container w-75 text-dark mt-5 d-flex flex-column justify-content-center z-0">
+<div class="container w-75 text-dark my-5 d-flex flex-column justify-content-center z-0">
 
     <!-- Encabezado del perfil -->
     <div class="profile-header bg-light rounded text-center shadow-lg mt-5   m-3 p-3 d-flex">
@@ -19,21 +19,22 @@ if (isset($_SESSION['id'])) {
 
             <!-- Imagen de perfil -->
             <div class="col-3 d-flex flex-column justify-content-center align-items-center">
-                <img class="d-block border border-2 border-success" src="<?php echo 'assets/uploads/img_perfil/' . $usuario->foto_perfil; ?>" alt="Foto de Perfil">
-                <p class="fs-4 text-success-emphasis"><?php echo  $usuario->nombre_usuario; ?></p>
+                <img class="d-block border border-2 border-success"
+                    src="<?php echo 'assets/uploads/img_perfil/' . $usuario->foto_perfil; ?>" alt="Foto de Perfil">
+                <p class="fs-4 text-success-emphasis"><?php echo $usuario->nombre_usuario; ?></p>
             </div>
 
             <!-- Información del usuario -->
             <div class="col-8 d-flex flex-column position-relative">
                 <div class="w-100 text-start ms-2 mt-4">
-                    <h2><?php echo  $usuario->nombre . ' ' .  $usuario->apellidos; ?></h2>
-                    <p class=""><?php echo  $usuario->correo_electronico; ?></p>
+                    <h2><?php echo $usuario->nombre . ' ' . $usuario->apellidos; ?></h2>
+                    <p class=""><?php echo $usuario->correo_electronico; ?></p>
                 </div>
 
                 <div class="w-100 text-start ms-2 mt-2">
                     <h4>Descripción</h4>
                     <div class="descripcion-perfil">
-                        <p><?php echo  $usuario->descripcion; ?></p>
+                        <p><?php echo $usuario->descripcion; ?></p>
                     </div>
                 </div>
 
@@ -87,11 +88,13 @@ if (isset($_SESSION['id'])) {
             <div class="col d-flex justify-content-end align-items-center gap-2 mt-3">
                 <form method="POST">
                     <input type="hidden" name="ed_perfil" value="2">
-                    <button type="submit" id="btn_accion_perfil" class="btn btn-success" style="width: 150px;">Editar Perfil</button>
+                    <button type="submit" id="btn_accion_perfil" class="btn btn-success" style="width: 150px;">Editar
+                        Perfil</button>
                 </form>
                 <form action="controllers/LoginController.php" method="POST">
                     <input type="hidden" name="logout" value="1">
-                    <button type="submit" id="btn_accion_perfil" class="btn btn-danger" style="width: 150px;">Cerrar sesión</button>
+                    <button type="submit" id="btn_accion_perfil" class="btn btn-danger" style="width: 150px;">Cerrar
+                        sesión</button>
                 </form>
             </div>
         </div>
@@ -111,17 +114,17 @@ if (isset($_SESSION['id'])) {
         <div class="row">
             <?php foreach ($publicaciones as $publicacion): ?>
                 <div class="col-4">
-                    <div class="mb-2">
+                    <div class="my-2 mx-auto" id="cont_img_publi_perfil">
                         <?php
-                        $publicacion->fotos = explode(',', $publicacion->fotos);
-                        $publicacion->fotos = str_replace(['[', ']', '"'], '', $publicacion->fotos);
+                        $imagenes = json_decode($publicacion->fotos, true);
 
-                        if (isset($publicacion->fotos) && is_array($publicacion->fotos) && !empty($publicacion->fotos)): ?>
-                            <img src="<?php echo 'assets/uploads/' . trim($publicacion->fotos[0]); ?>" alt="Foto de la publicación"  id="img_publi_perfil">
+                        if (is_array($imagenes) && !empty($imagenes)): ?>
+                            <img src="<?php echo 'assets/uploads/' . trim($imagenes[0]); ?>"
+                                class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
+                                id="img_publi_perfil">
                         <?php else: ?>
                             <p>No hay fotos disponibles.</p>
                         <?php endif; ?>
-
                     </div>
                 </div>
             <?php endforeach; ?>

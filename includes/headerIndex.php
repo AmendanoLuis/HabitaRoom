@@ -1,5 +1,9 @@
+<?php 
+    $activeRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); 
+?>
+
 <!-- BARRA DE NAVEGACIÓN -->
-<nav class="navbar d-block navbar-dark navbar-expand-lg bg-body-tertiary shadow fixed-top z-5 ">
+<nav class="navbar d-block navbar-dark navbar-expand-lg color_fondo_header shadow fixed-top z-5 ">
     <div class="container-fluid">
 
         <!-- Botón menú lateral izquierdo -->
@@ -51,28 +55,28 @@
 
                     <!-- Inicio -->
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/HabitaRoom/index">
+                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/index') ? 'active' : ''; ?>" aria-current="page" href="/HabitaRoom/index">
                             <i class="d-lg-none d-inline bi bi-house-door"></i> Inicio
                         </a>
                     </li>
                     <!-- Publicacion -->
 
                     <li class="nav-item">
-                        <a class="nav-link " href="/HabitaRoom/crearpublicacion">
+                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/crearpublicacion') ? 'active' : ''; ?>" href="/HabitaRoom/crearpublicacion">
                             <i class="d-lg-none d-inline bi bi-plus-square"></i> Publicación
                         </a>
                     </li>
 
                     <!-- Novedades -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/HabitaRoom/novedades">
+                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/novedades') ? 'active' : ''; ?>" href="/HabitaRoom/novedades">
                             <i class="d-lg-none d-inline bi bi-postcard"></i> Novedades
                         </a>
                     </li>
 
                     <!-- Guardados -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/HabitaRoom/guardados">
+                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/guardados') ? 'active' : ''; ?>" href="/HabitaRoom/guardados">
                             <i class="d-lg-none d-inline bi bi-bookmark"></i> Guardados
                         </a>
                     </li>

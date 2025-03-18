@@ -123,13 +123,59 @@ class Database
 
             // Insertar datos en la tabla publicaciones
             $sqlInsertPublicaciones = "
-            INSERT INTO publicaciones (usuario_id, tipo_anuncio, tipo_inmueble, ubicacion, titulo, descripcion, precio, habitaciones, banos, estado, ascensor, piscina, gimnasio, garaje, terraza, jardin, aire_acondicionado, calefaccion, tipo_publicitante, superficie, fotos, videos) VALUES
-            (1, 'venta', 'apartamento', 'Madrid, España', 'Moderno apartamento en el centro', 'Apartamento con excelentes vistas, recién reformado.', 250000.00, 3, 2, 'renovado', TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, 'habitante', 120.50, '['foto1.jpg', 'foto2.jpg']', '['video1.mp4']'),
-            (2, 'alquiler', 'casa', 'Barcelona, España', 'Casa con jardín y piscina', 'Amplia casa con piscina privada y jardín.', 1800.00, 4, 3, 'nuevo', FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'propietario', 250.00, '['foto3.jpg', 'foto4.jpg']', NULL),
-            (3, 'venta', 'oficina', 'Valencia, España', 'Oficina en edificio corporativo', 'Oficina espaciosa con ascensor y aire acondicionado.', 300000.00, 0, 2, 'semi-nuevo', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, 'empresa', 85.75, '['foto5.jpg']', '['video2.mp4']'),
-            (4, 'alquiler', 'apartamento', 'Sevilla, España', 'Piso céntrico con garaje', 'Apartamento con buena ubicación y plaza de garaje.', 1200.00, 2, 1, 'usado', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, 'habitante', 90.00, '['foto6.jpg', 'foto7.jpg']', NULL),
-            (5, 'venta', 'terreno', 'Málaga, España', 'Terreno con vista al mar', 'Terreno urbanizable en zona tranquila.', 150000.00, 0, 0, 'nuevo', FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, 'propietario', 500.00, NULL, NULL)
-            ";
+INSERT INTO publicaciones (
+    usuario_id, tipo_anuncio, tipo_inmueble, ubicacion, titulo, descripcion, precio, habitaciones, banos, estado, 
+    ascensor, piscina, gimnasio, garaje, terraza, jardin, aire_acondicionado, calefaccion, tipo_publicitante, superficie, fotos, videos
+) VALUES
+-- Publicaciones de otros usuarios
+(1, 'venta', 'apartamento', 'Madrid, España', 'Moderno apartamento en el centro', 'Apartamento con excelentes vistas, recién reformado.', 
+ 250000.00, 3, 2, 'renovado', TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, 'habitante', 120.50, 
+ '[\"apart1_1.jpg\", \"apart1_2.jpg\"]', '[\"video1.mp4\"]'
+),
+(3, 'venta', 'oficina', 'Valencia, España', 'Oficina en edificio corporativo', 'Oficina espaciosa con ascensor y aire acondicionado.', 
+ 300000.00, 0, 2, 'semi-nuevo', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, 'empresa', 85.75, 
+ '[\"oficina1_1.jpg\", \"oficina1_2.jpg\"]', '[\"video2.mp4\"]'
+),
+(4, 'alquiler', 'apartamento', 'Sevilla, España', 'Piso céntrico con garaje', 'Apartamento con buena ubicación y plaza de garaje.', 
+ 1200.00, 2, 1, 'usado', TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, 'habitante', 90.00, 
+ '[\"suite1_1.jpg\", \"suite1_2.jpg\"]', NULL
+),
+(5, 'venta', 'terreno', 'Málaga, España', 'Terreno con vista al mar', 'Terreno urbanizable en zona tranquila.', 
+ 150000.00, 0, 0, 'nuevo', FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, 'propietario', 500.00, 
+ '[\"terreno1_1.jpg\"]', NULL
+),
+-- Publicaciones del usuario con ID 2
+(2, 'alquiler', 'casa', 'Barcelona, España', 'Casa con jardín y piscina', 'Amplia casa con piscina privada y jardín.', 
+ 1800.00, 4, 3, 'nuevo', FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'propietario', 250.00, 
+ '[\"casa1_1.jpg\", \"casa1_2.jpg\"]', NULL
+),
+(2, 'venta', 'local', 'Madrid, España', 'Local comercial céntrico', 'Local ideal para comercio o cafetería.', 
+ 210000.00, 0, 1, 'renovado', FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, 'empresa', 95.00, 
+ '[\"local1_1.jpg\", \"local1_2.jpg\"]', '[\"video3.mp4\"]'
+),
+(2, 'alquiler', 'oficina', 'Barcelona, España', 'Oficina con terraza', 'Oficina moderna con vistas a la ciudad.', 
+ 2200.00, 0, 2, 'nuevo', TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, 'empresa', 130.00, 
+ '[\"oficina1_1.jpg\", \"oficina1_2.jpg\"]', '[\"video4.mp4\"]'
+),
+(2, 'venta', 'casa', 'Valencia, España', 'Casa de lujo con piscina', 'Casa espaciosa con jardín y piscina privada.', 
+ 450000.00, 5, 4, 'nuevo', FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'propietario', 350.00, 
+ '[\"casa2_1.jpg\", \"casa2_2.jpg\"]', '[\"video5.mp4\"]'
+),
+(2, 'alquiler', 'suite', 'Bilbao, España', 'Suite con jacuzzi y terraza', 'Suite de lujo con vistas panorámicas.', 
+ 3200.00, 1, 1, 'nuevo', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 'empresa', 85.00, 
+ '[\"suite1_1.jpg\", \"suite1_2.jpg\"]', '[\"video6.mp4\"]'
+),
+(2, 'venta', 'terreno', 'Granada, España', 'Terreno con acceso a la montaña', 'Terreno rústico ideal para casa de campo.', 
+ 90000.00, 0, 0, 'nuevo', FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, 'propietario', 600.00, 
+ '[\"terreno1_1.jpg\"]', NULL
+),
+(2, 'alquiler', 'apartamento', 'Sevilla, España', 'Apartamento con balcón', 'Cómodo apartamento con terraza y garaje.', 
+ 1400.00, 2, 1, 'usado', TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, 'habitante', 100.00, 
+ '[\"apart1_1.jpg\", \"apart1_2.jpg\"]', NULL
+)";
+
+
+
             $conn->exec($sqlInsertPublicaciones);
             echo "Datos insertados en la tabla 'publicaciones'.<br>";
         } catch (PDOException $exception) {

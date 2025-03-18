@@ -38,7 +38,7 @@ $dbConnection = Database::connect();
     <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
-<body class="bg-light-subtle">
+<body class="color_fondo_web">
 
     <!-- Barra de Navegación | Header -->
 

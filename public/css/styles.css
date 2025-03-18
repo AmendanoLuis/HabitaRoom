@@ -9,6 +9,10 @@
 }
 
 
+
+
+
+
 /* REGISTER */
 
 #cont_registro {
@@ -26,9 +30,30 @@
 }
 
 
+
+
+
+
+
 /* INDEX */
 
-/* NAV BAR*/
+.color_fondo_web {
+    background-color: #d4e7da85;
+}
+
+.btn-soft-green-hr{
+    background-color: #1bc92c !important;
+}
+
+
+
+
+
+
+
+
+
+/* HEADER*/
 
 /* Espacio ocupado por nav */
 .bloque-menu-nav {
@@ -48,6 +73,16 @@
     background-color: #AFF5B6;
 
 }
+
+.color_fondo_header {
+    background-color: #ffffff ;
+}
+
+
+
+
+
+
 
 
 
@@ -90,6 +125,8 @@
         max-width: 27%;
     }
 }
+
+
 
 
 
@@ -225,7 +262,9 @@
     border: solid 1px#198754;
 }
 
-
+.cont_titulo_crear_publi{
+    background-color: #c9c8c8be;
+}
 
 
 
@@ -256,6 +295,12 @@
 #btn_accion_perfil {
     width: 100%;
     margin-top: 10px;
+}
+
+#cont_img_publi_perfil {
+    width: 100%;
+    height: 30vh;
+
 }
 
 #img_publi_perfil {
