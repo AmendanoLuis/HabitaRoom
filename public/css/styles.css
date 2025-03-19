@@ -21,6 +21,9 @@
 }
 
 /* HEADER */
+#text_logo{
+    color: #49B59F;
+}
 
 #imgUsuarioHeader {
     width: 40px;
@@ -45,7 +48,9 @@
     background-color: #1bc92c !important;
 }
 
-
+.bloque_filtros{
+    height: 22vh;
+}
 
 
 

@@ -14,9 +14,9 @@
         </button>
 
         <!-- Logo -->
-        <a class="navbar-brand d-flex justify-content-center align-items-center" href="/HabitaRoom/index">
-
-            <h2 for="imgLogo" class="ms-2 text-success">HabitaRoom</h2>
+        <a class="navbar-brand d-flex align-items-end" href="/HabitaRoom/index">
+            <img class="ms-3" src="public/img/logo_HR_sinFondo.png" id="imgLogo" alt="Logo" width="75" height="75" >
+            <h2 for="imgLogo" class="ms-2 fs-1" id="text_logo">HabitaRoom</h2>
         </a>
 
         <!-- Botón menú lateral Derecho -->

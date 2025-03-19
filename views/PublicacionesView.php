@@ -9,7 +9,7 @@
                             <div class="col-md-6 d-flex align-items-center justify-content-center position-relative" id="contImagenPubli">
 
                                 <!-- Tipo publicitsta -->
-                                <span class="badge position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5"><?php echo $publicacion->tipo_publicitante; ?></span>
+                                <span class="badge shadow-sm position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5"><?php echo $publicacion->tipo_publicitante; ?></span>
 
                                 <?php
                                 $imagenes = json_decode($publicacion->fotos);
