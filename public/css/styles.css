@@ -11,8 +11,6 @@
 
 
 
-
-
 /* REGISTER */
 
 #cont_registro {
@@ -20,26 +18,12 @@
     max-height: 100vh;
 }
 
-/* HEADER */
-#text_logo{
-    color: #49B59F;
-}
-
-#imgUsuarioHeader {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-
 
 
 
 
 
 /* INDEX */
-
 .color_fondo_web {
     background-color: #d4e7da85;
 }
@@ -48,9 +32,30 @@
     background-color: #1bc92c !important;
 }
 
-.bloque_filtros{
-    height: 22vh;
+
+
+#row_filtros{
+    height: 100%;
+
 }
+.categoria_relative{
+    position: relative ;
+    z-index: -1;    
+
+}
+
+#cont_btns_index{
+    height: 22vh; width: auto;
+}
+
+.btns_relative{
+    display: none;
+}
+.footer_end_absolute{
+    
+    z-index: 999 ;
+}
+
 
 
 
@@ -60,12 +65,21 @@
 
 /* HEADER*/
 
-/* Espacio ocupado por nav */
-.bloque-menu-nav {
-    height: 5vh;
+#text_logo{
+    color: #49B59F;
 }
 
-/* Navbar Lateral IZQUIERDA y DERECHA*/
+#imgUsuarioHeader {
+    width: 5.5vh;
+    height: 5.5vh;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.bloque-menu-nav {
+    height: 8vh;
+}
+
 #offcanvasNavbar {
     background-color: #AFF5B6;
 }
@@ -94,42 +108,14 @@
 
 /* FILTROS */
 
-/* Contenedor de filtro por categoria */
-/* Botones filtro desplegable */
-#btn-desp-filtros {
-    box-shadow: none;
-}
-
-/* Titulo Filtros desplegable*/
-#btn-desp-filtros:not(.collapsed) {
-    color: rgb(17, 17, 17) !important;
-}
-
-#cont-filtros-desp {
-    top: clamp(225px, 18vh, 280px);
-    max-width: 22%;
-}
 
 #form-filtros-desp {
-    max-height: 65vh;
+    height: 100vh;
     overflow-y: auto;
     padding-right: 15px;
 }
 
 
-
-/* Estilos para el contenedor de filtros desplegables en diferentes tamaños de pantalla */
-@media screen and (max-width: 1750px) {
-    #cont-filtros-desp {
-        max-width: 24%;
-    }
-}
-
-@media screen and (max-width: 1550px) {
-    #cont-filtros-desp {
-        max-width: 27%;
-    }
-}
 
 
 

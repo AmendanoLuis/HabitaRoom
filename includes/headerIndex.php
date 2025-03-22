@@ -15,7 +15,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-end" href="/HabitaRoom/index">
-            <img class="ms-3" src="public/img/logo_HR_sinFondo.png" id="imgLogo" alt="Logo" width="75" height="75" >
+            <img class="ms-3" src="public/img/logo_HR_sinFondo.png" id="imgLogo" alt="Logo" width="65" height="65" >
             <h2 for="imgLogo" class="ms-2 fs-1" id="text_logo">HabitaRoom</h2>
         </a>
 
@@ -265,8 +265,8 @@
         <div class="ms-2">
             <?php if (isset($usuario)): ?>
                 <a class="navbar-brand d-lg-flex align-items-center d-none" id="usuario_header" href="/HabitaRoom/perfil">
-                    <p for="imgUsuario" class="fs-5 me-2 mt-3 text-success"><?php echo $usuario->nombre_usuario; ?></p>
-                    <img src="<?php echo 'assets/uploads/img_perfil/' . $usuario->foto_perfil; ?>" alt="Logo" id="imgUsuarioHeader" class="d-inline-block" style="max-height: 50px;">
+                    <p for="imgUsuario" class="fs-4 me-2 mt-3 text-success"><?php echo $usuario->nombre_usuario; ?></p>
+                    <img src="<?php echo 'assets/uploads/img_perfil/' . $usuario->foto_perfil; ?>" alt="Logo" id="imgUsuarioHeader" class="d-inline-block">
                 </a>
             <?php else: ?>
                 <a class="navbar-brand d-lg-flex align-items-center d-none" id="usuario_header" href="/HabitaRoom/login">

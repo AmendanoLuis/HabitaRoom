@@ -82,6 +82,7 @@ $dbConnection = Database::connect();
 
 
     <!-- Scripts control contenido -->
+    <script src="public/js/index.js"></script>
     <script src="config/app.js"></script>
 </body>
 

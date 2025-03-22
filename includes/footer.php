@@ -1,4 +1,4 @@
-<footer class="bg-success text-light py-4">
+<footer class="bg-success text-light py-4" id="footer_hbr">
     <div class="container-fluid">
         <div class="row">
             <!-- Columna de enlaces de navegación -->

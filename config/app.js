@@ -164,12 +164,17 @@ $(document).ready(function () {
         // Creamos el observador
         const observ = new MutationObserver(() => {
             if ($('#contenedor-principal')) {
-                console.log("¡#contenedor-principal detectado dentro de #contenidoMain!");
                 cargarPublicacionesIndex();
+
+                detectarFinDePagina();
+
+
+
 
                 // Cerrar observador
                 observ.disconnect();
             }
+
         });
 
         observ.observe(contMain, { childList: true, subtree: true });
@@ -185,4 +190,7 @@ $(document).ready(function () {
 
     validarFormularioLogin();
 
+    
 });
+
+
