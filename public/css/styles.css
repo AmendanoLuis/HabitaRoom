@@ -13,9 +13,14 @@
 
 /* REGISTER */
 
-#cont_registro {
-    overflow-y: auto;
-    max-height: 100vh;
+.video-fondo {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
 }
 
 

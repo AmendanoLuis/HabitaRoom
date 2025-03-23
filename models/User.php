@@ -27,35 +27,41 @@ class Usuario
     }
 
     // Funcion para registrar usuario
-    public function registrarUsuario($formRegistro)
+    public function registrarUsuario($nombre, $apellidos, $nombre_usuario, $correo_electronico, $telefono, $contrasena, $tipo_usuario, $ubicacion, $foto_perfil, $descripcion, $preferencia_contacto, $terminos_aceptados)
     {
-        $query = $this->db->prepare('INSERT INTO usuarios (nombre, apellidos, nombre_usuario, correo_electronico, telefono, contrasena, tipo_usuario, ubicacion, foto_perfil, descripcion, preferencia_contacto, terminos_aceptados) VALUES (:nombre, :apellidos, :nombre_usuario, :correo_electronico, :telefono, :contrasena, :tipo_usuario, :ubicacion, :foto_perfil, :descripcion, :preferencia_contacto, :terminos_aceptados)');
+        $query = $this->db->prepare('
+        INSERT INTO usuarios 
+        (nombre, apellidos, nombre_usuario, correo_electronico, telefono, contrasena, tipo_usuario, ubicacion, foto_perfil, descripcion, preferencia_contacto, terminos_aceptados)
+        VALUES 
+        (:nombre, :apellidos, :nombre_usuario, :correo_electronico, :telefono, :contrasena, :tipo_usuario, :ubicacion, :foto_perfil, :descripcion, :preferencia_contacto, :terminos_aceptados)
+    ');
 
-
+        // Ejecutar la consulta con los parámetros proporcionados
         $query->execute([
-            'nombre' => $formRegistro['nombre'],
-            'apellidos' => $formRegistro['apellidos'],
-            'nombre_usuario' => $formRegistro['nombre_usuario'],
-            'correo_electronico' => $formRegistro['correo_electronico'],
-            'telefono' => $formRegistro['telefono'],
-            'contrasena' => password_hash($formRegistro['contrasena'], PASSWORD_BCRYPT),
-            'tipo_usuario' => $formRegistro['tipo_usuario'],
-            'ubicacion' => $formRegistro['ubicacion'],
-            'foto_perfil' => $formRegistro['foto_perfil'],
-            'descripcion' => $formRegistro['descripcion'],
-            'preferencia_contacto' => $formRegistro['preferencia_contacto'],
-            'terminos_aceptados' => $formRegistro['terminos_aceptados']
+            'nombre' => $nombre,
+            'apellidos' => $apellidos,
+            'nombre_usuario' => $nombre_usuario,
+            'correo_electronico' => $correo_electronico,
+            'telefono' => $telefono,
+            'contrasena' => password_hash($contrasena, PASSWORD_BCRYPT),
+            'tipo_usuario' => $tipo_usuario,
+            'ubicacion' => $ubicacion,
+            'foto_perfil' => $foto_perfil, // Aquí almacenamos la ruta de la foto
+            'descripcion' => $descripcion,
+            'preferencia_contacto' => $preferencia_contacto,
+            'terminos_aceptados' => $terminos_aceptados
         ]);
 
+        // Verificar si se insertaron filas
         if ($query->rowCount() > 0) {
             echo "Usuario registrado correctamente";
-
             return true;
         } else {
             echo "Error al registrar usuario";
             return false;
         }
     }
+
 
     // Funcion para actualizar usuario
     public function actualizarUsuario($formActualizarUsuario, $id)

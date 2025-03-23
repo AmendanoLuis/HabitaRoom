@@ -1,4 +1,4 @@
-<div class="container-fluid ">
+<div class="container-fluid">
     <div class="row min-vh-100">
         <!-- Columna con video como fondo -->
         <div class="col-6 bg-dark d-none d-md-flex text-light d-flex flex-column justify-content-center position-relative overflow-hidden">

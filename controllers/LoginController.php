@@ -38,7 +38,7 @@ class LoginController
     {
         session_destroy();
 
-        header("Location: /HabitaRoom/login"); // Redirigir al login
+        header("Location: /HabitaRoom/login"); 
 
         exit();
     }

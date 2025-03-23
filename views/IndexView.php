@@ -8,7 +8,7 @@ $banos = '';
 $estado = '';
 $caracteristicas = [];
 
-if (isset($_COOKIE['filtros'])) {
+if (isset($_COOKIE['filtros']) && $_COOKIE['enviar_filtros'] ) {
     $datos_filtros = json_decode($_COOKIE['filtros'], true);
     if (json_last_error() === JSON_ERROR_NONE) {
         $tipo_inmueble = $datos_filtros['tipo-inmueble-desp'];
@@ -24,9 +24,7 @@ if (isset($_COOKIE['filtros'])) {
     } else {
         echo "Error al decodificar las cookies.";
     }
-} else {
-    echo "No se han encontrado los filtros en las cookies.";
-}
+} 
 ?>
 
 <div class="container-fluid ">

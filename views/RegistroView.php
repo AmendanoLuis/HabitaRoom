@@ -1,111 +1,145 @@
 <div class="container-fluid">
     <div class="row min-vh-100">
 
-        <!-- Columna de Registro -->
+        <!-- Sección de Registro -->
         <div class="col col-md-6 bg-light">
-            <div class="d-flex flex-column justify-content-center align-items-center h-100" >
-                <h2 class="mb-4 mt-3">Registrate</h2>
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <h2 class="mb-3 mt-5 fs-1">Regístrate</h2>
 
-                <!-- Formulario de inicio de sesión -->
-                <form id="cont_registro">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <!-- Formulario de Registro -->
+                <form class="w-75" id="cont_registro" action="controllers/RegistroController.php" method="POST" enctype="multipart/form-data">
+
+                    <!-- Campo para el Nombre -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="nombre">Nombre</label>
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre" name="nombre" placeholder="Ingresa tu nombre" >
                     </div>
-                    <div class="form-group">
-                        <label for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+
+                    <!-- Campo para los Apellidos -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="apellidos">Apellidos</label>
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" >
                     </div>
-                    <div class="form-group">
-                        <label for="nombre_usuario">Nombre de Usuario</label>
-                        <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario">
+
+                    <!-- Campo para el Nombre de Usuario -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="nombre_usuario">Nombre de Usuario</label>
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre_usuario" name="nombre_usuario" placeholder="Elige un nombre de usuario">
                     </div>
-                    <div class="form-group">
-                        <label for="correo_electronico">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" required>
+
+                    <!-- Campo para el Correo Electrónico -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="correo_electronico">Correo Electrónico</label>
+                        <input type="email" class="form-control border border-1 border-success-subtle" id="correo_electronico" name="correo_electronico" placeholder="Ingresa tu correo electrónico" >
                     </div>
-                    <div class="form-group">
-                        <label for="telefono">Teléfono</label>
-                        <input type="tel" class="form-control" id="telefono" name="telefono">
+
+                    <!-- Campo para el Teléfono -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control border border-1 border-success-subtle" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono">
                     </div>
-                    <div class="form-group">
-                        <label for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+
+                    <!-- Campo para la Contraseña -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="contrasena">Contraseña</label>
+                        <input type="password" class="form-control border border-1 border-success-subtle" id="contrasena" name="contrasena" placeholder="Crea una contraseña" >
                     </div>
-                    <div class="form-group">
-                        <label for="tipo_usuario">Tipo de Usuario</label>
-                        <select class="form-control" id="tipo_usuario" name="tipo_usuario" required>
+
+                    <!-- Selección del Tipo de Usuario -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="tipo_usuario">Tipo de Usuario</label>
+                        <select class="form-control border border-1 border-success-subtle" id="tipo_usuario" name="tipo_usuario" >
                             <option value="habitante">Habitante</option>
                             <option value="propietario">Propietario</option>
                             <option value="empresa">Empresa</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="ubicacion">Ubicación</label>
-                        <input type="text" class="form-control" id="ubicacion" name="ubicacion">
+
+                    <!-- Campo para la Ubicación -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="ubicacion">Ubicación</label>
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="ubicacion" name="ubicacion" placeholder="Ingresa tu ubicación">
                     </div>
-                    <div class="form-group">
-                        <label for="foto_perfil">Foto de Perfil</label>
-                        <input type="file" class="form-control-file" id="foto_perfil" name="foto_perfil">
+
+                    <!-- Sección para Cargar una Foto de Perfil -->
+                    <div class="form-group my-3">
+                        <label class="pt-2 fs-5" for="foto_perfil">Foto de Perfil</label>
+                        <div class="border border-1 border-success-subtle rounded p-4 text-center text-secondary mt-3 bg-white">
+                            <i class="bi bi-camera fs-3"></i>
+                            <p>Añade una foto de perfil</p>
+                            <input class="d-none" type="file" id="fileInput" name="foto_perfil" multiple>
+                            <label for="fileInput" class="btn btn-outline-dark">Seleccionar</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripción</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
+
+                    <!-- Campo para la Descripción del Usuario -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="descripcion">Descripción</label>
+                        <textarea class="form-control border border-1 border-success-subtle" id="descripcion" name="descripcion" placeholder="Describe algo sobre ti"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="preferencia_contacto">Preferencia de Contacto</label>
-                        <select class="form-control" id="preferencia_contacto" name="preferencia_contacto" required>
+
+                    <!-- Selección de Preferencia de Contacto -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="preferencia_contacto">Preferencia de Contacto</label>
+                        <select class="form-control border border-1 border-success-subtle" id="preferencia_contacto" name="preferencia_contacto" >
                             <option value="whatsapp">WhatsApp</option>
                             <option value="email">Email</option>
                             <option value="mensaje">Mensaje</option>
                         </select>
                     </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="terminos_aceptados" name="terminos_aceptados" required>
+
+                    <!-- Aceptación de Términos y Condiciones -->
+                    <div class="form-group ms-2 mt-5 my-2 form-check">
+                        <input type="checkbox" class="form-check-input border border-1 border-success-subtle" id="terminos_aceptados" name="terminos_aceptados" >
                         <label class="form-check-label" for="terminos_aceptados">Acepto los términos y condiciones</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+
+                    <!-- Botón para Enviar el Formulario -->
+                    <button type="submit" name="btn_registro" class="w-100 my-3 btn btn-outline-success">Guardar</button>
                 </form>
 
-                <div class="mt-4 d-flex justify-content-between w-75">
-                    <a href="/HabitaRoom/register" class="link-dark ">¿Has olvidado la contraseña?</a>
-
-                    <a href="/HabitaRoom/login" class="link-dark">¿Ya tienes cuenta?</a>
-
+                <!-- Enlaces de Ayuda -->
+                <div class="my-5 d-flex justify-content-between w-75">
+                    <a href="/HabitaRoom/register" class="link-success">¿Has olvidado la contraseña?</a>
+                    <a href="/HabitaRoom/login" class="link-success">¿Ya tienes cuenta?</a>
                 </div>
             </div>
         </div>
 
+        <!-- Sección con Video de Fondo -->
+        <div class="col-6 bg-dark d-none d-md-flex text-light d-flex flex-column justify-content-center position-fixed overflow-hidden end-0 h-100">
 
-        <!-- Columna fondo video -->
-        <div class="col-6 bg-dark d-none d-md-flex text-light d-flex flex-column justify-content-center position-relative overflow-hidden">
-            <!-- Video de fondo -->
+            <!-- Video de Fondo -->
             <video autoplay loop muted class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="public/img/videoLogin.mp4"></video>
 
-            <!-- Contenido encima del video -->
-            <div class="position-relative z-index-2 bg-dark bg-opacity-75 rounded p-4 mx-2 " style="height: 420px;">
-
-                <!-- Logo -->
+            <!-- Contenedor de Información -->
+            <div class="position-relative z-index-2 bg-dark bg-opacity-75 rounded p-4 mx-2" style="height: 420px;">
                 <div>
+                    <!-- Logo -->
                     <div id="cont_logo">
                         <a class="link-light link-underline-opacity-0 mh-100" href="/HabitaRoom/index">
-                            <h1 class="text-light rounded  text-end text-uppercase fw-bold" style="font-size: 4.8em;" id="logo_login">Habita Room</h1>
+                            <h1 class="text-light rounded text-end text-uppercase fw-bold" style="font-size: 4.8em;" id="logo_login">Habita Room</h1>
                         </a>
                     </div>
 
+                    <!-- Línea Divisoria -->
                     <hr class="me-3 bg-light" style="height: 2px;">
-                    <p class="mt-3 fs-5 pe-1 text-end text-break">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iusto corporis in voluptas maxime
+
+                    <!-- Descripción -->
+                    <p class="mt-3 fs-5 pe-1 text-end text-break">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iusto corporis in voluptas maxime
                         velit rem eligendi repudiandae qui soluta, ipsum, odio quas. Porro modi non eos quia veniam
                         laborum?
                     </p>
                 </div>
 
-                <!-- Redes sociales -->
+                <!-- Sección de Redes Sociales -->
                 <div class="mt-5 position-relative z-index-2 d-flex flex-column align-items-end">
                     <div class="row">
                         <p class="fs-5">Nos puedes encontrar en:</p>
                     </div>
-                    <div class="row w-25 ps-1 ">
+                    <div class="row w-25 ps-1">
+                        <!-- Iconos de Redes Sociales -->
                         <div class="col fs-5">
                             <a class="link-light" href="https://www.instagram.com/">
                                 <i class="bi bi-instagram"></i>
@@ -125,8 +159,6 @@
                 </div>
             </div>
 
-        </div>
-
-
+        </div> <!-- Fin de la Sección con Video -->
     </div>
-</div>
+</div> <!-- Fin del Contenedor Principal -->
