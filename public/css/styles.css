@@ -245,7 +245,7 @@
     font-size: 1.2em;
 }
 
-#label-tipo-inmueble {
+#label_tipo_inmueble {
     padding-left: 3%;
     font-size: 0.70em;
     color: #198754;
@@ -253,7 +253,7 @@
 
 }
 
-#tipo-inmueble {
+#tipo_inmueble {
     box-shadow: none;
     border: solid 1px#198754;
 }

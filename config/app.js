@@ -151,25 +151,21 @@ $(document).ready(function () {
 
     cargarPagina(ruta_actual);
 
-    // Verificar si estamos en la página de login
+    // INDEX
     if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
 
-        // Verificamos que contenidoMain exista
         const contMain = document.getElementById('contenidoMain');
         if (!contMain) {
             console.log("No se encontro contenidoMain");
             return
         }
 
-        // Creamos el observador
+        // Observador
         const observ = new MutationObserver(() => {
-            if ($('#contenedor-principal')) {
+            if ($('#contenedor-principal').length > 0) {
+
                 cargarPublicacionesIndex();
-
                 detectarFinDePagina();
-
-
-
 
                 // Cerrar observador
                 observ.disconnect();
@@ -184,13 +180,63 @@ $(document).ready(function () {
         $('#contenedor-principal').html(`
             <div class="alert alert-danger" role="alert"> No encontramos publicaciones disponibles. </div>
             `);
-
-        console.log("PAGINA NO ES INDEX");
     }
 
-    validarFormularioLogin();
+    // LOGIN
+    if (ruta_actual === '/HabitaRoom/login') {
+        validarFormularioLogin();
+    }
 
-    
+   // CREAR PUBLICACION
+if (ruta_actual === '/HabitaRoom/crearpublicacion') {
+
+    const contMain = document.getElementById('contenidoMain');
+    if (!contMain) {
+        console.log("No se encontró contenidoMain");
+        return;
+    }
+
+    const observ = new MutationObserver(() => {
+
+        if ($('#form_crear_publi').length > 0) {
+
+            asignarEventosForm();
+
+            $(document).on("submit", "#form_crear_publi", function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(this); // Usamos FormData para manejar formularios con archivos
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'), 
+                    data: formData,
+                    processData: false, // Necesario para enviar las imágenes de publicación
+                    contentType: false,  // Necesario para evitar el formato JQUERY como contentType
+                    success: function(response) {
+                        console.log(response); // Imprimir el mensaje en la consola
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al enviar el formulario:", error);
+                    }
+                });
+
+            });
+
+            observ.disconnect();
+        }
+
+    });
+
+    observ.observe(contMain, { childList: true, subtree: true });
+
+}
+
+
+    // NOVEDADES
+
+    // GUARDADOS
+
 });
 
 

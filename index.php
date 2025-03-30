@@ -3,7 +3,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/User.php';
 session_start();
 
-if(isset($_SESSION['id'])){
+if (isset($_SESSION['id'])) {
     $userModel = new Usuario();
     $usuario = $userModel->obtenerUsuarioId($_SESSION['id']);
 }
@@ -83,6 +83,7 @@ $dbConnection = Database::connect();
 
     <!-- Scripts control contenido -->
     <script src="public/js/index.js"></script>
+    <script src="public/js/crearPublicacion.js"></script>
     <script src="config/app.js"></script>
 </body>
 

@@ -8,10 +8,6 @@ function detectarFinDePagina() {
     $('#row_filtros').css('width', ancho_cont_categ + 'px');
 
     $(window).scroll(function () {
-
-
-
-
         // Si el usuario ha llegado al final de la pagina
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - alturaFooter) {
 

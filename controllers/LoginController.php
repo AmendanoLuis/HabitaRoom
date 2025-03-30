@@ -46,6 +46,9 @@ class LoginController
 
 // Cerrar sesión
 if (isset($_POST['logout'])) {
+    $conn = Database::connect();
+
     $loginController = new LoginController();
     $loginController->logout();
+    $conn->disconnect();
 }
