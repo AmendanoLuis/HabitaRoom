@@ -1,110 +1,202 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/PublicacionModel.php';
 
 class CrearPublicacionController
 {
+
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new PublicacionModel();
+    }
     public function cargarFormulario()
     {
         require_once '../views/crearPublicacionView.php';
     }
 
-    // Validar Imagenes Publicacion
-    private function validarImagenesPublicacion()
+    /**
+     * Procesa y valida imagen subida, devuelve nombre o lanza excepción en error.
+     */
+    private function procesarImagen(): ?string
     {
-        // Comprobar si hay una imagen
-        if (isset($_FILES['imagen_publicacion']) && $_FILES['imagen_publicacion']['error'] == 0) {
-            $imagen_tmp = $_FILES['imagen_publicacion']['tmp_name'];
-            $imagen_nombre = $_FILES['imagen_publicacion']['name'];
-            $imagen_extension = pathinfo($imagen_nombre, PATHINFO_EXTENSION);
+        if (empty($_FILES['imagenes'])) {
+            return null;
+        }
 
-            $extensiones_permitidas = ['jpg', 'jpeg', 'png', 'gif'];
-            if (!in_array(strtolower($imagen_extension), $extensiones_permitidas)) {
-                return "Solo se permiten archivos de imagen (JPG, JPEG, PNG, GIF).";
-            }
+        $imagenesGuardadas = [];
 
-            $directorio_destino = $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/assets/uploads/img_publicacion/';
-            if (!is_dir($directorio_destino)) {
-                mkdir($directorio_destino, 0777, true);
-                return "Error: No se pudo crear el directorio de destino.";
-            }
+        $uploadDir = '../assets/uploads/img_publicacion/';
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0777, true)) {
+            throw new Exception('No se pudo crear directorio de imágenes.');
+        }
 
-            $ruta_final = $directorio_destino . $imagen_nombre;
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
-            if (move_uploaded_file($imagen_tmp, $ruta_final)) {
-                return $imagen_nombre;  // Imagen subida correctamente
-            } else {
-                return "Error: No se pudo mover la imagen al directorio de destino.";
+        // Si se subió solo una imagen, normalizamos para manejarlo como array
+        $files = $_FILES['imagenes'];
+        $isMultiple = is_array($files['name']);
+
+        $n = $isMultiple ? count($files['name']) : 1;
+
+        for ($i = 0; $i < $n; $i++) {
+            $name = $isMultiple ? $files['name'][$i] : $files['name'];
+            $tmp  = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
+            $error = $isMultiple ? $files['error'][$i] : $files['error'];
+
+            if ($error !== UPLOAD_ERR_OK) continue;
+
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            if (!in_array($ext, $allowed)) continue;
+
+            $filename = uniqid('pub_') . ".$ext";
+            $dest = $uploadDir . $filename;
+
+            if (move_uploaded_file($tmp, $dest)) {
+                $imagenesGuardadas[] = $filename;
             }
         }
-        return null;  // No se subió ninguna imagen
+
+        // Devuelve JSON para guardar en base de datos
+        return !empty($imagenesGuardadas) ? json_encode($imagenesGuardadas) : null;
     }
 
-    // Validar Formulario
-    public function validarFormulario()
+
+    private function procesarVideo(): ?string
     {
-        $mensaje = ''; 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Recoger datos
-            $tipo_inmueble = $_POST["tipo_inmueble"] ?? "";
-            $tipo_anuncio = $_POST["tipo_anuncio"] ?? "";
-            $titulo = $_POST["titulo"] ?? "";
-            $precio = $_POST["precio"] ?? "";
-            $num_habitaciones = $_POST["num_habitaciones"] ?? "";
-            $num_banos = $_POST["num_banos"] ?? "";
-            $estado = $_POST["estado"] ?? "";
-            $superficie = $_POST["superficie"] ?? "";
-            $descripcion = $_POST["descripcion"] ?? "";
-            $ubicacion = $_POST["ubicacion"] ?? "";
+        if (empty($_FILES['videos'])) {
+            return null;
+        }
 
-            // Validar que no falten campos obligatorios
-            if (empty($tipo_inmueble) || empty($tipo_anuncio) || empty($titulo) || empty($precio)) {
-                $mensaje = "Faltan datos obligatorios.";
-            }
+        $videosGuardados = [];
 
-            // Validar imagen
-            $imagen_publicacion = $this->validarImagenesPublicacion();
-            if ($imagen_publicacion === null) {
-                $mensaje = "No se ha subido ninguna imagen de publicación.";
-            } elseif (is_string($imagen_publicacion)) {
-                // Si es un mensaje de error de la imagen
-                $mensaje = $imagen_publicacion;
-            }
+        $uploadDir = '../assets/uploads/videos_publicacion/';
+        if (!is_dir($uploadDir) && !mkdir($uploadDir, 0777, true)) {
+            throw new Exception('No se pudo crear directorio de videos.');
+        }
 
-            // Si todo está bien, insertamos la publicación
-            if (empty($mensaje)) {
-                $conn = Database::connect();
-                $sql = "INSERT INTO publicaciones (tipo_inmueble, tipo_anuncio, titulo, precio, num_habitaciones, num_banos, estado, superficie, descripcion, ubicacion, imagen_publicacion) 
-                    VALUES (:tipo_inmueble, :tipo_anuncio, :titulo, :precio, :num_habitaciones, :num_banos, :estado, :superficie, :descripcion, :ubicacion, :imagen_publicacion)";
+        $allowed = ['mp4', 'avi', 'mov', 'mkv'];
 
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':tipo_inmueble', $tipo_inmueble);
-                $stmt->bindParam(':tipo_anuncio', $tipo_anuncio);
-                $stmt->bindParam(':titulo', $titulo);
-                $stmt->bindParam(':precio', $precio);
-                $stmt->bindParam(':num_habitaciones', $num_habitaciones, PDO::PARAM_INT);
-                $stmt->bindParam(':num_banos', $num_banos, PDO::PARAM_INT);
-                $stmt->bindParam(':estado', $estado);
-                $stmt->bindParam(':superficie', $superficie);
-                $stmt->bindParam(':descripcion', $descripcion);
-                $stmt->bindParam(':ubicacion', $ubicacion);
-                $stmt->bindParam(':imagen_publicacion', $imagen_publicacion);
+        // Si se subió solo un video, normalizamos para manejarlo como array
+        $files = $_FILES['videos'];
+        $isMultiple = is_array($files['name']);
 
-                if ($stmt->execute()) {
-                    $mensaje = "Publicación creada con éxito.";
-                } else {
-                    $mensaje = "Error al crear la publicación.";
-                }
+        $n = $isMultiple ? count($files['name']) : 1;
+
+        for ($i = 0; $i < $n; $i++) {
+            $name = $isMultiple ? $files['name'][$i] : $files['name'];
+            $tmp  = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
+            $error = $isMultiple ? $files['error'][$i] : $files['error'];
+
+            if ($error !== UPLOAD_ERR_OK) continue;
+
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            if (!in_array($ext, $allowed)) continue;
+
+            $filename = uniqid('vid_') . ".$ext";
+            $dest = $uploadDir . $filename;
+
+            if (move_uploaded_file($tmp, $dest)) {
+                $videosGuardados[] = $filename;
             }
         }
 
-        // Devolver solo el mensaje
-        return $mensaje;
+        // Devuelve JSON para guardar en base de datos
+        return !empty($videosGuardados) ? json_encode($videosGuardados) : null;
+    }
+
+
+    /**
+     * Valida y prepara datos de publicación, lanza excepción si faltan obligatorios.
+     */
+    private function prepararDatos(): array
+    {
+        // Comprobar si el usuario está autenticado
+        session_start();
+        $usuarioId = $_SESSION['id'] ?? null;
+        if (!$usuarioId) {
+            throw new Exception('Usuario no autenticado.');
+        }
+
+        // Recoger y sanear campos
+        $datos = [
+            'usuario_id'         => intval($usuarioId),
+            'tipo_anuncio'       => $_POST['tipo_anuncio']                ?? '',
+            'tipo_inmueble'      => $_POST['tipo_inmueble']               ?? '',
+            'ubicacion'          => trim($_POST['ubicacion']     ?? ''),
+            'titulo'             => trim($_POST['titulo']        ?? ''),
+            'descripcion'        => trim($_POST['descripcion']   ?? ''),
+            'precio'             => floatval($_POST['precio']      ?? 0),
+            'habitaciones'       => intval($_POST['habitaciones']  ?? 0),
+            'banos'              => intval($_POST['banos']         ?? 0),
+            'estado'             => $_POST['estado']                      ?? '',
+            'ascensor'           => isset($_POST['ascensor'])           ? 1 : 0,
+            'piscina'            => isset($_POST['piscina'])            ? 1 : 0,
+            'gimnasio'           => isset($_POST['gimnasio'])           ? 1 : 0,
+            'garaje'             => isset($_POST['garaje'])             ? 1 : 0,
+            'terraza'            => isset($_POST['terraza'])            ? 1 : 0,
+            'jardin'             => isset($_POST['jardin'])             ? 1 : 0,
+            'aire_acondicionado' => isset($_POST['aire_acondicionado']) ? 1 : 0,
+            'calefaccion'        => isset($_POST['calefaccion'])        ? 1 : 0,
+            'tipo_publicitante'  => $_POST['tipo_publicitante'] ?? '',
+            'superficie'         => floatval($_POST['superficie'] ?? 0),
+        ];
+
+        // Campos obligatorios
+        if (
+            empty($datos['tipo_inmueble'])
+            || empty($datos['tipo_anuncio'])
+            || empty($datos['titulo'])
+            || $datos['precio'] <= 0
+        ) {
+            throw new Exception('Faltan datos obligatorios.');
+        }
+
+        // Procesar imagen y/o video (opcional)
+        $datos['fotos'] = $this->procesarImagen();
+        $datos['videos'] = $this->procesarVideo();
+
+        return $datos;
+    }
+
+
+
+    public function validarFormulario(): array
+    {
+        try {
+            $datos = $this->prepararDatos();
+            $ok = $this->model->insertarPublicacion($datos);
+            return [
+                'estado'  => $ok ? 'ok' : 'error',
+                'mensaje' => $ok ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
+                'success' => true,
+            ];
+        } catch (\Exception $e) {
+
+            return [
+                'estado'  => 'error',
+                'success' => false,
+                'mensaje' => $e->getMessage(),
+                'archivo' => $e->getFile(),
+                'linea'   => $e->getLine(),
+                'codigo'  => $e->getCode()
+            ];
+        }
     }
 }
 
+
 // Instanciar el controlador y procesar el formulario
 $controller = new CrearPublicacionController();
+
 if (isset($_POST['btn_crear_publi'])) {
-    echo $controller->validarFormulario();
+    // Cabecera JSON
+    header('Content-Type: application/json; charset=utf-8');
+    // Esto debe imprimir SOLO el JSON, nada más
+    echo json_encode($controller->validarFormulario());
+    exit;
+} else {
+    // Lod’e la vista solo si es GET
+    $controller->cargarFormulario();
 }

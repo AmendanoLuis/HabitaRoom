@@ -1,3 +1,7 @@
+import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
+
+
+
 $(document).ready(function () {
 
     // ============ FUNCIONES INDEX ============
@@ -187,50 +191,47 @@ $(document).ready(function () {
         validarFormularioLogin();
     }
 
-   // CREAR PUBLICACION
-if (ruta_actual === '/HabitaRoom/crearpublicacion') {
+    // CREAR PUBLICACION
+    if (ruta_actual === '/HabitaRoom/crearpublicacion') {
 
-    const contMain = document.getElementById('contenidoMain');
-    if (!contMain) {
-        console.log("No se encontró contenidoMain");
-        return;
-    }
-
-    const observ = new MutationObserver(() => {
-
-        if ($('#form_crear_publi').length > 0) {
-
-            asignarEventosForm();
-
-            $(document).on("submit", "#form_crear_publi", function (event) {
-                event.preventDefault();
-
-                const formData = new FormData(this); // Usamos FormData para manejar formularios con archivos
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'), 
-                    data: formData,
-                    processData: false, // Necesario para enviar las imágenes de publicación
-                    contentType: false,  // Necesario para evitar el formato JQUERY como contentType
-                    success: function(response) {
-                        console.log(response); // Imprimir el mensaje en la consola
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error al enviar el formulario:", error);
-                    }
-                });
-
-            });
-
-            observ.disconnect();
+        const contMain = document.getElementById('contenidoMain');
+        if (!contMain) {
+            console.log("No se encontró contenidoMain");
+            return;
         }
 
-    });
+        const observ = new MutationObserver(() => {
 
-    observ.observe(contMain, { childList: true, subtree: true });
+            if ($('#form_crear_publi').length > 0) {
 
-}
+                asignarEventosForm();
+
+                $(document).off("submit", "#form_crear_publi");
+                $(document).on("submit", "#form_crear_publi", function (event) {
+                    event.preventDefault();
+
+                    const form = document.getElementById('form_crear_publi');
+                    const campos = form.querySelectorAll('input, select, textarea');
+
+                    let formularioValido = true;
+
+                    // Validar todos los campos
+                    campos.forEach(campo => {
+                        if (!validarCampo(campo)) {
+                            formularioValido = false;
+                        }
+                    });
+                    procesarFormularioCrearPublicacion();
+                });
+
+                observ.disconnect();
+            }
+
+        });
+
+        observ.observe(contMain, { childList: true, subtree: true });
+
+    }
 
 
     // NOVEDADES

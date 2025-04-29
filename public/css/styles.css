@@ -262,6 +262,19 @@
     background-color: #c9c8c8be;
 }
 
+.error-input {
+    border: 1px solid red;
+    background-color: #fdd;
+}
+
+.error {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
+    display: block;
+}
+
+
 
 
 

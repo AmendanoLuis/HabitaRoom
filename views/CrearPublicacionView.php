@@ -1,15 +1,10 @@
 <div class="container my-5 d-flex flex-column align-items-center text-light " id="contenedor-principal">
-    <!-- Modal -->
-    <div id="modalMensaje" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:rgba(0,0,0,0.7); color:white; padding:20px; border-radius:10px;">
-        <p id="mensajeModal"></p>
-        <button onclick="cerrarModal()">Cerrar</button>
-    </div>
 
     <div class="row text-dark">
         <div class="col-auto mt-5 bg-white py-3 px-5 rounded shadow-lg" style="min-width:550px;">
 
             <!-- Formulario -->
-            <form class="mt-4" method="POST" id="form_crear_publi" action="controllers/CrearPublicacionController.php" >
+            <form class="mt-4" method="POST" id="form_crear_publi" enctype="multipart/form-data">
 
                 <!-- Tipo de inmueble -->
                 <div class="container form-group mb-4 position-relative mt-4 mb-3">
@@ -24,11 +19,11 @@
                     <!-- Tipo de anuncio -->
                     <div class="mt-3 d-flex">
                         <div class="form-check me-3">
-                            <input class="form-check-input" type="radio" name="tipo_anuncio" id="tipo_alquiler" checked>
+                            <input class="form-check-input" type="radio" name="tipo_anuncio" id="tipo_alquiler" value="alquiler" checked>
                             <label for="tipo_alquiler">Alquiler</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipo_anuncio" id="tipo_venta">
+                            <input class="form-check-input" type="radio" name="tipo_anuncio" value="venta" id="tipo_venta">
                             <label for="tipo_venta">Venta</label>
                         </div>
                     </div>
@@ -49,7 +44,7 @@
                                 <input type="text" class="form-control" placeholder="Donde se encuentra su inmueble..."
                                     aria-label="Buscar ubicación">
 
-                                <button class="btn btn-primary" onclick="buscarUbicacion()">Buscar</button>
+                                <button class="btn btn-primary" type="button" onclick="buscarUbicacion()">Buscar</button>
                             </div>
 
                         </div>
@@ -60,30 +55,28 @@
                 <div class="container mt-5 mb-3">
                     <div class="row">
                         <div class="col-6">
+
                             <!-- Titulo  -->
                             <h5 class="mb-3 fs-4">Título</h5>
                             <div class="input-group flex-nowrap ">
                                 <input type="text" class="form-control" placeholder="Piso en el dentro de..." aria-label="Username"
-                                    aria-describedby="addon-wrapping">
+                                    aria-describedby="addon-wrapping" name="titulo" id="titulo" required>
                             </div>
                         </div>
-
                         <div class="col-6 d-flex flex-column align-items-end">
+
                             <!-- Precio -->
                             <div class="w-75 mb-3">
                                 <h5 class="mb-3 fs-4">Precio</h5>
                                 <div class="input-group">
-                                    <input type="text" class="form-control " placeholder="400">
+                                    <input type="number" class="form-control " placeholder="400" name="precio" id="precio"
+                                        aria-label="Precio" aria-describedby="addon-wrapping" required>
                                     <span class="input-group-text border border-1">.00 €</span>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-
-
-
-
                 </div>
 
                 <!-- Habitaciones y Baños-->
@@ -95,7 +88,7 @@
                             <div class="d-flex align-items-center mt-2 ">
                                 <button type="button" class="btn btn-outline-success  fs-5 rounded-circle px-3 fw-bold"
                                     id="btn_menos_hab"> - </button>
-                                <span id="num_habitaciones" class="mx-3 pe-1"> 1 </span>
+                                <span id="num_habitaciones" class="mx-3 pe-1" data-name="num_habitaciones"> 1 </span>
                                 <button type="button" class="btn btn-outline-success  fs-5 rounded-circle ps-3 pe-3 fw-bold"
                                     id="btn_mas_hab"> + </button>
                             </div>
@@ -106,7 +99,7 @@
                             <div class="d-flex align-items-center mt-2 ">
                                 <button type="button" class="btn btn-outline-success  fs-5 rounded-circle px-3 fw-bold"
                                     id="btn_menos_banos">-</button>
-                                <span id="num_banos" class="mx-3 pe-1">1</span>
+                                <span id="num_banos" class="mx-3 pe-1" data-name="num_banos">1</span>
                                 <button type="button" class="btn btn-outline-success  fs-5 rounded-circle ps-3 pe-3 fw-bold"
                                     id="btn_mas_banos">+</button>
                             </div>
@@ -153,11 +146,13 @@
                                     <label class="btn btn-outline-primary w-100 rounded-0" for="calefaccion">Calefacción</label>
                                 </div>
                             </div>
+
+                            <!-- Estado -->
                             <h5 class="card-title fs-4">Estado</h5>
                             <div class="mt-2 mb-3 btn-group flex-wrap" role="group" aria-label="Estado">
                                 <input type="radio" class="btn-check" name="estado" id="nuevo" value="nuevo" autocomplete="off">
                                 <label class="btn btn-outline-success" for="nuevo">Nuevo</label>
-                                <input type="radio" class="btn-check" name="estado" id="semi_nuevo" value="semi_nuevo" autocomplete="off">
+                                <input type="radio" class="btn-check" name="estado" id="semi_nuevo" value="semi_nuevo" autocomplete="off" checked>
                                 <label class="btn btn-outline-success" for="semi_nuevo">Semi-nuevo</label>
                                 <input type="radio" class="btn-check" name="estado" id="usado" value="usado" autocomplete="off">
                                 <label class="btn btn-outline-success" for="usado">Usado</label>
@@ -167,6 +162,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Superficie construida -->
                 <div class="container mt-5 mb-3">
                     <h5 class="mb-3 fs-4">Superficie construida <span class="text-muted">(opcional)</span></h5>
                     <div class="input-group mb-3">
@@ -174,19 +171,35 @@
                         <span class="input-group-text border border-1"> m²</span>
                     </div>
                 </div>
+
+                <!-- Descripción -->
                 <div class="container mt-5 mb-3">
                     <h5 class="mb-3 fs-4">Descripción</h5>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="6" placeholder="Proporciona una descripción detallada..."></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="6" placeholder="Proporciona una descripción detallada..." required></textarea>
                 </div>
+
+                <!-- Fotos y vídeos -->
                 <div class="container mt-5 mb-3">
                     <h5 class="mb-3 fs-4">Fotos y vídeos <span class="text-muted">(opcional)</span></h5>
-                    <div class="border rounded p-4 text-center mt-3">
-                        <i class="bi bi-camera fs-3"></i>
-                        <p>Añade fotos de la vivienda</p>
+                    <div class="border rounded p-4 text-center mt-3 position-relative" id="upload-box">
+
+                        <!-- Contenedor para imagen o placeholder -->
+                        <div id="preview-area" class="mb-3">
+                            <div id="upload-placeholder">
+                                <i class="bi bi-camera fs-1 d-block mb-2"></i>
+                                <p class="mb-0">Añade fotos de la vivienda</p>
+                            </div>
+                        </div>
+
+                        <!-- Input y label -->
                         <input class="d-none" type="file" id="file_input" name="imagenes" multiple>
                         <label for="file_input" class="btn btn-outline-dark">Seleccionar</label>
+
                     </div>
                 </div>
+
+
+                <!-- Contacto -->
                 <div class="container mt-5 mb-3">
                     <h5 class="mb-3 fs-4">Contacto <span class="text-muted">(opcional)</span></h5>
                     <div class="card">
@@ -194,7 +207,7 @@
                             <h5 class="card-title fs-5 mb-2">Tipo de contacto</h5>
                             <div class="row g-0 mb-4">
                                 <div class="col-md-3">
-                                    <input type="checkbox" class="btn-check" id="contacto_mensaje" name="contacto_mensaje" autocomplete="off">
+                                    <input type="checkbox" class="btn-check" id="contacto_mensaje" name="contacto_mensaje" autocomplete="off" checked>
                                     <label class="btn btn-outline-success w-100 rounded-0" for="contacto_mensaje">Mensaje</label>
                                 </div>
                                 <div class="col-md-3">
@@ -211,8 +224,8 @@
                 </div>
 
                 <!-- Botón de envío -->
-                <div class="container mt-5 mb-3 text-center">
-                    <button type="submit" class="btn w-100 p-2 shadow btn_soft_green_hr btn-success" id="btn_crear_publi" name="btn_crear_publi">Publicar anuncio</button>
+                <div class="container my-5 mb-3 text-center">
+                    <button type="submit" class="btn w-100 p-2 shadow btn_soft_green_hr btn-success" id="btn_crear_publi" name="btn_crear_publi">Publicar</button>
                 </div>
 
             </form>

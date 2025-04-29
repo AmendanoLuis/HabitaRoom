@@ -119,7 +119,7 @@ if (isset($_SESSION['id'])) {
                         $imagenes = json_decode($publicacion->fotos, true);
 
                         if (is_array($imagenes) && !empty($imagenes)): ?>
-                            <img src="<?php echo 'assets/uploads/' . trim($imagenes[0]); ?>"
+                            <img src="<?php echo 'assets/uploads/img_publicacion/' . trim($imagenes[0]); ?>"
                                 class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
                                 id="img_publi_perfil">
                         <?php else: ?>

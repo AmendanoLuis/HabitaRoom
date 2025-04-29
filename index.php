@@ -80,11 +80,16 @@ $dbConnection = Database::connect();
     <!-- Cookies para AJAX -->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <!-- Scripts control contenido -->
+     <!-- En tu HTML principal -->
     <script src="public/js/index.js"></script>
-    <script src="public/js/crearPublicacion.js"></script>
-    <script src="config/app.js"></script>
+    <script  type="module"  src="config/app.js"></script>
+    <script type="module" src="crearPublicacion.js"></script>
+
 </body>
 
 </html>

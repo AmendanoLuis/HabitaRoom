@@ -20,7 +20,7 @@
                                             <?php
                                             foreach ($imagenes as $index => $imagen): ?>
                                                 <div class="carousel-item rounded-start <?php echo $index === 0 ? 'active' : ''; ?>">
-                                                    <img src="assets/uploads/<?php echo $imagen; ?>" class="rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
+                                                    <img src="assets/uploads/img_publicacion/<?php echo $imagen; ?>" class="rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
                                                 </div>
 
                                             <?php endforeach; ?>
@@ -38,7 +38,7 @@
                                     </div>
 
                                 <?php else: ?>
-                                    <img src="assets/uploads/<?php echo $publicacion->fotos; ?>" class="img-fluid rounded" alt="Imagen de la propiedad">
+                                    <img src="assets/uploads/img_publicacion/<?php echo $publicacion->fotos; ?>" class="img-fluid rounded" alt="Imagen de la propiedad">
                                 <?php endif; ?>
 
                             </div>
