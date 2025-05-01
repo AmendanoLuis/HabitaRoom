@@ -42,7 +42,7 @@
                             id="formBuscarMapa">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Donde se encuentra su inmueble..."
-                                    aria-label="Buscar ubicación">
+                                    aria-label="Buscar ubicación" name="ubicacion" id="ubicacion" aria-describedby="addon-wrapping">
 
                                 <button class="btn btn-primary" type="button" onclick="buscarUbicacion()">Buscar</button>
                             </div>

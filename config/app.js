@@ -1,68 +1,79 @@
 import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
 
-
-
 $(document).ready(function () {
 
-    // ============ FUNCIONES INDEX ============
+    // ============ FUNCIONES ============
 
-    // Función para cargar el contenido de una página en el contenedor principal
+    // CARGAR PAGINA CON AJAX
     function cargarPagina(url) {
         $.ajax({
             url: 'routes/redireccionWeb.php',
             type: 'POST',
-            data: { site: url },
+            data: { site: url},
             success: function (response) {
+                if (response.includes('<!DOCTYPE html>')) {
+                    console.warn("Respuesta no válida para AJAX, parece una página completa.");
+                    return;
+                }
+
                 $('#contenidoMain').html(response);
 
-                // Asignar el evento de envío a los formularios después de cargar el contenido
-                asignarEventosFormularios();
+                if (url === '/HabitaRoom/index' || url === '/HabitaRoom/index.php') {
+                    asignarEventosFormularios();
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Error al cargar el contenido: ', error);
             }
         });
 
+
     }
 
-    // Función para cargar las publicaciones en la página principal
+    // CARGAR PUBLICACIONES EN INDEX
     function cargarPublicacionesIndex() {
+        if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
 
-        $.ajax({
-            url: 'models/cargarPublicaciones.php',
-            type: 'POST',
-            success: function (response) {
+            // Obtener los IDs de las publicaciones cuando se carguen
+            observarCarga('.contenedor-publicacion', () => {
+                $('.contenedor-publicacion').each(function () {
+                    const id = $(this).data('id');
+                    if (id) {
+                        id_publis.push(id);
+                    }
+                });
+                console.log("IDs de publicaciones cargadas:", id_publis);
+            });
 
-                $('#contenedor-principal').html(response);
+            $.ajax({
+                url: 'controllers/IndexController.php',
+                type: 'POST',
+                data: { ruta: ruta_actual },
+                success: function (response) {
 
-            },
-            error: function (xhr, status, error) {
-                console.log('Error al cargar el publicaciones: ', error);
-            }
-        });
+                    $('#contenedor-principal').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar publicaciones: ', error);
+                }
+            });
+        }
     }
 
-    // Función para asignar eventos a los formularios cargados por AJAX
+    // ASIGNAR EVENTOS A FORMULARIOS INDEX
     function asignarEventosFormularios() {
-
-
-        // Evento para el formulario cargado por AJAX en el contenedor principal
         $(document).on("submit", "#form-filtros-desp", function (event) {
             event.preventDefault();
             console.log("Formulario desp enviado.");
 
-            // Validar formulario cargado por AJAX
             validarFormularioFiltros('#form-filtros-desp');
-
-            // Guardar filtros en cookies
             guardarFiltrosEnCookies("#form-filtros-desp");
-
         });
     }
 
-    // Función para validar el formulario de filtros
+    // VALIDAR FORMULARIO FILTROS
     function validarFormularioFiltros(formulario) {
-        var $formulario = $(formulario);
+        const $formulario = $(formulario);
         console.log("Validando formulario: ", formulario);
 
         $.ajax({
@@ -79,52 +90,36 @@ $(document).ready(function () {
         });
     }
 
-    // Función para guardar los filtros en cookies
+    // GUARDAR FILTROS EN COOKIES
     function guardarFiltrosEnCookies(formulario) {
-        var filtros = {};
+        const filtros = {};
+        const form = $(formulario);
 
-        // Recoger los valores de los inputs del formulario específico
-        var form = $(formulario);
-
-        // Recoger los campos de texto (inputs) y valores seleccionados
         form.find('input[type="text"], input[type="number"], select').each(function () {
-            var name = $(this).attr('name');
-            var value = $(this).val();
-            console.log("Valores Input y select: " + name + "=>" + value)
+            const name = $(this).attr('name');
+            const value = $(this).val();
             if (name) {
                 filtros[name] = value;
             }
         });
 
-        // Recoger los valores de los checkboxes (con el atributo name[])
         form.find('input[type="checkbox"]:checked').each(function () {
-            var name = $(this).attr('name');
+            const name = $(this).attr('name');
             if (name) {
-                if (!filtros[name]) {
-                    filtros[name] = [];
-                }
-                console.log("Valores Check: " + name + "=>" + $(this).val())
-
+                if (!filtros[name]) filtros[name] = [];
                 filtros[name].push($(this).val());
             }
         });
 
-        console.log(filtros);
-
         Cookies.set('filtros', JSON.stringify(filtros), { expires: 1 });
     }
 
-    // ============ FUNCIONES LOGIN ============
-
+    // VALIDAR FORMULARIO LOGIN
     function validarFormularioLogin() {
-
-        // Evento para el formulario de login
         $(document).on("submit", "#form_login", function (event) {
             event.preventDefault();
 
-            var formulario = $("#form_login");
-
-            console.log("Formulario de login enviado.");
+            const formulario = $("#form_login");
 
             $.ajax({
                 url: 'models/validarFormularioLogin.php',
@@ -132,8 +127,6 @@ $(document).ready(function () {
                 data: formulario.serialize(),
                 dataType: 'json',
                 success: function (response) {
-                    console.log("Respuesta del servidor:", response);
-
                     if (response.status) {
                         window.location.href = response.redirect;
                     } else {
@@ -146,64 +139,57 @@ $(document).ready(function () {
                 }
             });
         });
-
     }
 
-    // ============ INICIO ============
-    let ruta_actual = window.location.pathname;
-    console.log('Ruta actual: ' + ruta_actual);
-
-    cargarPagina(ruta_actual);
-
-    // INDEX
-    if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
-
+    // OBSERVAR CARGA DE ELEMENTOS
+    function observarCarga(selector, callback) {
         const contMain = document.getElementById('contenidoMain');
-        if (!contMain) {
-            console.log("No se encontro contenidoMain");
-            return
-        }
+        if (!contMain) return;
 
-        // Observador
         const observ = new MutationObserver(() => {
-            if ($('#contenedor-principal').length > 0) {
-
-                cargarPublicacionesIndex();
-                detectarFinDePagina();
-
-                // Cerrar observador
+            if ($(selector).length > 0) {
+                callback();
                 observ.disconnect();
             }
-
         });
 
         observ.observe(contMain, { childList: true, subtree: true });
-
-
-    } else {
-        $('#contenedor-principal').html(`
-            <div class="alert alert-danger" role="alert"> No encontramos publicaciones disponibles. </div>
-            `);
     }
 
-    // LOGIN
-    if (ruta_actual === '/HabitaRoom/login') {
-        validarFormularioLogin();
-    }
+    // MANEJAR RUTAS
+    function manejarRuta(ruta_actual) {
+        console.log("Ruta actual desde manejarRuta:", ruta_actual);
 
-    // CREAR PUBLICACION
-    if (ruta_actual === '/HabitaRoom/crearpublicacion') {
+        // INDEX
+        if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
 
-        const contMain = document.getElementById('contenidoMain');
-        if (!contMain) {
-            console.log("No se encontró contenidoMain");
-            return;
+            observarCarga('#contenedor-principal', () => {
+                if ($('#contenedor-principal').length > 0) {
+                    cargarPublicacionesIndex();
+                    detectarFinDePagina();
+
+                    $(document).on('mouseover', '.contenedor-publicacion a', function () {
+                        const contenedor = $(this).closest('.contenedor-publicacion');
+                        id_publi = contenedor.data('id');
+                    
+                        if (id_publi && id_publis.includes(id_publi)) {
+                            console.log("ID de publicación seleccionado antes del click:", id_publi);
+                            sessionStorage.setItem('id_publi', id_publi);
+                        }
+                    });
+
+                }
+            });
         }
 
-        const observ = new MutationObserver(() => {
+        // LOGIN
+        else if (ruta_actual === '/HabitaRoom/login') {
+            observarCarga('#form_login', validarFormularioLogin);
+        }
 
-            if ($('#form_crear_publi').length > 0) {
-
+        // CREAR PUBLICACION
+        else if (ruta_actual === '/HabitaRoom/crearpublicacion') {
+            observarCarga('#form_crear_publi', () => {
                 asignarEventosForm();
 
                 $(document).off("submit", "#form_crear_publi");
@@ -215,29 +201,64 @@ $(document).ready(function () {
 
                     let formularioValido = true;
 
-                    // Validar todos los campos
                     campos.forEach(campo => {
                         if (!validarCampo(campo)) {
                             formularioValido = false;
                         }
                     });
-                    procesarFormularioCrearPublicacion();
+
+                    if (formularioValido) {
+                        procesarFormularioCrearPublicacion();
+                    }
                 });
+            });
+        }
 
-                observ.disconnect();
-            }
+        // PUBLICACION DE USUARIO
+        else if (ruta_actual.startsWith('/HabitaRoom/publicacionusuario')) {
 
-        });
+            const id = sessionStorage.getItem('id_publi');
+            console.log("ID de publicación desde sessionStorage:", id);
+            
+            // Hacemos la solicitud AJAX para obtener la publicación
+            $.ajax({
+                url: 'controllers/PublicacionUsuarioController.php',
+                type: 'POST',
+                data: { id_publi: id },  // Enviamos el id de la publicación
+                success: function (response) {
+                    $('#contenidoMain').html(response);
+                    console.log("Publicación cargada con éxito.");
+                    window.scrollTo(0, 0);
 
-        observ.observe(contMain, { childList: true, subtree: true });
-
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar la publicación:', error);
+                    $('#contenidoMain').html("<p>Error al cargar la publicación. Intenta nuevamente.</p>");
+                }
+            });
+        } else {
+            console.error("ID de publicación no encontrado o inválido en la URL");
+            $('#contenidoMain').html("<p>La publicación no existe o la URL es incorrecta.</p>");
+        }
     }
 
 
-    // NOVEDADES
 
-    // GUARDADOS
+
+    // ============ INICIO ============
+
+    const ruta_actual = window.location.pathname;
+    const id_publis = [];
+    var id_publi = null; 
+
+    cargarPagina(ruta_actual);
+    manejarRuta(ruta_actual);
+
+
+    window.addEventListener('popstate', function () {
+        const ruta = window.location.pathname;
+        console.log("Ruta actual (popstate): ", ruta);
+        manejarRuta(ruta);
+    });
 
 });
-
-

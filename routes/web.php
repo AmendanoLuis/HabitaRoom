@@ -9,4 +9,5 @@ return [
     '/HabitaRoom/perfil' => 'PerfilController@cargarPerfil',
     '/HabitaRoom/login' => 'LoginController@cargarLogin',
     '/HabitaRoom/registro' => 'RegistroController@cargarRegistro',
+    '/HabitaRoom/publicacionusuario' => 'PublicacionUsuarioController@cargarPublicacion',
 ];

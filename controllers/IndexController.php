@@ -20,7 +20,7 @@ class IndexController
     public function cargarPagina()
     {
         // Verificamos si las publicaciones se obtuvieron
-        include $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/views/IndexView.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/views/IndexView.php';
     }
 
     public function cargarContenidoPagina()
@@ -29,9 +29,8 @@ class IndexController
         $publicaciones = $this->model->obtenerPublicaciones();
 
         if ($publicaciones) {
-        
-            include $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/views/PublicacionesView.php';
-        
+
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/views/PublicacionesView.php';
         } else {
             echo '<div class="alert alert-danger" role="alert"> A simple danger alert—check it out! </div>';
         }
@@ -50,4 +49,12 @@ class IndexController
             echo "No hay publicaciones disponibles con filtros.";
         }
     }
+}
+
+
+// Instanciar el controlador
+if (isset($_POST['ruta']) && ($_POST['ruta'] === '/HabitaRoom/index' || $_POST['ruta'] === '/HabitaRoom/index.php')) {
+
+    $indexController = new IndexController();
+    $indexController->cargarContenidoPagina();
 }

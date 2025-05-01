@@ -153,52 +153,111 @@
 
 
 
-/* PUBLICACION */
+/* PUBLICACION - Asegurar que todas las publicaciones tengan el mismo tamaño y sean responsivas */
 
-@media screen and (min-width: 992px) {
-    #contPublicacion {
-        width: 900px;
-        height: 301px;
-
-    }
-
-    #imgPublicIndex {
-        height: 300px;
-    }
+/* Ajusta la altura de las tarjetas de publicación */
+.card.contenedor-publicacion {
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto; /* Centra las tarjetas en su contenedor */
 }
 
-#contPublicacion {
-    min-height: 300px;
-    max-height: 1000px;
-
+/* Contenedor de la tarjeta */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 1rem; /* Ajusta el padding para un espaciado adecuado */
 }
 
-/* Imagen Publicación */
+/* Imagen de la publicación */
 #imgPublicIndex {
     width: 100%;
     object-fit: cover;
-    max-height: 300px;
+    height: 200px; /* Asegura que la imagen tenga una altura fija */
 }
 
-.carousel {
-    width: 100%;
-}
-
-/* Descripción Publicación */
+/* Descripción de la publicación - Limita el texto a 3 líneas */
 .descripccionPubli {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 3; /* Limita el número de líneas */
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: auto; /* Empuja la descripción hacia abajo */
+}
+
+/* Título y precio de la publicación */
+.precioPubli, .tituloPubli {
+    margin-bottom: 0.5rem;
+}
+
+/* Contenedor de la tarjeta con enlaces (asegurando que no afecte el layout) */
+.card a {
+    display: block;
+    text-decoration: none;
+    color: inherit; /* Asegura que el color del texto no se vea afectado */
+}
+
+/* Ajustes para las imágenes en el carrusel */
+.carousel-inner {
+    height: 200px; /* Fija la altura del carrusel */
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+}
+
+/* Asegura que los botones no afecten el tamaño del contenedor */
+.mt-auto {
+    margin-top: auto; /* Esto empuja los botones hacia abajo */
+}
+
+/* Asegura que las tarjetas no cambien de tamaño sin importar el contenido */
+.card.mb-4.shadow {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto; /* Deja que la tarjeta se ajuste según su contenido */
+}
+
+/* Ancho de las publicaciones - responsivo */
+.card.contenedor-publicacion {
+    width: 100%;
+    margin: 0 auto; /* Centra las tarjetas en su contenedor */
+}
+
+/* RESPONSIVO - Ajustes para pantallas medianas y grandes */
+@media (min-width: 576px) {
+    .card.contenedor-publicacion {
+        width: 80%; /* Ajuste para pantallas pequeñas (tabletas y mayores) */
+    }
+}
+
+@media (min-width: 768px) {
+    .card.contenedor-publicacion {
+        width: 80%; /* Ajuste para pantallas medianas (pantallas de computadora y más grandes) */
+    }
+}
+
+@media (min-width: 992px) {
+    .card.contenedor-publicacion {
+        width: 70%; /* Ajuste para pantallas grandes (escritorios y pantallas de mayor tamaño) */
+    }
+}
+
+@media (min-width: 1200px) {
+    .card.contenedor-publicacion {
+        width: 70%; /* Ajuste para pantallas extra grandes (pantallas de gran resolución) */
+    }
 }
 
 
-/* Asegura que los contenedores de imagen no cambien de tamaño sin imágenes */
-.carousel-item {
-    background-color: #f0f0f0;
-}
+
 
 
 

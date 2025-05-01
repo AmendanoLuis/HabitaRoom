@@ -266,7 +266,7 @@ if (isset($_COOKIE['filtros']) && $_COOKIE['enviar_filtros'] ) {
         </div>
 
         <!-- CONTENIDO PRINICIPAL -->
-        <div class=" col-9 pt-3 mt-5 d-flex flex-column align-items-center" id="contenedor-principal">
+        <div class=" col-9 pt-2 mt-5 d-flex flex-column align-items-center" id="contenedor-principal">
 
         </div>
 

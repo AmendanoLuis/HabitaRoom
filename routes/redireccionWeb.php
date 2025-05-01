@@ -4,7 +4,6 @@
 // Incluir las rutas
 $rutas = require 'web.php';
 
-
 // Incluir el controlador principal
 require_once  '../config/db/db.php';
 require '../models/IndexModel.php';
@@ -16,8 +15,8 @@ $ruta_actual = $_POST['site'] ?? '/';
 
 // Eliminar .php de la ruta
 $ruta_actual = str_replace('.php', '', $ruta_actual);
-
-
+// Extraer el ID si está presente en la URL
+$id = $_POST['publi_id'] ?? null;
 
 // Comprobar si la ruta existe en las rutas definidas
 if (array_key_exists($ruta_actual, $rutas)) {
@@ -48,7 +47,11 @@ if (array_key_exists($ruta_actual, $rutas)) {
 
     if (method_exists($controlador_obj, $funcion)) {
 
-        $controlador_obj->$funcion();
+        if ($id !== null) {
+            $controlador_obj->$funcion($id);
+        } else {
+            $controlador_obj->$funcion();
+        }
     } else {
 
         // Si la función no se encuentra, error 

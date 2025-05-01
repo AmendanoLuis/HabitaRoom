@@ -20,7 +20,6 @@ require_once  'config/db/db.php';
 
 // Crear la conexión
 $dbConnection = Database::connect();
-
 ?>
 
 
@@ -86,9 +85,9 @@ $dbConnection = Database::connect();
 
     <!-- Scripts control contenido -->
      <!-- En tu HTML principal -->
-    <script src="public/js/index.js"></script>
+    <script  src="public/js/index.js"></script>
     <script  type="module"  src="config/app.js"></script>
-    <script type="module" src="crearPublicacion.js"></script>
+    <script type="module" src="public/js/crearPublicacion.js"></script>
 
 </body>
 

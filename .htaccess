@@ -1,9 +1,7 @@
 RewriteEngine On
 RewriteBase /HabitaRoom/
 
-# Redirigir todas las solicitudes a web.php
+# Redirigir todas las rutas al archivo index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-
-RewriteRule ^(.*)$ index.php  [L,QSA]
+RewriteRule ^(.*)$ index.php [L]

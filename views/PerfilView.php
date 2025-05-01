@@ -114,19 +114,27 @@ if (isset($_SESSION['id'])) {
         <div class="row">
             <?php foreach ($publicaciones as $publicacion): ?>
                 <div class="col-4">
-                    <div class="my-2 mx-auto" id="cont_img_publi_perfil">
-                        <?php
-                        $imagenes = json_decode($publicacion->fotos, true);
+                    <a href="/HabitaRoom/publicacionusuario" class="contenedor-publicacion" data-id="<?php echo $publicacion->id_publicacion; ?>">
+                        <div class="my-2 mx-auto" id="cont_img_publi_perfil">
+                            <?php
+                            $imagenes = json_decode($publicacion->fotos, true);
 
-                        if (is_array($imagenes) && !empty($imagenes)): ?>
-                            <img src="<?php echo 'assets/uploads/img_publicacion/' . trim($imagenes[0]); ?>"
-                                class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
-                                id="img_publi_perfil">
-                        <?php else: ?>
-                            <p>No hay fotos disponibles.</p>
-                        <?php endif; ?>
-                    </div>
+                            if (is_array($imagenes) && !empty($imagenes)): ?>
+                                <img src="<?php echo 'assets/uploads/img_publicacion/' . trim($imagenes[0]); ?>"
+                                    class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
+                                    id="img_publi_perfil"
+                                />
+                            <?php else: ?>
+                                <img src="assets/uploads/img_publicacion/imgPublicacionBase.png" 
+                                class="img-fluid rounded border border-1 border-success-subtle" 
+                                id="img_publi_perfil" 
+                                alt="Imagen de la propiedad"
+                                />
+                            <?php endif; ?>
+                        </div>
+                    </a>
                 </div>
+
             <?php endforeach; ?>
         </div>
 
