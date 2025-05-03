@@ -56,6 +56,9 @@ $dbConnection = Database::connect();
     <div class="contenidoMain" id="contenidoMain">
         <!-- aqui se carga contenido dinamico -->
     </div>
+    <div id="pantalla-cargando" style="display: none;">
+        <div class="spinner"></div>
+    </div>
 
     <!-- Footer -->
     <?php
@@ -84,9 +87,10 @@ $dbConnection = Database::connect();
 
 
     <!-- Scripts control contenido -->
-     <!-- En tu HTML principal -->
-    <script  src="public/js/index.js"></script>
-    <script  type="module"  src="config/app.js"></script>
+    <!-- En tu HTML principal -->
+    <script type="module" src="public/js/loadingPage.js"></script>
+    <script type="module" src="public/js/index.js"></script>
+    <script type="module" src="config/app.js"></script>
     <script type="module" src="public/js/crearPublicacion.js"></script>
 
 </body>

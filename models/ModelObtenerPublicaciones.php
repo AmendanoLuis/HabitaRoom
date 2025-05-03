@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/db/db.php';
+
+
+
 class ModelObtenerPublicaciones
 {
     private $conn;
@@ -7,7 +10,7 @@ class ModelObtenerPublicaciones
     public function __construct()
     {
 
-        $this->conn = Database::connect(); 
+        $this->conn = Database::connect();
     }
 
     // Función para cargar las publicaciones
@@ -48,17 +51,29 @@ class ModelObtenerPublicaciones
     // Funcion para obtener publicaciones guardadas
     public function obtenerPublicacionesGuardadas()
     {
-        try {
-            $sql = "SELECT * FROM guardados WHERE id_usuario = :idUsuario AND id_publicacion = :idPublicacion";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
+        if (!isset($_SESSION['id'])) {
+            return [];
+        }
 
-            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        $id_usuario = $_SESSION['id'];
+
+        // Selecciona todas las columnas de la tabla publicaciones
+        $sql = "SELECT publicaciones.* FROM publicaciones 
+            JOIN guardados ON publicaciones.id = guardados.id_publicacion 
+            WHERE guardados.id_usuario = :id_usuario";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ); // Devuelve toda la información de las publicaciones guardadas
         } catch (PDOException $e) {
             error_log("Error en obtenerPublicacionesGuardadas: " . $e->getMessage());
             return [];
         }
     }
+
 
     // Funcion para mostrar publicaciones por filtros
     public function cargarPublicacionesFiltro($filtros)

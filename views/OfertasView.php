@@ -11,7 +11,7 @@
 
             <!-- Tarjeta de la oferta -->
             <div class="card mb-4 shadow-lg offer-card h-100 d-flex flex-column offerContenedorPublicacion" data-id="<?= $publicacion->id; ?>">
-              <a href="/HabitaRoom/publicacionusuario" class="text-decoration-none text-reset flex-grow-1 d-flex flex-column">
+              <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="text-decoration-none text-reset flex-grow-1 d-flex flex-column">
 
                 <!-- Imagen de la propiedad -->
                 <?php

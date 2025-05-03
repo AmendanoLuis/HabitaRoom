@@ -10,8 +10,8 @@
           <div class="col-12 col-sm-6 col-md-3">
 
             <!-- Tarjeta del guardado -->
-            <div class="card mb-4 shadow-lg saved-card h-100 d-flex flex-column savedContenedorPublicacion" data-id="<?= $publicacion->id; ?>">
-              <a href="/HabitaRoom/publicacionusuario" class="text-decoration-none text-reset flex-grow-1 d-flex flex-column">
+            <div class="card mb-4 shadow-lg saved-card h-100 d-flex flex-column" data-id="<?= $publicacion->id; ?>">
+              <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="text-decoration-none text-reset flex-grow-1 d-flex flex-column">
 
                 <!-- Imagen de la propiedad -->
                 <?php
@@ -28,11 +28,11 @@
                 <!-- Contenido de la publicación -->
                 <div class="card-body mx-2 flex-grow-2 d-flex flex-column justify-content-between" style="height: 50%;">
                   <div>
-                    <!-- Precio y título de la publicación -->
-                    <h2 class="card-title saved-price text-start fs-4 mb-2"><?= number_format((float)$publicacion->precio, 2, ',', '.') . ' €'; ?></h2>
+                    <!-- Precio y título -->
+                    <h2 class="card-title text-start saved-price fs-4 mb-2"><?= number_format((float)$publicacion->precio, 2, ',', '.') . ' €'; ?></h2>
                     <h4 class="saved-title fs-5 mb-1"><?= htmlspecialchars($publicacion->titulo); ?></h4>
 
-                    <!-- Ubicación y detalles de la propiedad -->
+                    <!-- Ubicación y detalles -->
                     <p class="text-muted saved-location fs-6 mb-1"><?= htmlspecialchars($publicacion->ubicacion); ?></p>
                     <p class="text-muted saved-info fs-6 mb-2">
                       <?php
@@ -51,12 +51,9 @@
                     </p>
                   </div>
 
-                  <!-- Descripción -->
+                  <!-- Descripción y botones -->
                   <div class="saved-description-container flex-grow-1 d-flex flex-column justify-content-end mt-1">
-
                     <p class="card-text saved-description fs-6 mb-2"><?= nl2br(htmlspecialchars($publicacion->descripcion)); ?></p>
-
-                    <!-- Botones de contacto -->
                     <div class="d-flex gap-2">
                       <button class="btn btn-primary btn-sm disabled">Contactar</button>
                       <button class="btn btn-outline-secondary btn-sm disabled">Mensaje</button>
@@ -66,6 +63,7 @@
                 </div>
               </a>
             </div>
+
           </div>
         <?php endforeach; ?>
       <?php else: ?>

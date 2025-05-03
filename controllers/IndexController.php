@@ -27,7 +27,8 @@ class IndexController
     {
         // Obtener las publicaciones
         $publicaciones = $this->model->obtenerPublicaciones();
-
+        $publicaciones_guardadas = $this->model->obtenerPublicacionesGuardadas();
+        
         if ($publicaciones) {
 
             require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/views/PublicacionesView.php';

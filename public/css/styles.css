@@ -1,3 +1,13 @@
+
+/* //////////////////////////////////////////////////////////////////////////
+   ESTILO GENERAL
+////////////////////////////////////////////////////////////////////////// 
+*/
+.contenidoMain{
+    min-height: 100vh;
+}
+
+
 /* LOGIN */
 #cont_logo {
     height: 100px;
@@ -7,9 +17,6 @@
 #logo_login:hover {
     font-size: 5em !important;
 }
-
-
-
 
 /* REGISTER */
 
@@ -23,55 +30,41 @@
     z-index: -1;
 }
 
-
-
-
-
-
 /* INDEX */
 .color_fondo_web {
     background-color: #d4e7da85;
 }
 
-.btn-soft-green-hr{
+.btn-soft-green-hr {
     background-color: #1bc92c !important;
 }
 
-
-
-#row_filtros{
+#row_filtros {
     height: 100%;
-
-}
-.categoria_relative{
-    position: relative ;
-    z-index: -1;    
-
 }
 
-#cont_btns_index{
-    height: 22vh; width: auto;
+.categoria_relative {
+    position: relative;
+    z-index: -1;
 }
 
-.btns_relative{
+#cont_btns_index {
+    height: 22vh;
+    width: auto;
+}
+
+.btns_relative {
     display: none;
 }
-.footer_end_absolute{
-    
-    z-index: 999 ;
+
+.footer_end_absolute {
+    z-index: 999;
 }
-
-
-
-
-
-
-
 
 /* HEADER*/
 
-#text_logo{
-    color: #49B59F;
+#text_logo {
+    color: #49b59f;
 }
 
 #imgUsuarioHeader {
@@ -86,7 +79,7 @@
 }
 
 #offcanvasNavbar {
-    background-color: #AFF5B6;
+    background-color: #aff5b6;
 }
 
 #menuLateralIndex li a {
@@ -94,37 +87,20 @@
 }
 
 #offcanvasNavbarLeft {
-    background-color: #AFF5B6;
-
+    background-color: #aff5b6;
 }
 
 .color_fondo_header {
-    background-color: #ffffff ;
+    background-color: #ffffff;
 }
 
-
-
-
-
-
-
-
-
-
 /* FILTROS */
-
 
 #form-filtros-desp {
     height: 100vh;
     overflow-y: auto;
     padding-right: 15px;
 }
-
-
-
-
-
-
 
 /* SCROLL BAR*/
 
@@ -147,20 +123,14 @@
     background: #666;
 }
 
-
-
-
-
-
-
-/* PUBLICACION - Asegurar que todas las publicaciones tengan el mismo tamaño y sean responsivas */
+/* PUBLICACION */
 
 /* Ajusta la altura de las tarjetas de publicación */
 .card.contenedor-publicacion {
-    height: auto; 
+    height: auto;
     display: flex;
     flex-direction: column;
-    margin: 0 auto; /* Centra las tarjetas en su contenedor */
+    margin: 0 auto;
 }
 
 /* Contenedor de la tarjeta */
@@ -169,29 +139,32 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 1rem; /* Ajusta el padding para un espaciado adecuado */
+    padding: 1rem;
 }
 
 /* Imagen de la publicación */
 #imgPublicIndex {
     width: 100%;
     object-fit: cover;
-    height: 200px; /* Asegura que la imagen tenga una altura fija */
+    height: 200px;
 }
 
 /* Descripción de la publicación - Limita el texto a 3 líneas */
 .descripccionPubli {
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limita el número de líneas */
+    -webkit-line-clamp: 3;
+    /* Limita el número de líneas */
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: auto; /* Empuja la descripción hacia abajo */
+    margin-top: auto;
+    /* Empuja la descripción hacia abajo */
 }
 
 /* Título y precio de la publicación */
-.precioPubli, .tituloPubli {
+.precioPubli,
+.tituloPubli {
     margin-bottom: 0.5rem;
 }
 
@@ -199,12 +172,12 @@
 .card a {
     display: block;
     text-decoration: none;
-    color: inherit; /* Asegura que el color del texto no se vea afectado */
+    color: inherit;
 }
 
 /* Ajustes para las imágenes en el carrusel */
 .carousel-inner {
-    height: 200px; /* Fija la altura del carrusel */
+    height: 200px;
 }
 
 .carousel-item img {
@@ -214,7 +187,7 @@
 
 /* Asegura que los botones no afecten el tamaño del contenedor */
 .mt-auto {
-    margin-top: auto; /* Esto empuja los botones hacia abajo */
+    margin-top: auto;
 }
 
 /* Asegura que las tarjetas no cambien de tamaño sin importar el contenido */
@@ -222,47 +195,45 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: auto; /* Deja que la tarjeta se ajuste según su contenido */
+    height: auto;
 }
 
 /* Ancho de las publicaciones - responsivo */
 .card.contenedor-publicacion {
     width: 100%;
-    margin: 0 auto; /* Centra las tarjetas en su contenedor */
+    margin: 0 auto;
 }
 
 /* RESPONSIVO - Ajustes para pantallas medianas y grandes */
 @media (min-width: 576px) {
     .card.contenedor-publicacion {
-        width: 80%; /* Ajuste para pantallas pequeñas (tabletas y mayores) */
+        width: 80%;
     }
 }
 
 @media (min-width: 768px) {
     .card.contenedor-publicacion {
-        width: 80%; /* Ajuste para pantallas medianas (pantallas de computadora y más grandes) */
+        width: 80%;
     }
 }
 
 @media (min-width: 992px) {
     .card.contenedor-publicacion {
-        width: 70%; /* Ajuste para pantallas grandes (escritorios y pantallas de mayor tamaño) */
+        width: 70%;
     }
 }
 
 @media (min-width: 1200px) {
     .card.contenedor-publicacion {
-        width: 70%; /* Ajuste para pantallas extra grandes (pantallas de gran resolución) */
+        width: 70%;
     }
 }
 
-
-
-
-
-
-
-/* MAPA */
+/*
+//////////////////////////////////////////////////////////////////////////
+    MAP 
+////////////////////////////////////////////////////////////////////////// 
+*/
 #mapa {
     width: 320px;
     height: 350px;
@@ -275,11 +246,11 @@
     width: 100%;
 }
 
-
-
-
-
-/* CHAT */
+/*
+//////////////////////////////////////////////////////////////////////////
+    CHAT 
+////////////////////////////////////////////////////////////////////////// 
+*/
 #chat {
     width: 70px;
     height: 70px;
@@ -290,15 +261,13 @@
     align-items: center;
     z-index: 1050;
     background-color: white;
-
 }
 
-
-
-
-
-/* CREAR PUBLICACIONES */
-
+/*
+//////////////////////////////////////////////////////////////////////////
+    CREAR PUBLICACIONES
+////////////////////////////////////////////////////////////////////////// 
+*/
 
 .crear-publicacion {
     font-size: 1.2em;
@@ -306,10 +275,9 @@
 
 #label_tipo_inmueble {
     padding-left: 3%;
-    font-size: 0.70em;
+    font-size: 0.7em;
     color: #198754;
     box-shadow: none;
-
 }
 
 #tipo_inmueble {
@@ -317,7 +285,7 @@
     border: solid 1px#198754;
 }
 
-.cont_titulo_crear_publi{
+.cont_titulo_crear_publi {
     background-color: #c9c8c8be;
 }
 
@@ -335,116 +303,125 @@
 
 
 
-
 /*
-
 //////////////////////////////////////////////////////////////////////////
-ESTILO DE LA SECCION DE OFERTAS
-//////////////////////////////////////////////////////////////////////////
-
+    ESTILO DE LA SECCION OFERTAS Y GUARDADOS
+////////////////////////////////////////////////////////////////////////// 
 */
-/* //////////////////////////////////////////////////////////////////////////
-   ESTILO DE LA SECCION DE OFERTAS
-////////////////////////////////////////////////////////////////////////// */
 
 /* WRAPPER: ancho responsivo */
-.offer-wrapper {
+.offer-wrapper,
+.saved-wrapper {
     width: 100%;
     padding: 2rem 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .offer-wrapper {
-      width: 80%;
+}
+
+@media (min-width: 768px) {
+    .offer-wrapper,
+    .saved-wrapper {
+        width: 80%;
     }
-  }
-  
-  /* CONTENEDOR BLANCO */
-  .offer-container {
+}
+
+/* CONTENEDOR BLANCO */
+.offer-container,
+.saved-container {
     background-color: #ffffff;
     border-radius: 1rem;
     padding: 2rem;
-  }
-  
-  /* TÍTULO */
-  .offer-container h2 {
+}
+
+/* TÍTULO */
+.offer-container h2,
+.saved-container h2 {
     text-align: center;
     color: #2c3e50;
     font-size: 2rem;
     margin-bottom: 2rem;
-  }
-  
-  /* GRID GAPS */
-  .offer-row {
+}
+
+/* GRID GAPS */
+.offer-row,
+.saved-row {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 2.5rem;
-  }
-  
-  /* TARJETA */
-  .offer-card {
+}
+
+/* TARJETA */
+.offer-card,
+.saved-card {
     border: none;
     border-radius: 0.75rem;
-    transition: transform .2s, box-shadow .2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
-    aspect-ratio: 2 / 4;
-  }
-  
-  .offer-card:hover {
+    aspect-ratio: 3 / 5;
+}
+
+.offer-card:hover,
+.saved-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    outline: 0.4rem solid;
-    outline-color: #A3CFBB; 
-  }
-  
-  
-  /* IMAGEN */
-  #offer-img-container {
+    outline: 0.4rem solid #a3cfbb;
+}
+
+/* IMAGEN */
+#offer-img-container,
+#saved-img-container {
     overflow: hidden;
-    border-top-left-radius: .75rem;
-  }
-  
-  #offer-img-container img {
+    border-top-left-radius: 0.75rem;
+}
+
+#offer-img-container img,
+#saved-img-container img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     display: block;
-  }
-  
-  /* DETALLES */
-  .offer-price {
+}
+
+/* DETALLES */
+.offer-price,
+.saved-price {
     font-size: 1.4rem;
     color: #27ae60;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     line-height: 1.1;
-  }
-  
-  .offer-title {
+}
+
+.offer-title,
+.saved-title {
     font-size: 1rem;
     font-weight: 600;
     color: #34495e;
-    margin-bottom: .25rem;
-  }
-  
-  .offer-location, .offer-info {
-    font-size: .85rem;
+    margin-bottom: 0.25rem;
+}
+
+.offer-location,
+.saved-location,
+.offer-info,
+.saved-info {
+    font-size: 0.85rem;
     color: #7f8c8d;
-    margin-bottom: .5rem;
-  }
-  
-  .offer-description {
-    font-size: .9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* DESCRIPCIÓN */
+.offer-description,
+.saved-description {
+    font-size: 0.9rem;
     color: #555;
     flex-grow: 1;
     margin-bottom: 1rem;
-  }
-  
-  /* BOTONES */
-  .offer-card .btn {
-    font-size: .8rem;
-    padding: .4rem .6rem;
-  }
-  
+}
+
+
+/* BOTONES */
+.offer-card .btn,
+.saved-card .btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+}
 
 
 /*
@@ -464,7 +441,6 @@ ESTILO DE LA SECCION PERFIL USUARIO
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
-
 }
 
 .descripcion-perfil {
@@ -483,7 +459,6 @@ ESTILO DE LA SECCION PERFIL USUARIO
 #cont_img_publi_perfil {
     width: 100%;
     height: 30vh;
-
 }
 
 #img_publi_perfil {
@@ -491,4 +466,40 @@ ESTILO DE LA SECCION PERFIL USUARIO
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+
+/*
+
+//////////////////////////////////////////////////////////////////////////
+ESTILO DE LA SECCION DE CARGANDO
+//////////////////////////////////////////////////////////////////////////
+
+*/
+
+#pantalla-cargando {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #157347;
+    border-radius: 50%;
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -116,7 +116,7 @@ if (isset($_SESSION['id'])) {
             <?php foreach ($publicaciones as $publicacion): ?>
                 <div class="col-4  contenedor-publicacion">
                     
-                    <a href="/HabitaRoom/publicacionusuario" class="contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
+                    <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
                         <div class="my-2 mx-auto" id="cont_img_publi_perfil">
                             <?php
                             $imagenes = json_decode($publicacion->fotos, true);
