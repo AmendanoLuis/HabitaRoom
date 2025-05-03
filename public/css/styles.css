@@ -336,9 +336,124 @@
 
 
 
+/*
+
+//////////////////////////////////////////////////////////////////////////
+ESTILO DE LA SECCION DE OFERTAS
+//////////////////////////////////////////////////////////////////////////
+
+*/
+/* //////////////////////////////////////////////////////////////////////////
+   ESTILO DE LA SECCION DE OFERTAS
+////////////////////////////////////////////////////////////////////////// */
+
+/* WRAPPER: ancho responsivo */
+.offer-wrapper {
+    width: 100%;
+    padding: 2rem 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .offer-wrapper {
+      width: 80%;
+    }
+  }
+  
+  /* CONTENEDOR BLANCO */
+  .offer-container {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  
+  /* TÍTULO */
+  .offer-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* GRID GAPS */
+  .offer-row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 2.5rem;
+  }
+  
+  /* TARJETA */
+  .offer-card {
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform .2s, box-shadow .2s;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 2 / 4;
+  }
+  
+  .offer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    outline: 0.4rem solid;
+    outline-color: #A3CFBB; 
+  }
+  
+  
+  /* IMAGEN */
+  #offer-img-container {
+    overflow: hidden;
+    border-top-left-radius: .75rem;
+  }
+  
+  #offer-img-container img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  /* DETALLES */
+  .offer-price {
+    font-size: 1.4rem;
+    color: #27ae60;
+    margin-bottom: .5rem;
+    line-height: 1.1;
+  }
+  
+  .offer-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: .25rem;
+  }
+  
+  .offer-location, .offer-info {
+    font-size: .85rem;
+    color: #7f8c8d;
+    margin-bottom: .5rem;
+  }
+  
+  .offer-description {
+    font-size: .9rem;
+    color: #555;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+  
+  /* BOTONES */
+  .offer-card .btn {
+    font-size: .8rem;
+    padding: .4rem .6rem;
+  }
+  
 
 
-/* PERFIL USUARIO */
+/*
+
+//////////////////////////////////////////////////////////////////////////
+ESTILO DE LA SECCION PERFIL USUARIO
+//////////////////////////////////////////////////////////////////////////
+
+*/
 
 .profile-header {
     height: 250px;

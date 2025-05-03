@@ -1,7 +1,7 @@
 <?php
 require_once  $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
 
-class Usuario
+class ModelUsuario
 {
     private $db;
 

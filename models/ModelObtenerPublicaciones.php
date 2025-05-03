@@ -1,19 +1,39 @@
 <?php
-class IndexModel
+require_once __DIR__ . '/../config/db/db.php';
+class ModelObtenerPublicaciones
 {
     private $conn;
 
-    public function __construct($database)
+    public function __construct()
     {
 
-        $this->conn = $database;
+        $this->conn = Database::connect(); 
     }
 
     // Función para cargar las publicaciones
-    public function obtenerPublicaciones()
+    public function obtenerPublicaciones($limite = 10, $offset = 0)
     {
         try {
-            $sql = "SELECT * FROM publicaciones ORDER BY fecha_publicacion DESC";
+            $sql = "SELECT * FROM publicaciones ORDER BY fecha_publicacion DESC LIMIT ? OFFSET ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $limite, PDO::PARAM_INT);
+            $stmt->bindParam(2, $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en obtenerPublicaciones: " . $e->getMessage());
+            return [];
+        }
+    }
+
+
+
+    // Función para cargar una publicación por fecha de publicación
+    public function obtenerPublicacionesOfertas()
+    {
+        try {
+            $sql = "SELECT * FROM publicaciones ORDER BY precio DESC LIMIT 10";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
 
@@ -25,6 +45,20 @@ class IndexModel
         }
     }
 
+    // Funcion para obtener publicaciones guardadas
+    public function obtenerPublicacionesGuardadas()
+    {
+        try {
+            $sql = "SELECT * FROM guardados WHERE id_usuario = :idUsuario AND id_publicacion = :idPublicacion";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en obtenerPublicacionesGuardadas: " . $e->getMessage());
+            return [];
+        }
+    }
 
     // Funcion para mostrar publicaciones por filtros
     public function cargarPublicacionesFiltro($filtros)
@@ -66,7 +100,7 @@ class IndexModel
                 $sql .= " AND caracteristicas IN ($placeholders)";
                 $params = array_merge($params, $filtros['caracteristicas']);
             }
-            
+
 
             $sql .= " ORDER BY fecha_publicacion DESC";
 

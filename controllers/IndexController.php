@@ -3,7 +3,7 @@
 $pagina_actual = trim(basename($_SERVER['PHP_SELF']));
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/IndexModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelObtenerPublicaciones.php';
 
 
 class IndexController
@@ -13,7 +13,7 @@ class IndexController
     public function __construct()
     {
         // Instancia del modelo
-        $this->model = new IndexModel(Database::connect());
+        $this->model = new ModelObtenerPublicaciones();
     }
 
 

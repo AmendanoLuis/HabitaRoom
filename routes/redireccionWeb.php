@@ -6,7 +6,7 @@ $rutas = require 'web.php';
 
 // Incluir el controlador principal
 require_once  '../config/db/db.php';
-require '../models/IndexModel.php';
+require '../models/ModelObtenerPublicaciones.php';
 require_once  '../controllers/IndexController.php';
 
 // Obtener la ruta actual

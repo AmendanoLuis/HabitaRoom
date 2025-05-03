@@ -4,7 +4,7 @@ require_once '../config/db/db.php';
 define('BASE_URL', '/HabitaRoom');
 
 
-class PubicacionUsuario
+class ModelPublicacion
 {
     private $db;
 

@@ -3,7 +3,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
 
 
-class PublicacionModel
+class ModelInsertarPublicacion
 {
     private $db;
 

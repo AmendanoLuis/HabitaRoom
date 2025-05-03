@@ -6,7 +6,7 @@
                 <h5>Enlaces rápidos</h5>
                 <ul class="list-unstyled">
                     <li><a href="/HabitaRoom/index" class="text-light routes">Inicio</a></li>
-                    <li><a href="/HabitaRoom/novedades" class="text-light">Novedades</a></li>
+                    <li><a href="/HabitaRoom/ofertas" class="text-light">Ofertas</a></li>
                     <li><a href="/HabitaRoom/crearpublicacion" class="text-light">Crear publicación</a></li>
                     <li><a href="/HabitaRoom/guardados" class="text-light">Guardados</a></li>
                     <li><a href="/HabitaRoom/perfil" class="text-light">Perfil</a></li>

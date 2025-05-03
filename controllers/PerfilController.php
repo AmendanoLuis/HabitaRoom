@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../models/User.php';
+require_once '../models/ModelUsuario.php';
 
 class PerfilController
 {

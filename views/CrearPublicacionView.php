@@ -1,7 +1,7 @@
 <div class="container my-5 d-flex flex-column align-items-center text-light " id="contenedor-principal">
 
     <div class="row text-dark">
-        <div class="col-auto mt-5 bg-white py-3 px-5 rounded shadow-lg" style="min-width:550px;">
+        <div class="col-auto mt-4 bg-white py-3 px-5 rounded shadow-lg" style="min-width:550px;">
 
             <!-- Formulario -->
             <form class="mt-4" method="POST" id="form_crear_publi" enctype="multipart/form-data">

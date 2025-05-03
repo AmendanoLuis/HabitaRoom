@@ -1,10 +1,10 @@
 <?php
 // Sesion
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/User.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelUsuario.php';
 session_start();
 
 if (isset($_SESSION['id'])) {
-    $userModel = new Usuario();
+    $userModel = new ModelUsuario();
     $usuario = $userModel->obtenerUsuarioId($_SESSION['id']);
 }
 

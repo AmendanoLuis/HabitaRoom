@@ -9,7 +9,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'routes/redireccionWeb.php',
             type: 'POST',
-            data: { site: url},
+            data: { site: url },
             success: function (response) {
                 if (response.includes('<!DOCTYPE html>')) {
                     console.warn("Respuesta no válida para AJAX, parece una página completa.");
@@ -33,17 +33,6 @@ $(document).ready(function () {
     // CARGAR PUBLICACIONES EN INDEX
     function cargarPublicacionesIndex() {
         if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
-
-            // Obtener los IDs de las publicaciones cuando se carguen
-            observarCarga('.contenedor-publicacion', () => {
-                $('.contenedor-publicacion').each(function () {
-                    const id = $(this).data('id');
-                    if (id) {
-                        id_publis.push(id);
-                    }
-                });
-                console.log("IDs de publicaciones cargadas:", id_publis);
-            });
 
             $.ajax({
                 url: 'controllers/IndexController.php',
@@ -156,8 +145,31 @@ $(document).ready(function () {
         observ.observe(contMain, { childList: true, subtree: true });
     }
 
+    // FUNCION 
+    function observarIdsPublicaciones(containerSelector, itemSelector) {
+        observarCarga(containerSelector, () => {
+            id_publis.length = 0;
+            $(`${containerSelector} ${itemSelector}`).each(function () {
+                const id = $(this).data('id');
+                if (id) id_publis.push(id);
+            });
+            console.log(`IDs cargados en ${containerSelector}:`, id_publis);
+        });
+
+        $(document).off(`mouseover.${itemSelector}`);
+        $(document).on(`mouseover.${itemSelector}`, `${itemSelector} a`, function () {
+            const cont = $(this).closest(itemSelector);
+            const id = cont.data('id');
+            if (id && id_publis.includes(id)) {
+                console.log(`ID seleccionado en ${containerSelector}:`, id);
+                sessionStorage.setItem('id_publi', id);
+            }
+        });
+
+    }
     // MANEJAR RUTAS
     function manejarRuta(ruta_actual) {
+
         console.log("Ruta actual desde manejarRuta:", ruta_actual);
 
         // INDEX
@@ -168,15 +180,7 @@ $(document).ready(function () {
                     cargarPublicacionesIndex();
                     detectarFinDePagina();
 
-                    $(document).on('mouseover', '.contenedor-publicacion a', function () {
-                        const contenedor = $(this).closest('.contenedor-publicacion');
-                        id_publi = contenedor.data('id');
-                    
-                        if (id_publi && id_publis.includes(id_publi)) {
-                            console.log("ID de publicación seleccionado antes del click:", id_publi);
-                            sessionStorage.setItem('id_publi', id_publi);
-                        }
-                    });
+                    observarIdsPublicaciones('#contenedor-principal', '.contenedor-publicacion');
 
                 }
             });
@@ -185,6 +189,11 @@ $(document).ready(function () {
         // LOGIN
         else if (ruta_actual === '/HabitaRoom/login') {
             observarCarga('#form_login', validarFormularioLogin);
+        }
+
+        // PERFIL
+        else if (ruta_actual === '/HabitaRoom/perfil') {
+            observarIdsPublicaciones('#contenidoPerfil', '.contenedor-publicacion');
         }
 
         // CREAR PUBLICACION
@@ -219,7 +228,7 @@ $(document).ready(function () {
 
             const id = sessionStorage.getItem('id_publi');
             console.log("ID de publicación desde sessionStorage:", id);
-            
+
             // Hacemos la solicitud AJAX para obtener la publicación
             $.ajax({
                 url: 'controllers/PublicacionUsuarioController.php',
@@ -236,9 +245,14 @@ $(document).ready(function () {
                     $('#contenidoMain').html("<p>Error al cargar la publicación. Intenta nuevamente.</p>");
                 }
             });
-        } else {
-            console.error("ID de publicación no encontrado o inválido en la URL");
-            $('#contenidoMain').html("<p>La publicación no existe o la URL es incorrecta.</p>");
+        }
+
+        // OFERTAS
+        else if (ruta_actual === '/HabitaRoom/ofertas') {
+            observarIdsPublicaciones('#ofertasContainer', '.offerContenedorPublicacion');
+        }
+        else {
+            console.warn("Ruta no manejada:", ruta_actual);
         }
     }
 
@@ -249,7 +263,8 @@ $(document).ready(function () {
 
     const ruta_actual = window.location.pathname;
     const id_publis = [];
-    var id_publi = null; 
+    const id = null;
+    var id_publi = null;
 
     cargarPagina(ruta_actual);
     manejarRuta(ruta_actual);

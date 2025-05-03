@@ -34,7 +34,7 @@
 3. **Filtros por categorías** 🏘️: Permite filtrar por habitantes, particulares o empresas. Los filtros adicionales están disponibles por características de la vivienda.
 4. **Feed de anuncios** 📰: Los anuncios se cargan dinámicamente cada 5 publicaciones.
 5. **Página de Guardados** 💾: Muestra las publicaciones guardadas por el usuario.
-6. **Página de Novedades** 📢: Muestra las notificaciones de nuevas habitaciones libres en función de la ubicación del usuario.
+6. **Página de Ofertas** 📢: Los usuarios podrán ver una lista de ofertas destacadas y filtrarlas por precio.
 7. **Mensajería** 💬: Los usuarios pueden comunicarse directamente con los anunciantes a través de un sistema de chat. Los mensajes son gestionados mediante una burbuja de chat que organiza los mensajes recibidos y enviados.
 8. **Publicación de anuncios** 📣: Los usuarios pueden crear y publicar anuncios con detalles sobre la vivienda.
 
@@ -77,21 +77,21 @@ HabitaRoom
 │   ├── RegisterController.php  
 │   ├── CrearPublicacionController.php  
 │   ├── GuardadosController.php  
-│   ├── NovedadesController.php  
+│   ├── OfertasController.php  
 │   ├── LoginController.php  
 │  
 │── /models  
-│   ├── IndexModel.php  
+│   ├── ModelObtenerPublicaciones.php  
 │   ├── RegisterModel.php  
 │   ├── CrearPublicacionModel.php  
 │   ├── GuardadosModel.php  
-│   ├── NovedadesModel.php  
+│   ├── OfertasModel.php  
 │   ├── LoginModel.php  
 │  
 │── /views  
 │   ├── IndexView.php  
 │   ├── RegisterView.php  
-│   ├── NovedadesView.php  
+│   ├── OfertasView.php  
 │   ├── CrearPublicacionView.php  
 │   ├── GuardadosView.php  
 │   ├── LoginView.php  
@@ -112,5 +112,5 @@ Para poder realizar ésto el usuario deberá crearse una cuenta en la web, ésto
 
 Para los publicistas, la sección publicación permite **crear una publicación** si así el usuario lo quisiese. Con los detalles que él usuario necesite, si es una habitación o un particular o si el usuario fuese una empresa.
 
-**Novedades**, la cual siempre será visible con lás útlimas publicaciónes en toda España a diferencia de **Inicio** que tendrá las publicaciones filtradas por la ubicación del usuario, la cual se solicitará al entrar a la web.
+**Ofertas**, la cual siempre será visible con las mejores publicaciones por precio a diferencia de **Inicio** que tendrá las publicaciones filtradas por la ubicación del usuario, la cual se solicitará al entrar a la web.
 

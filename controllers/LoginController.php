@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../models/User.php';
+require_once '../models/ModelUsuario.php';
 
 class LoginController
 {
@@ -15,7 +15,7 @@ class LoginController
     // Función para iniciar sesión
     public function login($email, $password)
     {
-        $userModel = new Usuario();
+        $userModel = new ModelUsuario();
         $user = $userModel->obtenerUsuarioEmail($email);
 
         $respuesta = ['status' => false];

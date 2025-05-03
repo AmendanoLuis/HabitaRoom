@@ -67,10 +67,10 @@
                         </a>
                     </li>
 
-                    <!-- Novedades -->
+                    <!-- Ofertas -->
                     <li class="nav-item">
-                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/novedades') ? 'active' : ''; ?>" href="/HabitaRoom/novedades">
-                            <i class="d-lg-none d-inline bi bi-postcard"></i> Novedades
+                        <a class="nav-link <?php echo ($activeRoute === '/HabitaRoom/ofertas') ? 'active' : ''; ?>" href="/HabitaRoom/ofertas">
+                            <i class="d-lg-none d-inline bi bi-postcard"></i> Ofertas
                         </a>
                     </li>
 

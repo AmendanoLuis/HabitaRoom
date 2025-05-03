@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/User.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelUsuario.php';
 
 class RegistroController
 {
@@ -86,7 +86,7 @@ class RegistroController
             if (empty($foto_perfil)) $errores[] = "Hubo un problema al subir la foto de perfil.";
 
             // Crear una instancia del modelo Usuario
-            $usuario = new Usuario();
+            $usuario = new ModelUsuario();
 
             // Verificar si el correo electrónico ya existe
             if ($usuario->obtenerUsuarioEmail($correo_electronico)) {

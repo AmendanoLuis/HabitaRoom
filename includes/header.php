@@ -55,8 +55,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/novedades">
-                            <i class="d-lg-none d-inline bi bi-postcard"></i> Novedades
+                        <a class="nav-link" href="/ofertas">
+                            <i class="d-lg-none d-inline bi bi-postcard"></i> Ofertas
                         </a>
                     </li>
                     <li class="nav-item">

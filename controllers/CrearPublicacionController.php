@@ -1,6 +1,6 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/PublicacionModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelInsertarPublicacion.php';
 
 class CrearPublicacionController
 {
@@ -9,7 +9,7 @@ class CrearPublicacionController
 
     public function __construct()
     {
-        $this->model = new PublicacionModel();
+        $this->model = new ModelInsertarPublicacion();
     }
     public function cargarFormulario()
     {

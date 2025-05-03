@@ -1,7 +1,7 @@
 <?php
 
 // Incluir el controlador principal
-require '../models/IndexModel.php';
+require '../models/ModelObtenerPublicaciones.php';
 require_once  '../controllers/IndexController.php';
 
 $filtros = $_POST;

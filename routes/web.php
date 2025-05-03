@@ -3,7 +3,7 @@
 return [
     '/HabitaRoom/index.php' => 'IndexController@cargarPagina',
     '/HabitaRoom/index' => 'IndexController@cargarPagina',
-    '/HabitaRoom/novedades' => 'NovedadesController@cargarNovedades',
+    '/HabitaRoom/ofertas' => 'OfertasController@cargarOfertas',
     '/HabitaRoom/crearpublicacion' => 'CrearPublicacionController@cargarFormulario',
     '/HabitaRoom/guardados' => 'GuardadosController@cargarGuardados',
     '/HabitaRoom/perfil' => 'PerfilController@cargarPerfil',

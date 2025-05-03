@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_SESSION['id'])) {
-    $userModel = new Usuario();
+    $userModel = new ModelUsuario();
     $usuario = $userModel->obtenerUsuarioId($_SESSION['id']);
 
     $publicaciones = $userModel->obtenerPublicacionesUsuario($usuario->id);
@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
 
 ?>
 
-<div class="container w-75 text-dark my-5 d-flex flex-column justify-content-center z-0">
+<div class="container w-75 text-dark my-5 d-flex flex-column justify-content-center z-0" id="contenidoPerfil">
 
     <!-- Encabezado del perfil -->
     <div class="profile-header bg-light rounded text-center shadow-lg mt-5   m-3 p-3 d-flex">
@@ -111,10 +111,12 @@ if (isset($_SESSION['id'])) {
         </div>
         <hr>
 
+        <!-- Publicaciones del usuario -->
         <div class="row">
             <?php foreach ($publicaciones as $publicacion): ?>
-                <div class="col-4">
-                    <a href="/HabitaRoom/publicacionusuario" class="contenedor-publicacion" data-id="<?php echo $publicacion->id_publicacion; ?>">
+                <div class="col-4  contenedor-publicacion">
+                    
+                    <a href="/HabitaRoom/publicacionusuario" class="contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
                         <div class="my-2 mx-auto" id="cont_img_publi_perfil">
                             <?php
                             $imagenes = json_decode($publicacion->fotos, true);

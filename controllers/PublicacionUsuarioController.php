@@ -1,6 +1,6 @@
 <?php
 
-require_once '../models/PublicacionUsuario.php';
+require_once '../models/ModelPublicacion.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -14,7 +14,7 @@ class PublicacionUsuarioController
             die('ID inválido');
         }
 
-        $modelo = new PubicacionUsuario();
+        $modelo = new ModelPublicacion();
 
         $publicacion = $modelo->obtenerPublicacionPorId($id);
 
