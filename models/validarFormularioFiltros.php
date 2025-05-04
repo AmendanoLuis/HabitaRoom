@@ -57,7 +57,7 @@ if (isset($filtros['estado']) && is_array($filtros['estado'])) {
 
 if (isset($filtros['caracteristicas']) && is_array($filtros['caracteristicas'])) {
 
-    $caract_validos = ['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'acondicionado', 'calefaccion'];
+    $caract_validos = ['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'];
 
     foreach ($filtros['caracteristicas'] as $caract) {
         if (!in_array($caract, $caract_validos)) {

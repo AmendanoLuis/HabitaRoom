@@ -1,32 +1,3 @@
-<?php
-
-$tipo_inmueble = '';
-$precio_min = '';
-$precio_max = '';
-$habitaciones = '';
-$banos = '';
-$estado = '';
-$caracteristicas = [];
-
-if (isset($_COOKIE['filtros']) && $_COOKIE['enviar_filtros'] ) {
-    $datos_filtros = json_decode($_COOKIE['filtros'], true);
-    if (json_last_error() === JSON_ERROR_NONE) {
-        $tipo_inmueble = $datos_filtros['tipo-inmueble-desp'];
-
-        $precio_min = $datos_filtros['precio-min-desp'];
-        $precio_max = $datos_filtros['precio-max-desp'];
-
-        $habitaciones = isset($datos_filtros['habitaciones']) ? $datos_filtros['habitaciones'] : '';
-        $banos = isset($datos_filtros['banos']) ? $datos_filtros['banos'] : '';
-        $estado = isset($datos_filtros['estado']) ? $datos_filtros['estado'] : '';
-
-        $caracteristicas = isset($_POST['caracteristicas']) ? $_POST['caracteristicas'] : [];
-    } else {
-        echo "Error al decodificar las cookies.";
-    }
-} 
-?>
-
 <div class="container-fluid ">
     <div class="row ">
 
@@ -38,8 +9,8 @@ if (isset($_COOKIE['filtros']) && $_COOKIE['enviar_filtros'] ) {
                 <div class="col ">
 
                     <!-- Categorias -->
-                    <div class="mt-5 px-5 mb-4   ">
-                        <h4 class="mb-3">Categoria Publicaciones</h4>
+                    <div class="mt-5 pt-5 px-5 mb-4   ">
+                        <h4 class="mt-4 my-3">Categoria Publicaciones</h4>
 
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-desk"
@@ -58,181 +29,137 @@ if (isset($_COOKIE['filtros']) && $_COOKIE['enviar_filtros'] ) {
                     <hr class="text-dark">
                     <!-- Filtros -->
                     <div class="d-lg-block d-none text-dark mb-2 z-3">
+
+
                         <!-- Formulario Filtros -->
-                        <form class="ps-4 " id="form-filtros-desp" method="POST">
-                            <div class="container ps-lg-2 p-1">
-                                <!-- Tipo Inmueble -->
-                                <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
-                                <select class="form-select" id="tipo-inmueble-desp" name="tipo-inmueble-desp">
-                                    <option value="Seleccionar" <?php echo ($tipo_inmueble == 'Seleccionar') ? 'selected' : ''; ?>>Seleccionar</option>
-                                    <option value="alquiler" <?php echo ($tipo_inmueble == 'alquiler') ? 'selected' : ''; ?>>Alquiler</option>
-                                    <option value="venta" <?php echo ($tipo_inmueble == 'venta') ? 'selected' : ''; ?>>Venta</option>
-                                    <option value="oficina" <?php echo ($tipo_inmueble == 'oficina') ? 'selected' : ''; ?>>Oficina</option>
-                                </select>
+                        <form id="form-filtros-desp" method="POST" class="ps-4">
+                            <!-- Tipo Inmueble -->
+                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
+                            <select class="form-select" id="tipo_inmueble" name="tipo_inmueble">
+                                <option value="">Seleccionar</option>
+                                <option value="alquiler">Alquiler</option>
+                                <option value="venta">Venta</option>
+                                <option value="oficina">Oficina</option>
+                            </select>
 
-                                <!-- Precio Inmueble -->
-                                <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
-                                <div class="row">
-                                    <div class="col">
-                                        <select class="form-select" id="precio-min-desp" name="precio-min-desp">
-                                            <option value="500" <?php echo ($precio_min == '500') ? 'selected' : ''; ?>>500</option>
-                                            <option value="1000" <?php echo ($precio_min == '1000') ? 'selected' : ''; ?>>1000</option>
-                                            <option value="2000" <?php echo ($precio_min == '2000') ? 'selected' : ''; ?>>2000</option>
-                                            <option value="3000" <?php echo ($precio_min == '3000') ? 'selected' : ''; ?>>3000</option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select" id="precio-max-desp" name="precio-max-desp">
-                                            <option value="5000" <?php echo ($precio_max == '5000') ? 'selected' : ''; ?>>5000</option>
-                                            <option value="10000" <?php echo ($precio_max == '10000') ? 'selected' : ''; ?>>10000</option>
-                                            <option value="15000" <?php echo ($precio_max == '15000') ? 'selected' : ''; ?>>15000</option>
-                                            <option value="20000" <?php echo ($precio_max == '20000') ? 'selected' : ''; ?>>20000</option>
-                                        </select>
-                                    </div>
+                            <!-- Precio Inmueble -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-select" id="precio_min" name="precio_min">
+                                        <option value="">Min.</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                        <option value="2000">2000</option>
+                                        <option value="3000">3000</option>
+                                    </select>
                                 </div>
-
-                                <!-- Habitaciones -->
-                                <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitación / Habitaciones</h5>
-                                <div class="btn-group" role="group" aria-label="Grupo de habitaciones">
-                                    <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-1"
-                                        value="1" autocomplete="off" <?php echo ($habitaciones == '1') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="hab-desp-1">1</label>
-
-                                    <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-2"
-                                        value="2" autocomplete="off" <?php echo ($habitaciones == '2') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="hab-desp-2">+2</label>
-
-                                    <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-3"
-                                        value="3" autocomplete="off" <?php echo ($habitaciones == '3') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="hab-desp-3">+3</label>
-
-                                    <input type="radio" class="btn-check" name="habitaciones" id="hab-desp-4"
-                                        value="4" autocomplete="off" <?php echo ($habitaciones == '4') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="hab-desp-4">+4</label>
-                                </div>
-
-                                <!-- Baños -->
-                                <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
-                                <div class="btn-group" role="group" aria-label="Grupo de baños">
-                                    <input type="radio" class="btn-check" name="banos" id="bano-desp-1"
-                                        value="1" autocomplete="off" <?php echo ($banos == '1') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="bano-desp-1">1</label>
-
-                                    <input type="radio" class="btn-check" name="banos" id="bano-desp-2"
-                                        value="2" autocomplete="off" <?php echo ($banos == '2') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="bano-desp-2">+2</label>
-
-                                    <input type="radio" class="btn-check" name="banos" id="bano-desp-3"
-                                        value="3" autocomplete="off" <?php echo ($banos == '3') ? 'checked' : ''; ?>>
-                                    <label class="btn btn-outline-primary" for="bano-desp-3">+3</label>
-                                </div>
-
-                                <!-- Estado inmueble -->
-                                <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Estado</h5>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="estado-desp-1"
-                                                name="estado" value="nuevo" <?php echo ($estado == 'nuevo') ? 'checked' : ''; ?>>
-                                            <label class="form-check-label" for="estado-desp-1">Nuevo</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="estado-desp-2"
-                                                name="estado" value="semi-nuevo" <?php echo ($estado == 'semi-nuevo') ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="estado-desp-2">Semi-nuevo</label>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="estado-desp-3"
-                                                name="estado" value="usado" <?php echo ($estado == 'usado') ? 'checked' : ''; ?>>
-                                            <label class="form-check-label" for="estado-desp-3">Usado</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="estado-desp-4"
-                                                name="estado" value="renovado" <?php echo ($estado == 'renovado') ? 'checked' : ''; ?>>
-                                            <label class="form-check-label" for="estado-desp-4">Renovado</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Características -->
-                                <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
-                                <div class="row">
-
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-1" name="caracteristicas[]"
-                                                value="ascensor" <?php echo (in_array('ascensor', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-1">Ascensor</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-2" name="caracteristicas[]"
-                                                value="piscina" <?php echo (in_array('piscina', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-2">Piscina</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-3" name="caracteristicas[]"
-                                                value="gimnasio" <?php echo (in_array('gimnasio', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-3">Gimnasio</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-4" name="caracteristicas[]"
-                                                value="garaje" <?php echo (in_array('garaje', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-4">Garaje</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-5" name="caracteristicas[]"
-                                                value="terraza" <?php echo (in_array('terraza', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-5">Terraza</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-6" name="caracteristicas[]"
-                                                value="jardin" <?php echo (in_array('jardin', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-6">Jardín</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-7" name="caracteristicas[]"
-                                                value="acondicionado" <?php echo (in_array('acondicionado', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label" for="caracteristica-desp-7">Aire
-                                                acondicionado</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="caracteristica-desp-8" name="caracteristicas[]"
-                                                value="calefaccion" <?php echo (in_array('calefaccion', $caracteristicas)) ? 'checked' : ''; ?>>
-                                            <label class="form-check-label"
-                                                for="caracteristica-desp-8">Calefacción</label>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- Boton Aplicar Filtros -->
-                                <div class="d-grid gap-2 mt-3">
-                                    <button type="submit" id="enviar-formulario-desp"
-                                        class="btn btn-primary">Aplicar Filtros</button>
+                                <div class="col">
+                                    <select class="form-select" id="precio_max" name="precio_max">
+                                        <option value="">Max.</option>
+                                        <option value="5000">5000</option>
+                                        <option value="10000">10000</option>
+                                        <option value="15000">15000</option>
+                                        <option value="20000">20000</option>
+                                    </select>
                                 </div>
                             </div>
+
+                            <!-- Habitaciones -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitaciones</h5>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab-1" value="1">
+                                <label class="btn btn-outline-primary" for="hab-1">1</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab-2" value="2">
+                                <label class="btn btn-outline-primary" for="hab-2">+2</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab-3" value="3">
+                                <label class="btn btn-outline-primary" for="hab-3">+3</label>
+
+                                <input type="radio" class="btn-check" name="habitaciones" id="hab-4" value="4">
+                                <label class="btn btn-outline-primary" for="hab-4">+4</label>
+                            </div>
+
+                            <!-- Baños -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="banos" id="bano-1" value="1">
+                                <label class="btn btn-outline-primary" for="bano-1">1</label>
+
+                                <input type="radio" class="btn-check" name="banos" id="bano-2" value="2">
+                                <label class="btn btn-outline-primary" for="bano-2">+2</label>
+
+                                <input type="radio" class="btn-check" name="banos" id="bano-3" value="3">
+                                <label class="btn btn-outline-primary" for="bano-3">+3</label>
+                            </div>
+
+                            <!-- Estado inmueble -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Estado</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-nuevo" value="nuevo">
+                                <label class="form-check-label" for="estado-nuevo">Nuevo</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-semi" value="semi-nuevo">
+                                <label class="form-check-label" for="estado-semi">Semi-nuevo</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-usado" value="usado">
+                                <label class="form-check-label" for="estado-usado">Usado</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-renovado" value="renovado">
+                                <label class="form-check-label" for="estado-renovado">Renovado</label>
+                            </div>
+
+                            <!-- Características -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-ascensor" value="ascensor">
+                                        <label class="form-check-label" for="carac-ascensor">Ascensor</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-piscina" value="piscina">
+                                        <label class="form-check-label" for="carac-piscina">Piscina</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-gimnasio" value="gimnasio">
+                                        <label class="form-check-label" for="carac-gimnasio">Gimnasio</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-garaje" value="garaje">
+                                        <label class="form-check-label" for="carac-garaje">Garaje</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-terraza" value="terraza">
+                                        <label class="form-check-label" for="carac-terraza">Terraza</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-jardin" value="jardin">
+                                        <label class="form-check-label" for="carac-jardin">Jardín</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-acondicionado" value="aire_acondicionado">
+                                        <label class="form-check-label" for="carac-acondicionado">Aire acondicionado</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-calefaccion" value="calefaccion">
+                                        <label class="form-check-label" for="carac-calefaccion">Calefacción</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botón Aplicar Filtros -->
+                            <div class="d-grid gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                            </div>
                         </form>
+
 
                     </div>
                 </div>

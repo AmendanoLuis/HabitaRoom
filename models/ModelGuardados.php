@@ -19,7 +19,7 @@ class ModelGuardados{
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error en insertarGuardados: " . $e->getMessage());
-            return false;
+            return $e->getMessage(); // Retorna el mensaje de error
         }
     }
 
@@ -34,7 +34,8 @@ class ModelGuardados{
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log("Error en quitarGuardado: " . $e->getMessage());
-            return false;
+            return $e->getMessage(); // Retorna el mensaje de error
+
         }
     }
 }

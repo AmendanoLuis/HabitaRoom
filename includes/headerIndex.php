@@ -239,7 +239,7 @@
                                     <label class="form-check-label" for="caracteristica-lateral-6">Jardín</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="caracteristica-lateral-7" name="caracteristicas[]" value="acondicionado">
+                                    <input class="form-check-input" type="checkbox" id="caracteristica-lateral-7" name="caracteristicas[]" value="aire_acondicionado">
                                     <label class="form-check-label" for="caracteristica-lateral-7">Aire acondicionado</label>
                                 </div>
                                 <div class="form-check">

@@ -1,12 +1,18 @@
 <!-- PUBLICACION -->
 <?php if ($publicaciones): ?>
-
     <?php
     foreach ($publicaciones as $publicacion):
-        $isGuardado = in_array($publicacion->id, $publicaciones_guardadas) ? true : false; 
-    
-    ?>
 
+        $ids_guardados = array_map(
+            function ($pub) {
+                return $pub->id;
+            },
+            $publicaciones_guardadas
+        );
+
+        $isGuardado = in_array($publicacion->id, $ids_guardados);
+
+    ?>
         <div class="card mb-4 shadow mx-auto ms-5 contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
             <!-- Enlace solo para la parte que debe ser clicable -->
             <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="text-decoration-none text-reset">
@@ -88,16 +94,27 @@
                 </div>
             </a>
 
-            <div class="icono-guardar position-absolute top-0 end-0 m-3 me-4 z-999" 
-            id="icono-guardar"
-            data-id-publicacion="<?php echo $publicacion->id; ?>">
+            <div class="icono-guardar position-absolute top-0 end-0 m-3 me-4 z-999"
+                id="icono-guardar"
+                data-id-publicacion="<?php echo $publicacion->id; ?>">
                 <i class="guardar-icono fs-3 bi <?php echo $isGuardado ? 'bi-bookmark-fill text-warning' : 'bi-bookmark'; ?>"
                     style="cursor: pointer;"></i>
             </div>
         </div>
     <?php endforeach; ?>
 <?php else: ?>
-    <div class="alert alert-warning" role="alert">
-        No hay publicaciones disponibles.
+    <div class="alert alert-warning w-75 mx-auto" role="alert">
+        <?php if (!empty($filtros)): ?>
+            <div class="text-center">
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>No se encontraron resultados</h4>
+                <p class="mb-3">No se encontraron publicaciones que coincidan con los filtros aplicados.</p>
+            </div>
+        <?php else: ?>
+            <div class="text-center">
+                <h4 class="alert-heading"><i class="bi bi-info-circle-fill me-2"></i>Sin publicaciones disponibles</h4>
+                <p>Actualmente no hay publicaciones para mostrar.</p>
+            </div>
+        <?php endif; ?>
+
     </div>
 <?php endif; ?>

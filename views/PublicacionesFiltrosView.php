@@ -87,6 +87,16 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="alert alert-warning" role="alert">
-                    No hay publicaciones disponibles.
+                    No se encontraron publicaciones que coincidan con los filtros aplicados.
+                    <?php if (!empty($filtros)): ?>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Filtros aplicados:</strong>
+                            <ul>
+                                <?php foreach ($filtros as $clave => $valor): ?>
+                                    <li><?php echo htmlspecialchars($clave); ?>: <?php echo htmlspecialchars($valor); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>

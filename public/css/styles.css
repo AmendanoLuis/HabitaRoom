@@ -1,12 +1,10 @@
-
 /* //////////////////////////////////////////////////////////////////////////
    ESTILO GENERAL
 ////////////////////////////////////////////////////////////////////////// 
 */
-.contenidoMain{
+.contenidoMain {
     min-height: 100vh;
 }
-
 
 /* LOGIN */
 #cont_logo {
@@ -94,27 +92,50 @@
     background-color: #ffffff;
 }
 
-/* FILTROS */
+/*
+//////////////////////////////////////////////////////////////////////////
+    FILTROS
+////////////////////////////////////////////////////////////////////////// 
+*/
 
-#form-filtros-desp {
+/* Contenedor fijo con scroll */
+#row_filtros {
+    top: 0;
+    bottom: 0;
     height: 100vh;
-    overflow-y: auto;
-    padding-right: 15px;
+    overflow: hidden;
+    transition: overflow 0.3s ease;
 }
 
-/* SCROLL BAR*/
+/* Al pasar el ratón por el área, se permite el scroll */
+#row_filtros:hover {
+    overflow: auto;
+}
+
+/* Scroll personalizado */
+#form-filtros-desp {
+    height: 100%;
+    padding-right: 15px;
+    overflow-y: auto;
+}
+
+/*
+//////////////////////////////////////////////////////////////////////////
+    SCROLL PERSONALIZADO
+////////////////////////////////////////////////////////////////////////// 
+*/
 
 /* Ancho */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
-/* Color de fondo */
+/* Fondo del scroll */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
-/* Scroll Bar */
+/* Scroll handle */
 ::-webkit-scrollbar-thumb {
     background: #999;
 }
@@ -123,9 +144,12 @@
     background: #666;
 }
 
-/* PUBLICACION */
+/*
+//////////////////////////////////////////////////////////////////////////
+    PUBLICACION
+////////////////////////////////////////////////////////////////////////// 
+*/
 
-/* Ajusta la altura de las tarjetas de publicación */
 .card.contenedor-publicacion {
     height: auto;
     display: flex;
@@ -301,8 +325,6 @@
     display: block;
 }
 
-
-
 /*
 //////////////////////////////////////////////////////////////////////////
     ESTILO DE LA SECCION OFERTAS Y GUARDADOS
@@ -317,6 +339,7 @@
 }
 
 @media (min-width: 768px) {
+
     .offer-wrapper,
     .saved-wrapper {
         width: 80%;
@@ -415,14 +438,12 @@
     margin-bottom: 1rem;
 }
 
-
 /* BOTONES */
 .offer-card .btn,
 .saved-card .btn {
     font-size: 0.8rem;
     padding: 0.4rem 0.6rem;
 }
-
 
 /*
 
@@ -468,7 +489,6 @@ ESTILO DE LA SECCION PERFIL USUARIO
     object-position: center;
 }
 
-
 /*
 
 //////////////////////////////////////////////////////////////////////////
@@ -483,7 +503,7 @@ ESTILO DE LA SECCION DE CARGANDO
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -500,6 +520,11 @@ ESTILO DE LA SECCION DE CARGANDO
 }
 
 @keyframes girar {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -1,6 +1,6 @@
-import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
-import { detectarFinDePagina, guardarPublicacion } from '../public/js/index.js';
 import { mostrarCargando, ocultarCargando } from '../public/js/loadingPage.js';
+import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
+import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros } from '/HabitaRoom/public/js/index.js';
 
 $(document).ready(function () {
 
@@ -11,39 +11,39 @@ $(document).ready(function () {
         try {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-    
+
             const data = { site: url };
             if (id) {
                 data.id = id;
             }
-    
+
             mostrarCargando();
-    
+
             const response = await $.ajax({
                 url: 'routes/redireccionWeb.php',
                 type: 'POST',
                 data: data
             });
-    
+
             if (response.includes('<!DOCTYPE html>')) {
                 console.warn("Respuesta no válida para AJAX, parece una página completa.");
                 return;
             }
-    
+
             $('#contenidoMain').html(response);
-    
+
             if (url === '/HabitaRoom/index' || url === '/HabitaRoom/index.php') {
                 asignarEventosFormularios();
+                cargarFiltros();
             }
-    
+
         } catch (error) {
             console.error('Error al cargar el contenido: ', error);
         } finally {
-            // Ocultar loading
             ocultarCargando();
         }
     }
-    
+
 
 
     // CARGAR PUBLICACIONES EN INDEX
@@ -72,59 +72,10 @@ $(document).ready(function () {
     function asignarEventosFormularios() {
         $(document).on("submit", "#form-filtros-desp", function (event) {
             event.preventDefault();
+
             console.log("Formulario desp enviado.");
-
-            validarFormularioFiltros('#form-filtros-desp');
-            guardarFiltrosEnCookies("#form-filtros-desp");
+            procesarFormularioFiltros(this);
         });
-    }
-
-    // VALIDAR FORMULARIO FILTROS
-    async function validarFormularioFiltros(formulario) {
-        const $formulario = $(formulario);
-        console.log("Validando formulario: ", formulario);
-
-        try {
-            mostrarCargando();
-
-            const response = await $.ajax({
-                url: 'models/validarFormularioFiltros.php',
-                type: 'POST',
-                data: $formulario.serialize()
-            });
-
-            $('#contenedor-principal').html(response);
-        } catch (error) {
-            console.error('Error en la validación Filtros:', error);
-            alert("Ocurrió un error al procesar la solicitud.");
-        } finally {
-            ocultarCargando();
-        }
-    }
-
-
-    // GUARDAR FILTROS EN COOKIES
-    function guardarFiltrosEnCookies(formulario) {
-        const filtros = {};
-        const form = $(formulario);
-
-        form.find('input[type="text"], input[type="number"], select').each(function () {
-            const name = $(this).attr('name');
-            const value = $(this).val();
-            if (name) {
-                filtros[name] = value;
-            }
-        });
-
-        form.find('input[type="checkbox"]:checked').each(function () {
-            const name = $(this).attr('name');
-            if (name) {
-                if (!filtros[name]) filtros[name] = [];
-                filtros[name].push($(this).val());
-            }
-        });
-
-        Cookies.set('filtros', JSON.stringify(filtros), { expires: 1 });
     }
 
     // VALIDAR FORMULARIO LOGIN
@@ -224,6 +175,8 @@ $(document).ready(function () {
                     observarIdsPublicaciones('#contenedor-principal', '.contenedor-publicacion');
 
                     accionGuardar(ruta_actual);
+
+
                 }
             });
         }
