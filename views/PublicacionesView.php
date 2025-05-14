@@ -57,7 +57,7 @@
                             <?php echo number_format((float)$publicacion->precio, 2, ',', '.') . " €"; ?>
                         </h2>
 
-                        <h4 class="tituloPubli"><?php echo htmlspecialchars($publicacion->titulo); ?></h4>
+                        <h4 class="tituloPubli"><?php echo htmlspecialchars(ucfirst(strtolower($publicacion->titulo))); ?></h4>
 
                         <p class="text-muted ubicacionVivPubli"><?php echo htmlspecialchars($publicacion->ubicacion); ?></p>
 
