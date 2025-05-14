@@ -28,11 +28,11 @@ class IndexController
         session_start();
         // Verificar si el usuario está autenticado
         if (!isset($_SESSION['id'])) {
-            echo json_encode([
-                'status' => 'error',
+            /* echo json_encode([
+            'status' => 'error',
                 'message' => 'Usuario no autenticado'
-            ]);
-            exit;
+            ]); 
+            exit;*/
         }
         // Obtener las publicaciones
         $publicaciones = $this->model->obtenerPublicaciones();

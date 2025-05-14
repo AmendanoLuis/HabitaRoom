@@ -5,11 +5,13 @@ require_once '../models/ModelGuardados.php';
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['id'])) {
-    echo json_encode([
+/*     echo json_encode([
         'status' => 'error',
         'message' => 'Usuario no autenticado'
     ]);
-    exit;
+ */    require_once '../views/ViewErrorGuardados.php';
+     exit;
+
 }
 
 class GuardadosController
@@ -18,6 +20,9 @@ class GuardadosController
     // Método para cargar las publicaciones guardadas
     public function cargarGuardados()
     {
+        if (!isset($_SESSION['id'])) {
+        }
+        
         // Cargar el modelo de ofertas
         $publicacionesModel = new ModelObtenerPublicaciones();
 

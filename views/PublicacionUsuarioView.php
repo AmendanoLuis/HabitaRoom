@@ -3,8 +3,8 @@
 $imgs = !empty($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
 ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-9">
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-9 mt-4">
 
         <!-- Card principal -->
         <div class="card mb-4 shadow">

@@ -217,22 +217,18 @@ export function procesarFormularioCrearPublicacion() {
                     icon: 'success',
                     confirmButtonText: 'Ver mi anuncio'
                 }).then(() => {
-
-
-                    // CAMBIAR ESTO POR EL ID DEL ANUNCIO CREADO
-                    // Redirigir, a la lista de anuncios o perfil /HabitaRoom/mispublicacionesid=userid
-                    window.location.href = '/HabitaRoom/index';
-                
-                
-                
+                    window.location.href = '/HabitaRoom/publicacionusuario?id=' + resp.id_publicacion;
                 
                 });
             } else {
                 Swal.fire({
                     title: 'Error',
-                    text: resp.message || 'Hubo un problema al crear la publicación.',
+                    text: resp.message || 'No estás Registrado.\nPor favor, inicia sesión para continuar.',
                     icon: 'error',
-                    confirmButtonText: 'Intentar de nuevo'
+                    confirmButtonText: 'Registrarme'
+                }).then(() => {
+                    // Redirigir a la página de registro
+                    window.location.href = '/HabitaRoom/registro';
                 });
             }
             },

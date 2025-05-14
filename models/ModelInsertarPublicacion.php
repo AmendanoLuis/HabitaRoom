@@ -53,5 +53,7 @@ class ModelInsertarPublicacion
             ':fotos'              => $d['fotos'],
             ':videos'              => $d['videos']
         ]);
+        return $success ? $this->db->lastInsertId() : false;
+
     }
 }

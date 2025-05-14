@@ -116,7 +116,7 @@ class CrearPublicacionController
         session_start();
         $usuarioId = $_SESSION['id'] ?? null;
         if (!$usuarioId) {
-            throw new Exception('Usuario no autenticado.');
+            throw new Exception('No estás Registrado.\nPor favor, inicia sesión para continuar.');
         }
 
         // Recoger y sanear campos
@@ -166,10 +166,12 @@ class CrearPublicacionController
     {
         try {
             $datos = $this->prepararDatos();
-            $ok = $this->model->insertarPublicacion($datos);
+            $id_publicacion = $this->model->insertarPublicacion($datos);
+
             return [
-                'estado'  => $ok ? 'ok' : 'error',
-                'mensaje' => $ok ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
+                'estado'  => $id_publicacion ? 'ok' : 'error',
+                'mensaje' => $id_publicacion ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
+                'id_publicacion' => $id_publicacion,
                 'success' => true,
             ];
         } catch (\Exception $e) {
@@ -193,10 +195,10 @@ $controller = new CrearPublicacionController();
 if (isset($_POST['btn_crear_publi'])) {
     // Cabecera JSON
     header('Content-Type: application/json; charset=utf-8');
-    // Esto debe imprimir SOLO el JSON, nada más
+    
     echo json_encode($controller->validarFormulario());
     exit;
 } else {
-    // Lod’e la vista solo si es GET
+
     $controller->cargarFormulario();
 }
