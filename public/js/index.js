@@ -47,11 +47,14 @@ export function detectarFinDePagina() {
     });
 }
 
+////////////////////////////////////////////////////////////////
+// FUNCION PARA GUARDAR PUBLICACION
+////////////////////////////////////////////////////////////////
 export function guardarPublicacion(elemento, ruta_actual) {
 
     const icono = $(elemento).find("i");
     const id_publicacion = $(elemento).data("id-publicacion");
-    const esGuardado = $(elemento).find("i").hasClass("bi-bookmark-fill");
+    const esGuardado = icono.hasClass("bi-bookmark-fill");
 
     console.log("ID de publicación:", id_publicacion);
     console.log("Es guardado:", esGuardado);    
@@ -68,13 +71,27 @@ export function guardarPublicacion(elemento, ruta_actual) {
         success: function (response) {
 
             console.log("Respuesta del servidor:", response);
+
+            // ✅ Manejar caso no autenticado primero
+            if (response.auth === false) {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message || 'No estás registrado. Por favor, inicia sesión para continuar.',
+                    icon: 'error',
+                    confirmButtonText: 'Iniciar sesión'
+                }).then(() => {
+                    window.location.href = '/HabitaRoom/login';
+                });
+                return;
+            }
+
             if (response.status === "success") {
                 if (esGuardado) {
                     icono.removeClass("bi-bookmark-fill text-warning").addClass("bi-bookmark");
                     console.log("Publicación eliminada de favoritos.");
                 } else {
-                    console.log("Publicación guardada como favorita.");
                     icono.removeClass("bi-bookmark").addClass("bi-bookmark-fill text-warning");
+                    console.log("Publicación guardada como favorita.");
                 }
             } else {
                 console.error("Error al guardar la publicación:", response.message);
@@ -86,6 +103,7 @@ export function guardarPublicacion(elemento, ruta_actual) {
         }
     });
 }
+
 
 
 ////////////////////////////////////////////////////////////////

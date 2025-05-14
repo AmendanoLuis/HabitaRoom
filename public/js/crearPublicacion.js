@@ -204,12 +204,7 @@ export function procesarFormularioCrearPublicacion() {
         contentType: false,
         dataType: 'json',
         success(resp) {
-            console.log('Respuesta JSON parseada:', resp);
-
-            console.log('---- responseText crudo ----');
-            console.log('Success: ' +resp.success);
-            console.log('-----------------------------');
-
+            
             if (resp.success) {
                 Swal.fire({
                     title: '¡Publicación creada!',

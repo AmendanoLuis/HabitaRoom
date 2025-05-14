@@ -1,3 +1,5 @@
+<?php if (isset($_SESSION['id'])): ?>
+
 <div class="saved-wrapper mx-auto" id="guardadosContainer">
 
   <!-- Contenido de los guardados -->
@@ -67,11 +69,12 @@
           </div>
         <?php endforeach; ?>
       <?php else: ?>
-        <div class="alert alert-warning" role="alert">
-          No tienes guardados.
-        </div>
+          <div class="alert alert-info" role="alert">
+            No tienes guardados.
+          </div>
       <?php endif; ?>
 
     </div>
   </div>
 </div>
+<?php endif; ?>

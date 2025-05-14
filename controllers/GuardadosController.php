@@ -2,18 +2,6 @@
 require_once '../models/ModelObtenerPublicaciones.php';
 require_once '../models/ModelGuardados.php';
 
-session_start();
-// Verificar si el usuario está autenticado
-if (!isset($_SESSION['id'])) {
-/*     echo json_encode([
-        'status' => 'error',
-        'message' => 'Usuario no autenticado'
-    ]);
- */    require_once '../views/ViewErrorGuardados.php';
-     exit;
-
-}
-
 class GuardadosController
 {
 
@@ -21,6 +9,7 @@ class GuardadosController
     public function cargarGuardados()
     {
         if (!isset($_SESSION['id'])) {
+            require_once '../views/ViewErrorGuardados.php';
         }
         
         // Cargar el modelo de ofertas
@@ -37,14 +26,20 @@ class GuardadosController
 // -----------------------------------------------------------
 // Controlador para manejar la acción de guardar o quitar guardado
 // -----------------------------------------------------------
-$id_usuario    = $_SESSION['id'];
+session_start();
+if (!isset($_SESSION['id'])) {
+    return json_encode([
+        'status' => 'error',
+        'auth' => false,
+        'message' => 'No estás autenticado. Inicia sesión para continuar.'
+    ]);
+    ;
+}
+$id_usuario = $_SESSION['id'];
 $id_publicacion = $_POST['id_publicacion'] ?? null;
 
-
 $guardar = isset($_POST['guardar']) ? filter_var($_POST['guardar'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false;
-
 $path = $_POST['rutaGuardar'] ?? null;
-
 
 if ($path === '/HabitaRoom/index') {
     if (!$id_publicacion) {
