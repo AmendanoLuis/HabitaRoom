@@ -1,6 +1,6 @@
 import { mostrarCargando, ocultarCargando } from '../public/js/loadingPage.js';
 import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
-import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros } from '/HabitaRoom/public/js/index.js';
+import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral } from '/HabitaRoom/public/js/index.js';
 
 $(document).ready(function () {
 
@@ -169,13 +169,17 @@ $(document).ready(function () {
         if (ruta_actual === '/HabitaRoom/index' || ruta_actual === '/HabitaRoom/index.php') {
             await observarCarga('#contenedor-principal', async () => {
                 if ($('#contenedor-principal').length > 0) {
-                    await cargarPublicacionesIndex();
-                    detectarFinDePagina();
 
+                    await cargarPublicacionesIndex();
+
+                    detectarFinDePagina();
                     observarIdsPublicaciones('#contenedor-principal', '.contenedor-publicacion');
 
+                    // Asignar evento a los iconos de guardar
                     accionGuardar(ruta_actual);
 
+                    // Asignar evento a buscador lateral
+                    inicializarBuscadorLateral();
 
                 }
             });

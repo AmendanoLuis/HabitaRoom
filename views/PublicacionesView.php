@@ -1,17 +1,19 @@
 <!-- PUBLICACION -->
 <?php if ($publicaciones): ?>
     <?php
+    // Asegurarse de que $publicaciones_guardadas esté definido y sea un array
+    $publicaciones_guardadas = $publicaciones_guardadas ?? [];
+
+    // Obtener los IDs de publicaciones guardadas (solo si hay alguna)
+    $ids_guardados = array_map(
+        function ($pub) {
+            return $pub->id;
+        },
+        $publicaciones_guardadas
+    );
+
     foreach ($publicaciones as $publicacion):
-
-        $ids_guardados = array_map(
-            function ($pub) {
-                return $pub->id;
-            },
-            $publicaciones_guardadas
-        );
-
         $isGuardado = in_array($publicacion->id, $ids_guardados);
-
     ?>
         <div class="card mb-4 shadow mx-auto ms-5 contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
             <!-- Enlace solo para la parte que debe ser clicable -->

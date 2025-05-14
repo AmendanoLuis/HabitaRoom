@@ -48,6 +48,27 @@ class ModelObtenerPublicaciones
         }
     }
 
+    // Funcion para obtener publicaciones por titulo
+    public function buscarAnuncios(string $q): array {
+        try {
+            $sql = "SELECT * FROM publicaciones
+                    WHERE LOWER(titulo) LIKE :like_q
+                       OR SOUNDEX(titulo) = SOUNDEX(:q)
+                    ORDER BY fecha_publicacion DESC
+                    LIMIT 20";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+              ':like_q' => "%{$q}%",
+              ':q'      => $q
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en buscarAnuncios: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+
     // Funcion para obtener publicaciones guardadas
     public function obtenerPublicacionesGuardadas()
     {

@@ -60,28 +60,49 @@ class IndexController
             echo `No hay publicaciones disponibles con los filtros`;
         }
     }
+
+    // Función para cargar las publicaciones por titulo
+    public function buscarAnuncios($q)
+    {
+        // Lógica de búsqueda en el modelo (LIKE, SOUNDEX, Levenshtein…)
+        $publicaciones = $this->model->buscarAnuncios($q);
+
+        if ($publicaciones !== "") {
+            require_once '../views/PublicacionesView.php';
+        
+        } else {
+            echo `No hay publicaciones disponibles con los filtros`;
+        }
+    }
 }
 
 
 
-$raw = file_get_contents('php://input');
+$raw   = file_get_contents('php://input');
 $datos = json_decode($raw, true);
 
 $esFiltros = $datos['esFiltros'] ?? false;
 $filtros   = $datos['filtros']   ?? [];
-$ruta = $_POST['ruta'] ?? $datos['ruta'] ?? '';
+$ruta      = $_POST['ruta']      ?? $datos['ruta'] ?? '';
+$accion    = $_POST['accion']    ?? '';
 
+if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
+    $q = trim(strtolower($_POST['q'] ?? ''));
+    $ctl = new IndexController();
+    ob_start();
+      $ctl->buscarAnuncios($q);
+    echo ob_get_clean();
+    exit;
+}
 
 if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
-    $controlador = new IndexController();
+    $ctl = new IndexController();
     ob_start();
-    if ($esFiltros) {
-        $controlador->cargarPublicacionesFiltro($filtros);
-    } else {
-        $controlador->cargarPublicaciones();
-    }
-
-    $html = ob_get_clean();
-    echo $html;
+      if ($esFiltros) {
+          $ctl->cargarPublicacionesFiltro($filtros);
+      } else {
+          $ctl->cargarPublicaciones();
+      }
+    echo ob_get_clean();
     exit;
 }

@@ -72,7 +72,6 @@ export function guardarPublicacion(elemento, ruta_actual) {
 
             console.log("Respuesta del servidor:", response);
 
-            // ✅ Manejar caso no autenticado primero
             if (response.auth === false) {
                 Swal.fire({
                     title: 'Error',
@@ -213,7 +212,6 @@ export async function cargarFiltros() {
         return;
     }
 
-    // Paso 1: Cargar características solo desde "caracteristicas[]", si existe
     const caracteristicasGuardadas = filtros["caracteristicas[]"];
     if (Array.isArray(caracteristicasGuardadas)) {
         caracteristicasGuardadas.forEach(carac => {
@@ -227,9 +225,8 @@ export async function cargarFiltros() {
         });
     }
 
-    // Paso 2: Cargar el resto de campos del formulario
     Object.entries(filtros).forEach(([key, value]) => {
-        // Ignorar las características individuales (piscina, garaje, etc.)
+
         if (todasCaracteristicas.includes(key) || key === "caracteristicas[]") return;
 
         const fields = form.querySelectorAll(`[name="${key}"]`);
@@ -250,3 +247,50 @@ export async function cargarFiltros() {
         });
     });
 }
+
+
+
+////////////////////////////////////////////////////////////////
+// FUNCION PARA CARGAR INICIALIZAR EL BUSCADOR LATERAL
+////////////////////////////////////////////////////////////////
+export function inicializarBuscadorLateral() {
+    // Delegación directa, el formulario está en el layout y siempre presente
+    $(document).on('submit', '#formBuscarLateral', function(e) {
+      e.preventDefault();
+      const $form  = $(this);
+      const $input = $form.find('#inputBuscar');
+      let q = $input.val()?.trim();
+  
+      if (!q) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atención',
+          text: 'Introduce un término para buscar.'
+        });
+        return;
+      }
+  
+      q = q.toLowerCase();
+      mostrarCargando();
+  
+      $.ajax({
+        url: 'controllers/IndexController.php',
+        type: 'POST',
+        data: { accion: 'buscar', q, ruta: window.location.pathname },
+        beforeSend: () => mostrarCargando(),
+        success: function(html) {
+          console.log('Resultados de búsqueda:', html);
+          $('#contenedor-principal').html(html);
+        },
+        error: function(xhr, status, err) {
+          console.error('Error en búsqueda:', err);
+          $('#contenedor-principal').html(
+            '<div class="alert alert-danger">Error al buscar publicaciones.</div>'
+          );
+        },
+        complete: function() {
+          ocultarCargando();
+        }
+      });
+    });
+  }
