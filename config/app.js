@@ -1,6 +1,6 @@
 import { mostrarCargando, ocultarCargando } from '../public/js/loadingPage.js';
 import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
-import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral } from '/HabitaRoom/public/js/index.js';
+import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral, filtrarTipoPublicitante } from '/HabitaRoom/public/js/index.js';
 
 $(document).ready(function () {
 
@@ -178,9 +178,11 @@ $(document).ready(function () {
                     // Asignar evento a los iconos de guardar
                     accionGuardar(ruta_actual);
 
-                    // Asignar evento a buscador lateral
+                    // Asignar evento a buscador
                     inicializarBuscadorLateral();
 
+                    // Asignar evento a los filtros principales
+                    filtrarTipoPublicitante();
                 }
             });
         }

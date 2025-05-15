@@ -57,7 +57,7 @@ export function guardarPublicacion(elemento, ruta_actual) {
     const esGuardado = icono.hasClass("bi-bookmark-fill");
 
     console.log("ID de publicación:", id_publicacion);
-    console.log("Es guardado:", esGuardado);    
+    console.log("Es guardado:", esGuardado);
 
     $.ajax({
         url: "controllers/GuardadosController.php",
@@ -108,80 +108,39 @@ export function guardarPublicacion(elemento, ruta_actual) {
 ////////////////////////////////////////////////////////////////
 // FUNCION PARA PROCESAR EL FORMULARIO DE FILTROS
 ////////////////////////////////////////////////////////////////
-export function procesarFormularioFiltros(elemento) {
-    const todasCaracteristicas = [
-        'ascensor',
-        'piscina',
-        'gimnasio',
-        'garaje',
-        'terraza',
-        'jardin',
-        'aire_acondicionado',
-        'calefaccion'
-    ];
-
-    const form = elemento;
-    if (!form) return;
-
+export function procesarFormularioFiltros(form) {
     const formData = new FormData(form);
     const filtros = {};
     const ruta = window.location.pathname;
 
-    // Recogemos y normalizamos los datos del formulario
+    // Recorremos *todos* los campos, incluidos checkbox individuales
     for (const [name, value] of formData.entries()) {
-        const key = name.replace(/-/g, '_'); // Reemplaza guiones por guiones bajos
-
-        if (filtros.hasOwnProperty(key)) {
-            if (!Array.isArray(filtros[key])) filtros[key] = [filtros[key]];
-            filtros[key].push(value);
-        } else {
-            filtros[key] = value;
-        }
-
-        console.log(`${key}:`, value);
+        filtros[name] = value;
     }
 
-    const guardadas = filtros['caracteristicas'] || [];
-    todasCaracteristicas.forEach(carac => {
-        filtros[carac] = guardadas.includes(carac) ? '1' : '0';
-    });
+    // Ahora añadimos explícitamente los que no vinieron (los unchecked)
+    ['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'aire_acondicionado', 'calefaccion']
+        .forEach(c => {
+            filtros[c] = filtros[c] === '1' ? '1' : '0';
+        });
 
-    delete filtros['caracteristicas'];
-
-    // Guardamos en sessionStorage
     sessionStorage.setItem('filtrosBusqueda', JSON.stringify(filtros));
 
-    const esFiltros = Object.values(filtros).some(value => {
-        if (Array.isArray(value)) return value.length > 0;
-        return value !== '' && value !== '0';
-    });
+    const esFiltros = Object.values(filtros).some(v => v !== '' && v !== '0');
+    console.log('Datos a enviar en AJAX:', filtros, esFiltros, ruta);
 
-    console.log("Datos a enviar en AJAX:", filtros, esFiltros, ruta);
-
-    // Enviar por AJAX
     $.ajax({
         url: 'controllers/IndexController.php',
         type: 'POST',
-        data: JSON.stringify({
-            filtros,
-            esFiltros,
-            ruta
-        }),
+        data: JSON.stringify({ filtros, esFiltros, ruta }),
         contentType: 'application/json',
-        beforeSend: () => mostrarCargando(),
-        success: function (response) {
-            const contenedor = $('#contenedor-principal');
-            console.log('Respuesta AJAX:', response);
-            contenedor.html(response);
-        },
-        error: function (xhr, status, error) {
-            console.error('Error AJAX:', error);
-        },
-        complete: function () {
-            ocultarCargando();
-        }
+        beforeSend: mostrarCargando,
+        success: resp => $('#contenedor-principal').html(resp),
+        error: (xhr, status, err) => console.error('Error AJAX:', err),
+        complete: ocultarCargando
     });
 }
+
 
 
 
@@ -189,64 +148,34 @@ export function procesarFormularioFiltros(elemento) {
 ////////////////////////////////////////////////////////////////
 // FUNCION PARA CARGAR LOS FILTROS
 ////////////////////////////////////////////////////////////////
-export async function cargarFiltros() {
-    let hayFiltros = false;
-
-    const todasCaracteristicas = [
-        'ascensor', 'piscina', 'gimnasio', 'garaje',
-        'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'
-    ];
-
-    const filtrosJSON = sessionStorage.getItem('filtrosBusqueda');
-    if (!filtrosJSON) {
-        console.warn('No hay filtros guardados en sessionStorage.');
-        return;
-    }
-
-    const filtros = JSON.parse(filtrosJSON);
-    console.log('Filtros recuperados:', filtros);
-
+export function cargarFiltros() {
+    const raw = sessionStorage.getItem('filtrosBusqueda');
+    if (!raw) return;
+    const filtros = JSON.parse(raw);
     const form = document.getElementById('form-filtros-desp');
-    if (!form) {
-        console.warn('Formulario de filtros no encontrado.');
-        return;
-    }
+    if (!form) return;
 
-    const caracteristicasGuardadas = filtros["caracteristicas[]"];
-    if (Array.isArray(caracteristicasGuardadas)) {
-        caracteristicasGuardadas.forEach(carac => {
-            if (todasCaracteristicas.includes(carac)) {
-                const checkbox = form.querySelector(`[name="caracteristicas[]"][value="${carac}"]`);
-                if (checkbox) {
-                    checkbox.checked = true;
-                    hayFiltros = true;
-                }
-            }
-        });
-    }
-
-    Object.entries(filtros).forEach(([key, value]) => {
-
-        if (todasCaracteristicas.includes(key) || key === "caracteristicas[]") return;
-
-        const fields = form.querySelectorAll(`[name="${key}"]`);
-        fields.forEach(field => {
-            if (field.type === 'checkbox') {
-                field.checked = value === '1' || value === true;
-                if (field.checked) hayFiltros = true;
-            } else if (field.type === 'radio') {
-                const checked = field.value === value;
-                field.checked = checked;
-                if (checked) hayFiltros = true;
+    // Campos de texto, selects y radios
+    ['tipo_anuncio', 'tipo_inmueble', 'precio_min', 'precio_max', 'habitaciones', 'banos', 'estado']
+        .forEach(name => {
+            const field = form.querySelector(`[name="${name}"]`);
+            if (!field) return;
+            if (field.type === 'radio' || field.type === 'select-one') {
+                field.value = filtros[name] || '';
             } else {
-                if (value !== '' && value !== null) {
-                    field.value = value;
-                    hayFiltros = true;
-                }
+                field.value = filtros[name] || '';
             }
         });
-    });
+
+    // Checkbox individuales
+    ['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'aire_acondicionado', 'calefaccion']
+        .forEach(name => {
+            const cb = form.querySelector(`[name="${name}"]`);
+            if (!cb) return;
+            cb.checked = filtros[name] === '1';
+        });
 }
+
 
 
 
@@ -255,42 +184,102 @@ export async function cargarFiltros() {
 ////////////////////////////////////////////////////////////////
 export function inicializarBuscadorLateral() {
     // Delegación directa, el formulario está en el layout y siempre presente
-    $(document).on('submit', '#formBuscarLateral', function(e) {
-      e.preventDefault();
-      const $form  = $(this);
-      const $input = $form.find('#inputBuscar');
-      let q = $input.val()?.trim();
-  
-      if (!q) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Atención',
-          text: 'Introduce un término para buscar.'
-        });
-        return;
-      }
-  
-      q = q.toLowerCase();
-      mostrarCargando();
-  
-      $.ajax({
-        url: 'controllers/IndexController.php',
-        type: 'POST',
-        data: { accion: 'buscar', q, ruta: window.location.pathname },
-        beforeSend: () => mostrarCargando(),
-        success: function(html) {
-          console.log('Resultados de búsqueda:', html);
-          $('#contenedor-principal').html(html);
-        },
-        error: function(xhr, status, err) {
-          console.error('Error en búsqueda:', err);
-          $('#contenedor-principal').html(
-            '<div class="alert alert-danger">Error al buscar publicaciones.</div>'
-          );
-        },
-        complete: function() {
-          ocultarCargando();
+    $(document).on('submit', '#formBuscarLateral', function (e) {
+        e.preventDefault();
+        const $form = $(this);
+        const $input = $form.find('#inputBuscar');
+        let q = $input.val()?.trim();
+
+        if (!q) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'Introduce un término para buscar.'
+            });
+            return;
         }
-      });
+
+        q = q.toLowerCase();
+        mostrarCargando();
+
+        $.ajax({
+            url: 'controllers/IndexController.php',
+            type: 'POST',
+            data: { accion: 'buscar', q, ruta: window.location.pathname },
+            beforeSend: () => mostrarCargando(),
+            success: function (html) {
+                console.log('Resultados de búsqueda:', html);
+                $('#contenedor-principal').html(html);
+            },
+            error: function (xhr, status, err) {
+                console.error('Error en búsqueda:', err);
+                $('#contenedor-principal').html(
+                    '<div class="alert alert-danger">Error al buscar publicaciones.</div>'
+                );
+            },
+            complete: function () {
+                ocultarCargando();
+            }
+        });
     });
-  }
+}
+
+
+////////////////////////////////////////////////////////////////
+// Inicializa el filtro de tipo de publicitante
+////////////////////////////////////////////////////////////////
+export function filtrarTipoPublicitante() {
+
+    // Delegación para móviles
+    $(document).on('click', '#btn-habitantes-mob, #btn-propietario-mob, #btn-empresa-mob', filtrar);
+
+    // Delegación para escritorio
+    $(document).on('click', '#btn-habitantes-desk, #btn-propietario-desk, #btn-empresa-desk', filtrar);
+
+    // Función para filtrar por tipo de publicitante
+    function filtrar() {
+
+        let tipo;
+        switch (this.id) {
+            case 'btn-habitantes-mob':
+            case 'btn-habitantes-desk':
+                tipo = 'habitante';
+                break;
+            case 'btn-propietario-mob':
+            case 'btn-propietario-desk':
+                tipo = 'propietario';
+                break;
+            case 'btn-empresa-mob':
+            case 'btn-empresa-desk':
+                tipo = 'empresa';
+                break;
+            default:
+                return;
+        }
+
+        mostrarCargando();
+        $.ajax({
+            url: 'controllers/IndexController.php',
+            type: 'POST',
+            data: {
+                accion: 'filtrarTipoPublicitante',
+                tipo_publicitante: tipo,
+                ruta: window.location.pathname
+            },
+            dataType: 'html',
+            beforeSend: () => mostrarCargando(),
+            success: function (html) {
+                $('#contenedor-principal').html(html);
+            },
+            error: function (xhr, status, err) {
+                console.error('Error al filtrar tipo publicitante:', err);
+                $('#contenedor-principal').html(
+                    '<div class="alert alert-danger">Error al cargar las publicaciones.</div>'
+                );
+            },
+            complete: function () {
+                ocultarCargando();
+            }
+        });
+    }
+}

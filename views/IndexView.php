@@ -4,7 +4,6 @@
         <!-- Contenedores Filtros -->
         <div class="col-3">
 
-            <!-- Categoria | >= Medium -->
             <div class="row position-fixed d-lg-block d-none bg-light shadow-lg" id="row_filtros">
                 <div class="col ">
 
@@ -27,71 +26,81 @@
                         </div>
                     </div>
                     <hr class="text-dark">
+
                     <!-- Filtros -->
                     <div class="d-lg-block d-none text-dark mb-2 z-3">
-
-
                         <!-- Formulario Filtros -->
                         <form id="form-filtros-desp" method="POST" class="ps-4">
-                            <!-- Tipo Inmueble -->
-                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de Inmueble</h5>
-                            <select class="form-select" id="tipo_inmueble" name="tipo_inmueble">
-                                <option value="">Seleccionar</option>
-                                <option value="alquiler">Alquiler</option>
+
+                            <!-- Tipo de anuncio -->
+                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de anuncio</h5>
+                            <select class="form-select" id="tipo_anuncio" name="tipo_anuncio">
+                                <option value="">Cualquiera</option>
                                 <option value="venta">Venta</option>
+                                <option value="alquiler">Alquiler</option>
+                            </select>
+
+                            <!-- Tipo de Inmueble -->
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Tipo de inmueble</h5>
+                            <select class="form-select" id="tipo_inmueble" name="tipo_inmueble">
+                                <option value="">Cualquiera</option>
+                                <option value="apartamento">Apartamento</option>
+                                <option value="casa">Casa</option>
                                 <option value="oficina">Oficina</option>
+                                <option value="local">Local</option>
+                                <option value="terreno">Terreno</option>
                             </select>
 
                             <!-- Precio Inmueble -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio</h5>
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio (€)</h5>
                             <div class="row">
                                 <div class="col">
                                     <select class="form-select" id="precio_min" name="precio_min">
                                         <option value="">Min.</option>
-                                        <option value="500">500</option>
-                                        <option value="1000">1000</option>
-                                        <option value="2000">2000</option>
-                                        <option value="3000">3000</option>
+                                        <option value="50000">50 000</option>
+                                        <option value="100000">100 000</option>
+                                        <option value="150000">150 000</option>
+                                        <option value="200000">200 000</option>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <select class="form-select" id="precio_max" name="precio_max">
                                         <option value="">Max.</option>
-                                        <option value="5000">5000</option>
-                                        <option value="10000">10000</option>
-                                        <option value="15000">15000</option>
-                                        <option value="20000">20000</option>
+                                        <option value="250000">250 000</option>
+                                        <option value="400000">400 000</option>
+                                        <option value="600000">600 000</option>
+                                        <option value="1000000">1 000 000</option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- Habitaciones -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitaciones</h5>
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitaciones (≥)</h5>
                             <div class="btn-group" role="group">
                                 <input type="radio" class="btn-check" name="habitaciones" id="hab-1" value="1">
                                 <label class="btn btn-outline-primary" for="hab-1">1</label>
 
                                 <input type="radio" class="btn-check" name="habitaciones" id="hab-2" value="2">
-                                <label class="btn btn-outline-primary" for="hab-2">+2</label>
+                                <label class="btn btn-outline-primary" for="hab-2">2</label>
 
                                 <input type="radio" class="btn-check" name="habitaciones" id="hab-3" value="3">
-                                <label class="btn btn-outline-primary" for="hab-3">+3</label>
+                                <label class="btn btn-outline-primary" for="hab-3">3</label>
 
                                 <input type="radio" class="btn-check" name="habitaciones" id="hab-4" value="4">
-                                <label class="btn btn-outline-primary" for="hab-4">+4</label>
+                                <label class="btn btn-outline-primary" for="hab-4">4+</label>
                             </div>
 
                             <!-- Baños -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños</h5>
+                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños (≥)</h5>
                             <div class="btn-group" role="group">
                                 <input type="radio" class="btn-check" name="banos" id="bano-1" value="1">
                                 <label class="btn btn-outline-primary" for="bano-1">1</label>
 
                                 <input type="radio" class="btn-check" name="banos" id="bano-2" value="2">
-                                <label class="btn btn-outline-primary" for="bano-2">+2</label>
+                                <label class="btn btn-outline-primary" for="bano-2">2</label>
 
                                 <input type="radio" class="btn-check" name="banos" id="bano-3" value="3">
-                                <label class="btn btn-outline-primary" for="bano-3">+3</label>
+                                <label class="btn btn-outline-primary" for="bano-3">3+</label>
                             </div>
 
                             <!-- Estado inmueble -->
@@ -118,37 +127,37 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-ascensor" value="ascensor">
+                                        <input class="form-check-input" type="checkbox" name="ascensor" id="carac-ascensor" value="1">
                                         <label class="form-check-label" for="carac-ascensor">Ascensor</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-piscina" value="piscina">
+                                        <input class="form-check-input" type="checkbox" name="piscina" id="carac-piscina" value="1">
                                         <label class="form-check-label" for="carac-piscina">Piscina</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-gimnasio" value="gimnasio">
+                                        <input class="form-check-input" type="checkbox" name="gimnasio" id="carac-gimnasio" value="1">
                                         <label class="form-check-label" for="carac-gimnasio">Gimnasio</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-garaje" value="garaje">
+                                        <input class="form-check-input" type="checkbox" name="garaje" id="carac-garaje" value="1">
                                         <label class="form-check-label" for="carac-garaje">Garaje</label>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-terraza" value="terraza">
+                                        <input class="form-check-input" type="checkbox" name="terraza" id="carac-terraza" value="1">
                                         <label class="form-check-label" for="carac-terraza">Terraza</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-jardin" value="jardin">
+                                        <input class="form-check-input" type="checkbox" name="jardin" id="carac-jardin" value="1">
                                         <label class="form-check-label" for="carac-jardin">Jardín</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-acondicionado" value="aire_acondicionado">
+                                        <input class="form-check-input" type="checkbox" name="aire_acondicionado" id="carac-acondicionado" value="1">
                                         <label class="form-check-label" for="carac-acondicionado">Aire acondicionado</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicas[]" id="carac-calefaccion" value="calefaccion">
+                                        <input class="form-check-input" type="checkbox" name="calefaccion" id="carac-calefaccion" value="1">
                                         <label class="form-check-label" for="carac-calefaccion">Calefacción</label>
                                     </div>
                                 </div>
@@ -159,36 +168,35 @@
                                 <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
                             </div>
                         </form>
-
-
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- Categoria | < Medium -->
-            <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
-                <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
-                    <h5>Categoria</h5>
-                    <h5 class="mb-3">Publicaciones</h5>
-                    <div class="btn-group d-flex flex-column px-3" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-mob"
-                            autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-top"
-                            for="btn-habitantes-mob">Habitantes</label>
+                <!-- Categoria |  MOVIL -->
+                <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
+                    <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
+                        <h5>Categoria</h5>
+                        <h5 class="mb-3">Publicaciones</h5>
+                        <div class="btn-group d-flex flex-column px-3" role="group"
+                            aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-mob"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary py-2 rounded-0 rounded-top"
+                                for="btn-habitantes-mob">Habitantes</label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btn-propietario-mob"
-                            autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0"
-                            for="btn-propietario-mob">Propietario</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btn-propietario-mob"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary py-2 rounded-0"
+                                for="btn-propietario-mob">Propietario</label>
 
-                        <input type="radio" class="btn-check" name="btnradio" id="btn-empresa-mob" autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-bottom"
-                            for="btn-empresa-mob">Empresas</label>
+                            <input type="radio" class="btn-check" name="btnradio" id="btn-empresa-mob" autocomplete="off">
+                            <label class="btn btn-outline-secondary py-2 rounded-0 rounded-bottom"
+                                for="btn-empresa-mob">Empresas</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
         </div>
 

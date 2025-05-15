@@ -1,19 +1,13 @@
 <!-- PUBLICACION -->
 <?php if ($publicaciones): ?>
     <?php
-    // Asegurarse de que $publicaciones_guardadas esté definido y sea un array
     $publicaciones_guardadas = $publicaciones_guardadas ?? [];
-
-    // Obtener los IDs de publicaciones guardadas (solo si hay alguna)
-    $ids_guardados = array_map(
-        function ($pub) {
-            return $pub->id;
-        },
-        $publicaciones_guardadas
-    );
-
+    $ids_guardados = array_map(fn($pub) => $pub->id, $publicaciones_guardadas);
     foreach ($publicaciones as $publicacion):
         $isGuardado = in_array($publicacion->id, $ids_guardados);
+        // Decode fotos safely, default to empty array
+        $rawFotos = isset($publicacion->fotos) && !empty($publicacion->fotos) ? $publicacion->fotos : '[]';
+        $imagenes = json_decode($rawFotos, true) ?: [];
     ?>
         <div class="card mb-4 shadow mx-auto ms-5 contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
             <!-- Enlace solo para la parte que debe ser clicable -->
@@ -27,13 +21,13 @@
                         </span>
 
                         <?php
-                        $imagenes = json_decode($publicacion->fotos);
+                        $imagenes = isset($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                         if (!empty($imagenes) && is_array($imagenes)): ?>
                             <div id="carousel<?php echo $publicacion->id; ?>" class="carousel slide carousel-fade " data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <?php foreach ($imagenes as $index => $imagen): ?>
                                         <div class="carousel-item rounded-start <?php echo $index === 0 ? 'active' : ''; ?>">
-                                            <img src="assets/uploads/img_publicacion/<?php echo $imagen; ?>" class="rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
+                                            <img src="assets/uploads/img_publicacion/<?php echo $imagen; ?>" class="img-fluid rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
                                         </div>
                                     <?php endforeach; ?>
                                 </div>

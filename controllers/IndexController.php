@@ -25,14 +25,8 @@ class IndexController
 
     public function cargarPublicaciones()
     {
-        session_start();
-        // Verificar si el usuario está autenticado
-        if (!isset($_SESSION['id'])) {
-            /* echo json_encode([
-            'status' => 'error',
-                'message' => 'Usuario no autenticado'
-            ]); 
-            exit;*/
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
         // Obtener las publicaciones
         $publicaciones = $this->model->obtenerPublicaciones();
@@ -86,8 +80,9 @@ $filtros   = $datos['filtros']   ?? [];
 $ruta      = $_POST['ruta']      ?? $datos['ruta'] ?? '';
 $accion    = $_POST['accion']    ?? '';
 
+// Búsqueda por título
 if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
-    $q = trim(strtolower($_POST['q'] ?? ''));
+    $q   = trim(strtolower($_POST['q'] ?? ''));
     $ctl = new IndexController();
     ob_start();
       $ctl->buscarAnuncios($q);
@@ -95,7 +90,19 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
     exit;
 }
 
+// Filtro por tipo de publicitante
+if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublicitante') {
+    $tipo = trim(strtolower($_POST['tipo_publicitante'] ?? ''));
+    $ctl  = new IndexController();
+    ob_start();
+      $ctl->cargarPublicacionesFiltro(['tipo_publicitante' => $tipo]);
+    echo ob_get_clean();
+    exit;
+}
+
+// Lógica genérica de índice
 if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
+
     $ctl = new IndexController();
     ob_start();
       if ($esFiltros) {

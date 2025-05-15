@@ -49,7 +49,8 @@ class ModelObtenerPublicaciones
     }
 
     // Funcion para obtener publicaciones por titulo
-    public function buscarAnuncios(string $q): array {
+    public function buscarAnuncios(string $q): array
+    {
         try {
             $sql = "SELECT * FROM publicaciones
                     WHERE LOWER(titulo) LIKE :like_q
@@ -58,8 +59,8 @@ class ModelObtenerPublicaciones
                     LIMIT 20";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
-              ':like_q' => "%{$q}%",
-              ':q'      => $q
+                ':like_q' => "%{$q}%",
+                ':q'      => $q
             ]);
             return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
         } catch (PDOException $e) {
@@ -67,7 +68,7 @@ class ModelObtenerPublicaciones
             return [];
         }
     }
-    
+
 
     // Funcion para obtener publicaciones guardadas
     public function obtenerPublicacionesGuardadas()
@@ -98,101 +99,125 @@ class ModelObtenerPublicaciones
 
     // Funcion para mostrar publicaciones por filtros
 
-    public function obtenerPublicacionesFiltro($filtros)
+    public function obtenerPublicacionesFiltro(array $filtros)
     {
         try {
-            $sql = "SELECT * FROM publicaciones WHERE 1=1";
+            // Columnas explícitas para mejor rendimiento
+            $columns = ['*'];
+
+            $select = "SELECT " . implode(", ", $columns) . " FROM publicaciones WHERE 1=1";
+            $sql = $select;
             $params = [];
-    
-            // 1. Identificadores y relaciones
-            if (!empty($filtros['id'])) {
-                $sql .= " AND id = :id";
-                $params[':id'] = $filtros['id'];
+
+            // 1. Tipo de anuncio e inmueble
+            if (!empty($filtros['tipo_anuncio'])) {
+                $sql .= " AND tipo_anuncio = :tipo_anuncio";
+                $params[':tipo_anuncio'] = $filtros['tipo_anuncio'];
             }
-            if (!empty($filtros['usuario_id'])) {
-                $sql .= " AND usuario_id = :usuario_id";
-                $params[':usuario_id'] = $filtros['usuario_id'];
+            if (!empty($filtros['tipo_inmueble'])) {
+                $sql .= " AND tipo_inmueble = :tipo_inmueble";
+                $params[':tipo_inmueble'] = $filtros['tipo_inmueble'];
             }
-    
-            // 2. Tipo de anuncio, inmueble y publicitante
-            foreach (['tipo_anuncio', 'tipo_inmueble', 'tipo_publicitante'] as $campo) {
-                if (!empty($filtros[$campo])) {
-                    $sql .= " AND {$campo} = :{$campo}";
-                    $params[":{$campo}"] = $filtros[$campo];
-                }
+
+            // 1.b Tipo de publicitante
+            if (!empty($filtros['tipo_publicitante'])) {
+                $sql .= " AND tipo_publicitante = :tipo_publicitante";
+                $params[':tipo_publicitante'] = $filtros['tipo_publicitante'];
             }
-    
-            // 3. Búsqueda parcial en ubicación, título y descripción
-            foreach (['ubicacion', 'titulo', 'descripcion'] as $campo) {
-                if (!empty($filtros[$campo])) {
-                    $sql .= " AND {$campo} LIKE :{$campo}";
-                    $params[":{$campo}"] = '%' . $filtros[$campo] . '%';
-                }
-            }
-    
-            // 4. Filtros numéricos mínimos y máximos
-            if (!empty($filtros['precio_min'])) {
+
+            // 2. Rango de precio
+            if (isset($filtros['precio_min']) && $filtros['precio_min'] !== '') {
                 $sql .= " AND precio >= :precio_min";
                 $params[':precio_min'] = $filtros['precio_min'];
             }
-            if (!empty($filtros['precio_max'])) {
+            if (isset($filtros['precio_max']) && $filtros['precio_max'] !== '') {
                 $sql .= " AND precio <= :precio_max";
                 $params[':precio_max'] = $filtros['precio_max'];
             }
-            if (!empty($filtros['habitaciones'])) {
+
+            // 3. Habitaciones y baños como mínimos
+            if (isset($filtros['habitaciones']) && $filtros['habitaciones'] !== '') {
                 $sql .= " AND habitaciones >= :habitaciones";
                 $params[':habitaciones'] = $filtros['habitaciones'];
             }
-            if (!empty($filtros['banos'])) {
+            if (isset($filtros['banos']) && $filtros['banos'] !== '') {
                 $sql .= " AND banos >= :banos";
                 $params[':banos'] = $filtros['banos'];
             }
-            if (!empty($filtros['superficie_min'])) {
-                $sql .= " AND superficie >= :superficie_min";
-                $params[':superficie_min'] = $filtros['superficie_min'];
-            }
-            if (!empty($filtros['superficie_max'])) {
-                $sql .= " AND superficie <= :superficie_max";
-                $params[':superficie_max'] = $filtros['superficie_max'];
-            }
-    
-            // 5. Estado
+
+            // 4. Estado exacto
             if (!empty($filtros['estado'])) {
                 $sql .= " AND estado = :estado";
                 $params[':estado'] = $filtros['estado'];
             }
-    
-            // 6. Características booleanas
-            $caracteristicas = [
-                'ascensor', 'piscina', 'gimnasio', 'garaje',
-                'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'
-            ];
-            foreach ($caracteristicas as $c) {
-                if (isset($filtros[$c]) && $filtros[$c] === '1') {
+
+            // 5. Características booleanas
+            foreach (
+                [
+                    'ascensor',
+                    'piscina',
+                    'gimnasio',
+                    'garaje',
+                    'terraza',
+                    'jardin',
+                    'aire_acondicionado',
+                    'calefaccion'
+                ] as $c
+            ) {
+                if (!empty($filtros[$c]) && $filtros[$c] === '1') {
                     $sql .= " AND {$c} = 1";
                 }
             }
-    
-            // 7. Rango de fechas de publicación
-            if (!empty($filtros['fecha_desde'])) {
+
+            // 6. Búsqueda parcial con escape de caracteres
+            foreach (['ubicacion', 'titulo', 'descripcion'] as $campo) {
+                if (!empty($filtros[$campo])) {
+                    // Escapa % y _
+                    $valor = addcslashes($filtros[$campo], '%_');
+                    $sql .= " AND {$campo} LIKE :{$campo} ESCAPE '\\'";
+                    $params[":{$campo}"] = "%{$valor}%";
+                }
+            }
+
+            // 7. Rango de fechas
+            if (!empty($filtros['fecha_desde']) && DateTime::createFromFormat('Y-m-d', $filtros['fecha_desde'])) {
                 $sql .= " AND fecha_publicacion >= :fecha_desde";
                 $params[':fecha_desde'] = $filtros['fecha_desde'];
             }
-            if (!empty($filtros['fecha_hasta'])) {
+            if (!empty($filtros['fecha_hasta']) && DateTime::createFromFormat('Y-m-d', $filtros['fecha_hasta'])) {
                 $sql .= " AND fecha_publicacion <= :fecha_hasta";
                 $params[':fecha_hasta'] = $filtros['fecha_hasta'];
             }
-    
-            // Preparar y ejecutar
+
+            // 8. Ordenamiento seguro con whitelist
+            $orderByWhitelist = ['precio', 'fecha_publicacion', 'superficie'];
+            $orderDirWhitelist = ['ASC', 'DESC'];
+            $orderBy = 'fecha_publicacion';
+            $orderDir = 'DESC';
+            if (!empty($filtros['order_by']) && in_array($filtros['order_by'], $orderByWhitelist, true)) {
+                $orderBy = $filtros['order_by'];
+            }
+            if (!empty($filtros['order_dir']) && in_array(strtoupper($filtros['order_dir']), $orderDirWhitelist, true)) {
+                $orderDir = strtoupper($filtros['order_dir']);
+            }
+            $sql .= " ORDER BY {$orderBy} {$orderDir}";
+
+            // 9. Paginación (Directo en la query para evitar problemas con MySQL y PDO)
+            $limit = isset($filtros['limit']) && is_numeric($filtros['limit']) ? (int)$filtros['limit'] : 20;
+            $offset = isset($filtros['offset']) && is_numeric($filtros['offset']) ? (int)$filtros['offset'] : 0;
+            $sql .= " LIMIT {$limit} OFFSET {$offset}";
+
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute($params);
-    
+
+            // Vincular el resto de parámetros (excepto limit y offset que van directos)
+            foreach ($params as $key => $val) {
+                $stmt->bindValue($key, $val);
+            }
+
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_OBJ);
-    
         } catch (PDOException $e) {
             return ['error' => 'Error al cargar las publicaciones con filtros. ' . $e->getMessage()];
         }
     }
-    
-
 }

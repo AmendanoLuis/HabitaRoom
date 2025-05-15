@@ -9,7 +9,7 @@
                 <!-- Tipo de inmueble -->
                 <div class="container form-group mb-4 position-relative mt-4 mb-3">
                     <label for="tipo_inmueble" id="label_tipo_inmueble" class="position-absolute top-0 start-0 pt-2">Tipo de inmueble</label>
-                    <select name="tipo_inmueble" class="form-select pt-4" id="tipo_inmueble">
+                    <select name="tipo_inmueble" class="form-select pt-4 tipo_inmueble" id="tipo_inmueble">
                         <option value="garaje">Garaje</option>
                         <option value="apartamento">Apartamento</option>
                         <option value="piso">Piso</option>
