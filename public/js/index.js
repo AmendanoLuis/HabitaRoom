@@ -1,30 +1,16 @@
-// Detecta cuando el usuario ha llegado al final de la página
-
 import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
 
-
-function observarCarga(selector, callback) {
-    const contMain = document.getElementById('contenidoMain');
-    if (!contMain) return;
-
-    const observ = new MutationObserver(() => {
-        if ($(selector).length > 0) {
-            callback();
-            observ.disconnect();
-        }
-    });
-
-    observ.observe(contMain, { childList: true, subtree: true });
-}
-
+////////////////////////////////////////////////////////////////
+// FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
+////////////////////////////////////////////////////////////////
 export function detectarFinDePagina() {
+    let offset = 10;
     var ancho_cont_categ = $('#row_filtros').outerWidth();
     var alturaFooter = $('#footer_hbr').outerHeight();
 
     $('#row_filtros').css('width', ancho_cont_categ + 'px');
 
     $(window).scroll(function () {
-        // Si el usuario ha llegado al final de la pagina
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - alturaFooter) {
 
             $('#row_filtros').removeClass('position-fixed');
@@ -34,18 +20,51 @@ export function detectarFinDePagina() {
             $('#row_filtros').addClass('categoria_relative');
             $('#cont_btns_index').addClass('btns_relative');
 
-        } else {
+            // Evitar llamadas múltiples rápidas
+            if (!window.cargandoMas) {
+                window.cargandoMas = true;
 
+                const timeoutId = mostrarCargandoConRetardo();
+
+                $.ajax({
+                    url: 'controllers/IndexController.php',
+                    method: 'POST',
+                    data: {
+                        ruta: '/HabitaRoom/index',
+                        accion: 'cargarMasPublicaciones',
+                        offset: offset,
+                        limite: 10
+                    },
+                    success: function (html) {
+                        if (html.trim().length > 0) {
+                            $('#contenedor-principal').append(html);
+                            offset += 10;
+                        }
+                        window.cargandoMas = false;
+                    },
+                    error: function () {
+                        console.error('Error cargando más publicaciones');
+                        window.cargandoMas = false;
+                    },
+                    complete: function () {
+                        clearTimeout(timeoutId);
+                        ocultarCargando();
+                    }
+                });
+
+            }
+
+        } else {
             $('#row_filtros').addClass('position-fixed');
             $('#cont_btns_index').addClass('position-fixed');
 
             $('#footer_hbr').removeClass('footer_end_absolute');
             $('#row_filtros').removeClass('categoria_relative');
             $('#cont_btns_index').removeClass('btns_relative');
-
         }
     });
 }
+
 
 ////////////////////////////////////////////////////////////////
 // FUNCION PARA GUARDAR PUBLICACION
@@ -69,9 +88,7 @@ export function guardarPublicacion(elemento, ruta_actual) {
         },
         dataType: "json",
         success: function (response) {
-
-            console.log("Respuesta del servidor:", response);
-
+            console.log("Respuesta del servidor:", response.auth, response.status, response.message);
             if (response.auth === false) {
                 Swal.fire({
                     title: 'Error',
@@ -99,6 +116,7 @@ export function guardarPublicacion(elemento, ruta_actual) {
         },
         error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", error);
+            console.log("Respuesta recibida:", xhr.responseText);
         }
     });
 }
@@ -129,16 +147,21 @@ export function procesarFormularioFiltros(form) {
     const esFiltros = Object.values(filtros).some(v => v !== '' && v !== '0');
     console.log('Datos a enviar en AJAX:', filtros, esFiltros, ruta);
 
+    const timeoutId = mostrarCargandoConRetardo();
+
     $.ajax({
         url: 'controllers/IndexController.php',
         type: 'POST',
         data: JSON.stringify({ filtros, esFiltros, ruta }),
         contentType: 'application/json',
-        beforeSend: mostrarCargando,
         success: resp => $('#contenedor-principal').html(resp),
         error: (xhr, status, err) => console.error('Error AJAX:', err),
-        complete: ocultarCargando
+        complete: function () {
+            clearTimeout(timeoutId);
+            ocultarCargando();
+        }
     });
+
 }
 
 
@@ -200,15 +223,14 @@ export function inicializarBuscadorLateral() {
         }
 
         q = q.toLowerCase();
-        mostrarCargando();
+
+        const timeoutId = mostrarCargandoConRetardo();
 
         $.ajax({
             url: 'controllers/IndexController.php',
             type: 'POST',
             data: { accion: 'buscar', q, ruta: window.location.pathname },
-            beforeSend: () => mostrarCargando(),
             success: function (html) {
-                console.log('Resultados de búsqueda:', html);
                 $('#contenedor-principal').html(html);
             },
             error: function (xhr, status, err) {
@@ -218,9 +240,11 @@ export function inicializarBuscadorLateral() {
                 );
             },
             complete: function () {
+                clearTimeout(timeoutId);
                 ocultarCargando();
             }
         });
+
     });
 }
 
@@ -257,7 +281,8 @@ export function filtrarTipoPublicitante() {
                 return;
         }
 
-        mostrarCargando();
+        const timeoutId = mostrarCargandoConRetardo();
+
         $.ajax({
             url: 'controllers/IndexController.php',
             type: 'POST',
@@ -266,8 +291,6 @@ export function filtrarTipoPublicitante() {
                 tipo_publicitante: tipo,
                 ruta: window.location.pathname
             },
-            dataType: 'html',
-            beforeSend: () => mostrarCargando(),
             success: function (html) {
                 $('#contenedor-principal').html(html);
             },
@@ -278,8 +301,15 @@ export function filtrarTipoPublicitante() {
                 );
             },
             complete: function () {
+                clearTimeout(timeoutId);
                 ocultarCargando();
             }
         });
+
     }
+}
+
+function mostrarCargandoConRetardo(delay = 500) {
+    const id = setTimeout(() => mostrarCargando(), delay);
+    return id;
 }

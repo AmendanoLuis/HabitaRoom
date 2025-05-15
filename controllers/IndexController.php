@@ -39,6 +39,28 @@ class IndexController
         }
     }
 
+    // Función para cargar más publicaciones (infinite scroll)
+    public function cargarMasPublicaciones()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
+        $limite = isset($_POST['limite']) ? (int)$_POST['limite'] : 10;
+
+        $publicaciones = $this->model->obtenerPublicaciones($limite, $offset);
+
+        if ($publicaciones) {
+            // Incluye la vista parcial que renderiza SOLO las publicaciones (sin layout completo)
+            require_once '../views/PublicacionesView.php';
+        } else {
+            // Devuelve vacío o algún indicador para que el JS deje de hacer peticiones
+            echo '';
+        }
+        exit;
+    }
+
 
     // Función para cargar las publicaciones por filtro
     public function cargarPublicacionesFiltro($filtros)
@@ -49,7 +71,6 @@ class IndexController
 
         if ($publicaciones !== "") {
             require_once '../views/PublicacionesView.php';
-        
         } else {
             echo `No hay publicaciones disponibles con los filtros`;
         }
@@ -63,7 +84,6 @@ class IndexController
 
         if ($publicaciones !== "") {
             require_once '../views/PublicacionesView.php';
-        
         } else {
             echo `No hay publicaciones disponibles con los filtros`;
         }
@@ -85,7 +105,7 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
     $q   = trim(strtolower($_POST['q'] ?? ''));
     $ctl = new IndexController();
     ob_start();
-      $ctl->buscarAnuncios($q);
+    $ctl->buscarAnuncios($q);
     echo ob_get_clean();
     exit;
 }
@@ -95,21 +115,30 @@ if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublic
     $tipo = trim(strtolower($_POST['tipo_publicitante'] ?? ''));
     $ctl  = new IndexController();
     ob_start();
-      $ctl->cargarPublicacionesFiltro(['tipo_publicitante' => $tipo]);
+    $ctl->cargarPublicacionesFiltro(['tipo_publicitante' => $tipo]);
     echo ob_get_clean();
     exit;
 }
+
+// Cargar más publicaciones (infinite scroll)
+if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
+    $ctl = new IndexController();
+    $ctl->cargarMasPublicaciones();
+    exit;
+}
+
 
 // Lógica genérica de índice
 if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
 
     $ctl = new IndexController();
     ob_start();
-      if ($esFiltros) {
-          $ctl->cargarPublicacionesFiltro($filtros);
-      } else {
-          $ctl->cargarPublicaciones();
-      }
+    if ($esFiltros) {
+        $ctl->cargarPublicacionesFiltro($filtros);
+    } else {
+        $ctl->cargarPublicaciones();
+    }
     echo ob_get_clean();
     exit;
 }
+

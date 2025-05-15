@@ -11,7 +11,7 @@
               <img src="public/img/noGuardados.png" alt="Imagen de registro" class="img-fluid w-25 mx-auto d-block">
             </a>
           </div>
-          <p class="mb-4">Registrate y guarda tus artículos favoritos y accede a ellos cuando quieras.</p>
+          <p class="mb-4">¡Registrate! Guarda tus artículos favoritos y accede a ellos cuando quieras.</p>
           <a href="/HabitaRoom/registro" class="btn btn-success">Ir a registro</a>
         </div>
       </div>

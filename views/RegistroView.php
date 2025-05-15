@@ -7,96 +7,98 @@
                 <h2 class="mb-3 mt-5 fs-1">Regístrate</h2>
 
                 <!-- Formulario de Registro -->
-                <form class="w-75" id="cont_registro" action="controllers/RegistroController.php" method="POST" enctype="multipart/form-data">
+                <form class="w-75" id="cont_registro"  method="POST" enctype="multipart/form-data"  novalidate>
 
-                    <!-- Campo para el Nombre -->
+                    <!-- Nombre -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="nombre">Nombre</label>
-                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre" name="nombre" placeholder="Ingresa tu nombre" >
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required minlength="2" maxlength="50" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
                     </div>
 
-                    <!-- Campo para los Apellidos -->
+                    <!-- Apellidos -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control border border-1 border-success-subtle" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" >
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" required minlength="2" maxlength="50" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+">
                     </div>
 
-                    <!-- Campo para el Nombre de Usuario -->
+                    <!-- Nombre de Usuario -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="nombre_usuario">Nombre de Usuario</label>
-                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre_usuario" name="nombre_usuario" placeholder="Elige un nombre de usuario">
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="nombre_usuario" name="nombre_usuario" placeholder="Elige un nombre de usuario" required minlength="3" maxlength="20" pattern="^[a-zA-Z0-9_]+$" title="Solo letras, números y guion bajo">
                     </div>
 
-                    <!-- Campo para el Correo Electrónico -->
+                    <!-- Correo Electrónico -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="correo_electronico">Correo Electrónico</label>
-                        <input type="email" class="form-control border border-1 border-success-subtle" id="correo_electronico" name="correo_electronico" placeholder="Ingresa tu correo electrónico" >
+                        <input type="email" class="form-control border border-1 border-success-subtle" id="correo_electronico" name="correo_electronico" placeholder="Ingresa tu correo electrónico" required>
                     </div>
 
-                    <!-- Campo para el Teléfono -->
+                    <!-- Teléfono -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="telefono">Teléfono</label>
-                        <input type="tel" class="form-control border border-1 border-success-subtle" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono">
+                        <input type="tel" class="form-control border border-1 border-success-subtle" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono" pattern="^\d{7,15}$" title="Ingresa solo números, entre 7 y 15 dígitos" required>
                     </div>
 
-                    <!-- Campo para la Contraseña -->
+                    <!-- Contraseña -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control border border-1 border-success-subtle" id="contrasena" name="contrasena" placeholder="Crea una contraseña" >
+                        <input type="password" class="form-control border border-1 border-success-subtle" id="contrasena" name="contrasena" placeholder="Crea una contraseña" required minlength="8" maxlength="50" title="Mínimo 8 caracteres">
                     </div>
 
-                    <!-- Selección del Tipo de Usuario -->
+                    <!-- Tipo de Usuario -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="tipo_usuario">Tipo de Usuario</label>
-                        <select class="form-control border border-1 border-success-subtle" id="tipo_usuario" name="tipo_usuario" >
+                        <select class="form-control border border-1 border-success-subtle" id="tipo_usuario" name="tipo_usuario" required>
+                            <option value="" disabled selected>Selecciona un tipo</option>
                             <option value="habitante">Habitante</option>
                             <option value="propietario">Propietario</option>
                             <option value="empresa">Empresa</option>
                         </select>
                     </div>
 
-                    <!-- Campo para la Ubicación -->
+                    <!-- Ubicación -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="ubicacion">Ubicación</label>
-                        <input type="text" class="form-control border border-1 border-success-subtle" id="ubicacion" name="ubicacion" placeholder="Ingresa tu ubicación">
+                        <input type="text" class="form-control border border-1 border-success-subtle" id="ubicacion" name="ubicacion" placeholder="Ingresa tu ubicación" minlength="2" maxlength="100">
                     </div>
 
-                    <!-- Sección para Cargar una Foto de Perfil -->
+                    <!-- Foto de Perfil -->
                     <div class="form-group my-3">
                         <label class="pt-2 fs-5" for="foto_perfil">Foto de Perfil</label>
                         <div class="border border-1 border-success-subtle rounded p-4 text-center text-secondary mt-3 bg-white">
-                            <i class="bi bi-camera fs-3"></i>
-                            <p>Añade una foto de perfil</p>
-                            <input class="d-none" type="file" id="fileInput" name="foto_perfil" multiple>
+                            <div id="perfil-preview" class="mb-3"></div>
+                            <input class="d-none" type="file" id="fileInput" name="foto_perfil" accept="image/*">
                             <label for="fileInput" class="btn btn-outline-dark">Seleccionar</label>
                         </div>
                     </div>
 
-                    <!-- Campo para la Descripción del Usuario -->
+                    <!-- Descripción -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="descripcion">Descripción</label>
-                        <textarea class="form-control border border-1 border-success-subtle" id="descripcion" name="descripcion" placeholder="Describe algo sobre ti"></textarea>
+                        <textarea class="form-control border border-1 border-success-subtle" id="descripcion" name="descripcion" placeholder="Describe algo sobre ti" required minlength="10" maxlength="500"></textarea>
                     </div>
 
-                    <!-- Selección de Preferencia de Contacto -->
+                    <!-- Preferencia de Contacto -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="preferencia_contacto">Preferencia de Contacto</label>
-                        <select class="form-control border border-1 border-success-subtle" id="preferencia_contacto" name="preferencia_contacto" >
+                        <select class="form-control border border-1 border-success-subtle" id="preferencia_contacto" name="preferencia_contacto" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
                             <option value="whatsapp">WhatsApp</option>
                             <option value="email">Email</option>
                             <option value="mensaje">Mensaje</option>
                         </select>
                     </div>
 
-                    <!-- Aceptación de Términos y Condiciones -->
+                    <!-- Términos y Condiciones -->
                     <div class="form-group ms-2 mt-5 my-2 form-check">
-                        <input type="checkbox" class="form-check-input border border-1 border-success-subtle" id="terminos_aceptados" name="terminos_aceptados" >
+                        <input type="checkbox" class="form-check-input border border-1 border-success-subtle" id="terminos_aceptados" name="terminos_aceptados" required>
                         <label class="form-check-label" for="terminos_aceptados">Acepto los términos y condiciones</label>
                     </div>
 
-                    <!-- Botón para Enviar el Formulario -->
+                    <!-- Botón -->
                     <button type="submit" name="btn_registro" class="w-100 my-3 btn btn-outline-success">Guardar</button>
                 </form>
+
 
                 <!-- Enlaces de Ayuda -->
                 <div class="my-5 d-flex justify-content-between w-75">

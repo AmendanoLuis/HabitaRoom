@@ -1,5 +1,6 @@
 import { mostrarCargando, ocultarCargando } from '../public/js/loadingPage.js';
 import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
+import { mostrarImagenPrevia, asignarEventosFormRegistro } from '../public/js/register.js';
 import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral, filtrarTipoPublicitante } from '/HabitaRoom/public/js/index.js';
 
 $(document).ready(function () {
@@ -190,6 +191,16 @@ $(document).ready(function () {
         // LOGIN
         else if (ruta_actual === '/HabitaRoom/login') {
             observarCarga('#form_login', validarFormularioLogin);
+        }
+
+        // REGISTRO
+        else if (ruta_actual === '/HabitaRoom/registro') {
+            observarCarga('#cont_registro', () => {
+                console.log('Contenedor de registro detectado, asignando eventos');
+
+                asignarEventosFormRegistro();
+                mostrarImagenPrevia();
+            });
         }
 
         // PERFIL

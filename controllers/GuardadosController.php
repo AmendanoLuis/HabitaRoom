@@ -27,15 +27,18 @@ class GuardadosController
 // Controlador para manejar la acción de guardar o quitar guardado
 // -----------------------------------------------------------
 session_start();
-if (!isset($_SESSION['id'])) {
-    return json_encode([
+$path = $_POST['rutaGuardar'] ?? null;
+if ($path === '/HabitaRoom/index' && !isset($_SESSION['id'])) {
+    echo json_encode([
         'status' => 'error',
         'auth' => false,
         'message' => 'No estás autenticado. Inicia sesión para continuar.'
     ]);
-    ;
+    exit;
+}else{
+    $id_usuario = $_SESSION['id'] ?? null;
 }
-$id_usuario = $_SESSION['id'];
+
 $id_publicacion = $_POST['id_publicacion'] ?? null;
 
 $guardar = isset($_POST['guardar']) ? filter_var($_POST['guardar'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : false;

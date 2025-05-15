@@ -92,6 +92,7 @@ $dbConnection = Database::connect();
     <script type="module" src="public/js/index.js"></script>
     <script type="module" src="config/app.js"></script>
     <script type="module" src="public/js/crearPublicacion.js"></script>
+    <script type="module" src="public/js/register.js"></script>
 
 </body>
 
