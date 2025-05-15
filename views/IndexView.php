@@ -174,29 +174,29 @@
 
             </div>
 
-                <!-- Categoria |  MOVIL -->
-                <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
-                    <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
-                        <h5>Categoria</h5>
-                        <h5 class="mb-3">Publicaciones</h5>
-                        <div class="btn-group d-flex flex-column px-3" role="group"
-                            aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-mob"
-                                autocomplete="off">
-                            <label class="btn btn-outline-secondary py-2 rounded-0 rounded-top"
-                                for="btn-habitantes-mob">Habitantes</label>
+            <!-- Categoria |  MOVIL -->
+            <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
+                <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
+                    <h5>Categoria</h5>
+                    <h5 class="mb-3">Publicaciones</h5>
+                    <div class="btn-group d-flex flex-column px-3" role="group"
+                        aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-mob"
+                            autocomplete="off">
+                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-top"
+                            for="btn-habitantes-mob">Habitantes</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btn-propietario-mob"
-                                autocomplete="off">
-                            <label class="btn btn-outline-secondary py-2 rounded-0"
-                                for="btn-propietario-mob">Propietario</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="btn-propietario-mob"
+                            autocomplete="off">
+                        <label class="btn btn-outline-secondary py-2 rounded-0"
+                            for="btn-propietario-mob">Propietario</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="btn-empresa-mob" autocomplete="off">
-                            <label class="btn btn-outline-secondary py-2 rounded-0 rounded-bottom"
-                                for="btn-empresa-mob">Empresas</label>
-                        </div>
+                        <input type="radio" class="btn-check" name="btnradio" id="btn-empresa-mob" autocomplete="off">
+                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-bottom"
+                            for="btn-empresa-mob">Empresas</label>
                     </div>
                 </div>
+            </div>
 
         </div>
 
@@ -206,8 +206,8 @@
         </div>
 
         <!-- Contenedor Mapa Ordenador-->
-        <div id="mapa" class="position-fixed end-0 d-none d-xxl-block bg-light shadow-lg rounded-bottom p-0 pt-4">
-            <iframe class="w-100 h-75 px-2 mb-2"
+        <div id="mapa" class="position-fixed end-0 bg-light shadow-lg rounded-bottom p-0 pt-4" style="display: none;">
+        <iframe class="w-100 h-75 px-2 mb-2"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10694.649359839766!2d-3.584114235826003!3d37.16367693815794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71e3532fc629bb%3A0x3f04a1335378ec94!2sAsador%20Curro!5e0!3m2!1ses!2ses!4v1739023651029!5m2!1ses!2ses"></iframe>
             <form
                 class="form p-3 d-flex justify-content-center align-items-center bg-success bg-opacity-75 rounded-bottom"
@@ -221,12 +221,13 @@
         <!-- Contenedor Botones Accion -->
         <div class="botones_accion position-fixed bottom-0 end-0 m-3" id="cont_btns_index">
 
-            <!-- Contenedor para el Chat -->
+            <!-- Contenedor para el Chat
             <div id="map-container" class="position-absolute top-50 end-0 translate-middle-y "> <button class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
                     <i class="bi bi-chat-dots" style="font-size: 30px;"></i>
                 </button>
             </div>
-
+            -->
+            
             <!-- Contenedor para el Mapa  -->
 
             <div id="filters-container" class="position-absolute bottom-0 end-0 ">

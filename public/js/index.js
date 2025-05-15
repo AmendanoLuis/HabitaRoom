@@ -1,8 +1,8 @@
 import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 // FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function detectarFinDePagina() {
     let offset = 10;
     var ancho_cont_categ = $('#row_filtros').outerWidth();
@@ -66,9 +66,33 @@ export function detectarFinDePagina() {
 }
 
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
+// FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
+//------------------------------------------------------------------
+export function inicializarToggleMapa() {
+    $(document).on('click', '#filters-container button', function () {
+        console.log("Botón de mapa clicado");
+
+        const $mapa = $('#mapa');
+
+        if ($mapa.hasClass('visible')) {
+            $mapa.removeClass('visible');
+            setTimeout(() => {
+                $mapa.css('display', 'none');
+            }, 500); 
+        } else {
+            $mapa.css('display', 'block');
+            void $mapa[0].offsetWidth;
+            $mapa.addClass('visible');
+        }
+    });
+}
+
+
+
+//------------------------------------------------------------------
 // FUNCION PARA GUARDAR PUBLICACION
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function guardarPublicacion(elemento, ruta_actual) {
 
     const icono = $(elemento).find("i");
@@ -123,9 +147,9 @@ export function guardarPublicacion(elemento, ruta_actual) {
 
 
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 // FUNCION PARA PROCESAR EL FORMULARIO DE FILTROS
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function procesarFormularioFiltros(form) {
     const formData = new FormData(form);
     const filtros = {};
@@ -168,9 +192,9 @@ export function procesarFormularioFiltros(form) {
 
 
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 // FUNCION PARA CARGAR LOS FILTROS
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function cargarFiltros() {
     const raw = sessionStorage.getItem('filtrosBusqueda');
     if (!raw) return;
@@ -202,9 +226,9 @@ export function cargarFiltros() {
 
 
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 // FUNCION PARA CARGAR INICIALIZAR EL BUSCADOR LATERAL
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function inicializarBuscadorLateral() {
     // Delegación directa, el formulario está en el layout y siempre presente
     $(document).on('submit', '#formBuscarLateral', function (e) {
@@ -249,9 +273,9 @@ export function inicializarBuscadorLateral() {
 }
 
 
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 // Inicializa el filtro de tipo de publicitante
-////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------
 export function filtrarTipoPublicitante() {
 
     // Delegación para móviles

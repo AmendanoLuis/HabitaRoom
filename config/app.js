@@ -1,7 +1,7 @@
 import { mostrarCargando, ocultarCargando } from '../public/js/loadingPage.js';
 import { procesarFormularioCrearPublicacion, asignarEventosForm, validarCampo } from '../public/js/crearPublicacion.js';
 import { mostrarImagenPrevia, asignarEventosFormRegistro } from '../public/js/register.js';
-import { detectarFinDePagina, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral, filtrarTipoPublicitante } from '/HabitaRoom/public/js/index.js';
+import { detectarFinDePagina, inicializarToggleMapa, guardarPublicacion, procesarFormularioFiltros, cargarFiltros, inicializarBuscadorLateral, filtrarTipoPublicitante } from '/HabitaRoom/public/js/index.js';
 
 $(document).ready(function () {
 
@@ -173,7 +173,13 @@ $(document).ready(function () {
 
                     await cargarPublicacionesIndex();
 
+                    // Detectar fin de página para cargar más publicaciones
                     detectarFinDePagina();
+
+                    // Mostrar o no mostrar mapa
+                    inicializarToggleMapa();
+
+
                     observarIdsPublicaciones('#contenedor-principal', '.contenedor-publicacion');
 
                     // Asignar evento a los iconos de guardar
