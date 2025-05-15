@@ -86,11 +86,12 @@ if (isset($_SESSION['id'])) {
 
             <!-- Botones de accion-->
             <div class="col d-flex justify-content-end align-items-center gap-2 mt-3">
+                <!-- 
                 <form method="POST">
-                    <input type="hidden" name="ed_perfil" value="2">
-                    <button type="submit" id="btn_accion_perfil" class="btn btn-success" style="width: 150px;">Editar
-                        Perfil</button>
+                        <input type="hidden" name="ed_perfil" value="2">
+                        <button type="submit" id="btn_accion_perfil" class="btn btn-success" style="width: 150px;">Editar Perfil</button>
                 </form>
+                -->
                 <form action="controllers/LoginController.php" method="POST">
                     <input type="hidden" name="logout" value="1">
                     <button type="submit" id="btn_accion_perfil" class="btn btn-danger" style="width: 150px;">Cerrar
@@ -115,7 +116,7 @@ if (isset($_SESSION['id'])) {
         <div class="row">
             <?php foreach ($publicaciones as $publicacion): ?>
                 <div class="col-4  contenedor-publicacion">
-                    
+
                     <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
                         <div class="my-2 mx-auto" id="cont_img_publi_perfil">
                             <?php
@@ -124,14 +125,12 @@ if (isset($_SESSION['id'])) {
                             if (is_array($imagenes) && !empty($imagenes)): ?>
                                 <img src="<?php echo 'assets/uploads/img_publicacion/' . trim($imagenes[0]); ?>"
                                     class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
-                                    id="img_publi_perfil"
-                                />
+                                    id="img_publi_perfil" />
                             <?php else: ?>
-                                <img src="assets/uploads/img_publicacion/imgPublicacionBase.png" 
-                                class="img-fluid rounded border border-1 border-success-subtle" 
-                                id="img_publi_perfil" 
-                                alt="Imagen de la propiedad"
-                                />
+                                <img src="assets/uploads/img_publicacion/imgPublicacionBase.png"
+                                    class="img-fluid rounded border border-1 border-success-subtle"
+                                    id="img_publi_perfil"
+                                    alt="Imagen de la propiedad" />
                             <?php endif; ?>
                         </div>
                     </a>
