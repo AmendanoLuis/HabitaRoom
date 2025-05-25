@@ -35,6 +35,7 @@ $dbConnection = Database::connect();
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <link rel="icon" href="public/img/logo_HR_sinFondo.png">
 </head>
@@ -85,6 +86,9 @@ $dbConnection = Database::connect();
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Leaflet + Nominatim -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
     <!-- Scripts control contenido -->
     <!-- En tu HTML principal -->
@@ -93,6 +97,10 @@ $dbConnection = Database::connect();
     <script type="module" src="config/app.js"></script>
     <script type="module" src="public/js/crearPublicacion.js"></script>
     <script type="module" src="public/js/register.js"></script>
+    <script type="module" src="public/js/mapUtils.js"></script>
+    <script type="module" src="public/js/ubicacionesAutocompletar.js"></script>
+    <script type="module" src="public/js/manejadorMapa.js"></script>
+
 
 </body>
 

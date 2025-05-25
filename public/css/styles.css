@@ -152,90 +152,95 @@
 
 /* 1) Contenedor de la tarjeta */
 .card.contenedor-publicacion {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
 }
 
 /* 2) Contenido textual */
 .card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
 }
 
 /* 3) Contenedor de la imagen con proporción 4:3 */
 /*    Cambia 4/3 por 16/9, 1/1, etc. según necesites */
 #contImagenPubli {
-  position: relative;
-  width: 50%;
-  aspect-ratio: 4 / 3;    /* Alto = Ancho × (3/4) */
-  overflow: hidden;
+    position: relative;
+    width: 50%;
+    aspect-ratio: 4 / 3;
+    /* Alto = Ancho × (3/4) */
+    overflow: hidden;
 }
 
 /* 4) Imagen que cubre todo el contenedor */
 #contImagenPubli img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;      /* Recorta y ajusta */
-  object-position: center;
-  border-radius: 0 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Recorta y ajusta */
+    object-position: center;
+    border-radius: 0 !important;
 }
 
 /* 5) Texto descriptivo limitado */
 .descripccionPubli {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: auto;
 }
 
 /* 6) Título y precio */
 .precioPubli,
 .tituloPubli {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 /* 7) Enlaces y botones no rompen el layout */
 .card a {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .mt-auto {
-  margin-top: auto;
+    margin-top: auto;
 }
 
 .card.mb-4.shadow {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
 }
 
 /* 8) Responsivo: ancho de la tarjeta */
 @media (min-width: 576px) {
-  .card.contenedor-publicacion {
-    width: 80%;
-  }
+    .card.contenedor-publicacion {
+        width: 80%;
+    }
 }
+
 @media (min-width: 992px) {
-  .card.contenedor-publicacion {
-    width: 70%;
-  }
+    .card.contenedor-publicacion {
+        width: 70%;
+    }
 }
+
 /* 9) Mobile first: para pantallas < 576px, imagen full width */
 @media (max-width: 580px) {
-  #contImagenPubli {
-    width: 100% !important;
-  }
+    #contImagenPubli {
+        width: 100% !important;
+    }
 }
 
 
@@ -245,7 +250,6 @@
 ------------------------------------------------- 
 */
 
-/* Estilo inicial del mapa */
 #mapa {
     width: 320px;
     height: 350px;
@@ -254,24 +258,26 @@
     top: clamp(70px, 4vh, 160px);
     z-index: 1050;
     background-color: white;
-    display: none;
     opacity: 0;
-    transform: translateY(100px);
+    transform: translate3d(0, 100px, 0);
     transition: transform 0.5s ease, opacity 0.5s ease;
+    
+    visibility: hidden;
+    pointer-events: none;
 }
 
-/* MAPA visible con animación */
 #mapa.visible {
-    display: block;
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    pointer-events: auto;
 }
-
-
 
 #formBuscarMapa {
     width: 100%;
+    height: auto;
 }
+
 
 /*
 -------------------------------------------------
@@ -476,7 +482,7 @@ ESTILO DE LA SECCION PERFIL USUARIO
 }
 
 .contenedor-publicaciones {
-  min-height: 600px;
+    min-height: 600px;
 }
 
 
@@ -535,4 +541,24 @@ ESTILO DE LA SECCION DE CARGANDO
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+
+
+
+/*
+
+-------------------------------------------------
+ESTILO DE LA AUTOCOMPLETADO DE UBICACIONES
+-------------------------------------------------
+
+*/
+
+.autocomplete-list {
+    padding-left: 0;
+}
+
+.autocomplete-list li {
+    cursor: pointer;
 }

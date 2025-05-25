@@ -205,12 +205,12 @@
 
         </div>
 
-        <!-- Contenedor Mapa Ordenador-->
-        <div id="mapa" class="position-fixed end-0 bg-light shadow-lg rounded-bottom p-0 pt-4" style="display: none;">
-        <iframe class="w-100 h-75 px-2 mb-2"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10694.649359839766!2d-3.584114235826003!3d37.16367693815794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71e3532fc629bb%3A0x3f04a1335378ec94!2sAsador%20Curro!5e0!3m2!1ses!2ses!4v1739023651029!5m2!1ses!2ses"></iframe>
+        <!-- Contenedor Mapa -->
+        <div id="mapa" class="position-fixed end-0 bg-body shadow-lg rounded-bottom p-0 mt-4" >
+            <div id="mapLeaflet" class="w-100 h-75 px-2 mb-2"></div>
+
             <form
-                class="form p-3 d-flex justify-content-center align-items-center bg-success bg-opacity-75 rounded-bottom"
+                class="form p-3 h-25 d-flex justify-content-center align-items-center bg-success bg-opacity-75 rounded-bottom"
                 id="formBuscarMapa">
                 <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                 <button class="btn btn-primary" type="submit">Buscar</button>
@@ -228,10 +228,10 @@
             </div>
             -->
             
-            <!-- Contenedor para el Mapa  -->
+            <!-- Contenedor para boton del Mapa  -->
 
-            <div id="filters-container" class="position-absolute bottom-0 end-0 ">
-                <button class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
+            <div id="btn-toggle-mapa"class="position-absolute bottom-0 end-0 ">
+                <button id="btn-toggle-mapa" class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
                     <i class="bi bi-map" style="font-size: 30px;"></i>
                 </button>
             </div>

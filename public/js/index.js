@@ -66,28 +66,6 @@ export function detectarFinDePagina() {
 }
 
 
-//------------------------------------------------------------------
-// FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
-//------------------------------------------------------------------
-export function inicializarToggleMapa() {
-    $(document).on('click', '#filters-container button', function () {
-        console.log("Botón de mapa clicado");
-
-        const $mapa = $('#mapa');
-
-        if ($mapa.hasClass('visible')) {
-            $mapa.removeClass('visible');
-            setTimeout(() => {
-                $mapa.css('display', 'none');
-            }, 500); 
-        } else {
-            $mapa.css('display', 'block');
-            void $mapa[0].offsetWidth;
-            $mapa.addClass('visible');
-        }
-    });
-}
-
 
 
 //------------------------------------------------------------------

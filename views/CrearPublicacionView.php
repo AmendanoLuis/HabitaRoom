@@ -32,7 +32,7 @@
                 <!-- Ubicación -->
                 <div class="container my-3">
                     <h5 class="mb-3 fs-4">Ubicación</h5>
-                    <div id="mapa" class="d-flex flex-column align-items-center mx-auto mt-3 w-100">
+                    <div class="d-flex flex-column align-items-center mx-auto mt-3 w-100">
 
                         <iframe class="h-100 mb-3 border border-1 " width="500px"
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10694.649359839766!2d-3.584114235826003!3d37.16367693815794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71e3532fc629bb%3A0x3f04a1335378ec94!2sAsador%20Curro!5e0!3m2!1ses!2ses!4v1739023651029!5m2!1ses!2ses"></iframe>
@@ -42,9 +42,9 @@
                             id="formBuscarMapa">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Donde se encuentra su inmueble..."
-                                    aria-label="Buscar ubicación" name="ubicacion" id="ubicacion" aria-describedby="addon-wrapping">
+                                    aria-label="Buscar ubicación" name="ubicacion" id="ubicacionCrearPubli" aria-describedby="addon-wrapping">
 
-                                <button class="btn btn-primary" type="button" onclick="buscarUbicacion()">Buscar</button>
+                                <button class="btn btn-primary" type="button" >Buscar</button>
                             </div>
 
                         </div>
