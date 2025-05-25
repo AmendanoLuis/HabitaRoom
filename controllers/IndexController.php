@@ -28,6 +28,8 @@ class IndexController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+        $ruta = $_POST['ruta'] ?? '';
+
         // Obtener las publicaciones
         $publicaciones = $this->model->obtenerPublicaciones();
         $publicaciones_guardadas = $this->model->obtenerPublicacionesGuardadas();

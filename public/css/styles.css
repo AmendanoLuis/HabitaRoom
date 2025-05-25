@@ -146,112 +146,98 @@
 
 /*
 -------------------------------------------------
-    PUBLICACION
+    PUBLICACION - IMAGEN RESPONSIVA SIN ESPACIOS
 ------------------------------------------------- 
 */
 
+/* 1) Contenedor de la tarjeta */
 .card.contenedor-publicacion {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Contenedor de la tarjeta */
+/* 2) Contenido textual */
 .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
-/* Imagen de la publicación */
-#imgPublicIndex {
-    width: 100%;
-    object-fit: cover;
-    height: 200px;
+/* 3) Contenedor de la imagen con proporción 4:3 */
+/*    Cambia 4/3 por 16/9, 1/1, etc. según necesites */
+#contImagenPubli {
+  position: relative;
+  width: 50%;
+  aspect-ratio: 4 / 3;    /* Alto = Ancho × (3/4) */
+  overflow: hidden;
 }
 
-/* Descripción de la publicación - Limita el texto a 3 líneas */
+/* 4) Imagen que cubre todo el contenedor */
+#contImagenPubli img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* Recorta y ajusta */
+  object-position: center;
+  border-radius: 0 !important;
+}
+
+/* 5) Texto descriptivo limitado */
 .descripccionPubli {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    /* Limita el número de líneas */
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: auto;
-    /* Empuja la descripción hacia abajo */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: auto;
 }
 
-/* Título y precio de la publicación */
+/* 6) Título y precio */
 .precioPubli,
 .tituloPubli {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Contenedor de la tarjeta con enlaces (asegurando que no afecte el layout) */
+/* 7) Enlaces y botones no rompen el layout */
 .card a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Ajustes para las imágenes en el carrusel */
-.carousel-inner {
-    height: 200px;
-}
-
-.carousel-item img {
-    object-fit: cover;
-    height: 100%;
-}
-
-/* Asegura que los botones no afecten el tamaño del contenedor */
 .mt-auto {
-    margin-top: auto;
+  margin-top: auto;
 }
 
-/* Asegura que las tarjetas no cambien de tamaño sin importar el contenido */
 .card.mb-4.shadow {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
 }
 
-/* Ancho de las publicaciones - responsivo */
-.card.contenedor-publicacion {
-    width: 100%;
-    margin: 0 auto;
-}
-
-/* RESPONSIVO - Ajustes para pantallas medianas y grandes */
+/* 8) Responsivo: ancho de la tarjeta */
 @media (min-width: 576px) {
-    .card.contenedor-publicacion {
-        width: 80%;
-    }
+  .card.contenedor-publicacion {
+    width: 80%;
+  }
 }
-
-@media (min-width: 768px) {
-    .card.contenedor-publicacion {
-        width: 80%;
-    }
-}
-
 @media (min-width: 992px) {
-    .card.contenedor-publicacion {
-        width: 70%;
-    }
+  .card.contenedor-publicacion {
+    width: 70%;
+  }
+}
+/* 9) Mobile first: para pantallas < 576px, imagen full width */
+@media (max-width: 580px) {
+  #contImagenPubli {
+    width: 100% !important;
+  }
 }
 
-@media (min-width: 1200px) {
-    .card.contenedor-publicacion {
-        width: 70%;
-    }
-}
 
 /*
 -------------------------------------------------
@@ -488,6 +474,11 @@ ESTILO DE LA SECCION PERFIL USUARIO
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.contenedor-publicaciones {
+  min-height: 600px;
+}
+
 
 #btn_accion_perfil {
     width: 100%;

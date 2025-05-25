@@ -42,7 +42,13 @@
                     <!-- Contraseña -->
                     <div class="form-group my-3">
                         <label class="py-2 fs-5" for="contrasena">Contraseña</label>
-                        <input type="password" class="form-control border border-1 border-success-subtle" id="contrasena" name="contrasena" placeholder="Crea una contraseña" required minlength="8" maxlength="50" title="Mínimo 8 caracteres">
+                        <input type="password" class="form-control border border-1 border-success-subtle" id="contrasena" name="contrasena" placeholder="Escribe una contraseña" required minlength="8" maxlength="50" title="Mínimo 8 caracteres">
+                    </div>
+
+                    <!-- Repetir contraseña -->
+                    <div class="form-group my-3">
+                        <label class="py-2 fs-5" for="repContrasena">Repetir contraseña</label>
+                        <input type="password" class="form-control border border-1 border-success-subtle" id="repContrasena" name="repContrasena" placeholder="Repite la contraseña" required minlength="8" maxlength="50" title="Igual a la contraseña">
                     </div>
 
                     <!-- Tipo de Usuario -->

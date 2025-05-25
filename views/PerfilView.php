@@ -26,6 +26,7 @@ if (isset($_SESSION['id'])) {
 
             <!-- Información del usuario -->
             <div class="col-8 d-flex flex-column position-relative">
+
                 <div class="w-100 text-start ms-2 mt-4">
                     <h2><?php echo $usuario->nombre . ' ' . $usuario->apellidos; ?></h2>
                     <p class=""><?php echo $usuario->correo_electronico; ?></p>
@@ -65,14 +66,21 @@ if (isset($_SESSION['id'])) {
             <div class="col">
                 <p class="fs-5 fw-semibold">Contacto</p>
                 <p class="fs-6 fw-normal text-capitalize text-muted m-0">
+
+                    <!-- Numero -->
                     <?php if ($usuario->preferencia_contacto === "whatsapp"): ?>
                         <i class="bi bi-whatsapp"></i>
+                        <?php echo $usuario->telefono; ?>
+                        <!-- Email-->
                     <?php elseif ($usuario->preferencia_contacto === "email"): ?>
                         <i class="bi bi-envelope-at"></i>
+                        <?php echo $usuario->correo_electronico; ?>
+                        <!-- Mensaje-->
                     <?php else: ?>
                         <i class="bi bi-chat-dots"></i>
+                        <?php echo $usuario->preferencia_contacto; ?>
+
                     <?php endif; ?>
-                    <?php echo $usuario->preferencia_contacto; ?>
                 </p>
             </div>
 
@@ -113,30 +121,35 @@ if (isset($_SESSION['id'])) {
         <hr>
 
         <!-- Publicaciones del usuario -->
-        <div class="row">
-            <?php foreach ($publicaciones as $publicacion): ?>
-                <div class="col-4  contenedor-publicacion">
-
-                    <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
-                        <div class="my-2 mx-auto" id="cont_img_publi_perfil">
-                            <?php
-                            $imagenes = json_decode($publicacion->fotos, true);
-
-                            if (is_array($imagenes) && !empty($imagenes)): ?>
-                                <img src="<?php echo 'assets/uploads/img_publicacion/' . trim($imagenes[0]); ?>"
-                                    class="rounded border border-1 border-success-subtle" alt="Foto de la publicación"
-                                    id="img_publi_perfil" />
-                            <?php else: ?>
-                                <img src="assets/uploads/img_publicacion/imgPublicacionBase.png"
-                                    class="img-fluid rounded border border-1 border-success-subtle"
-                                    id="img_publi_perfil"
-                                    alt="Imagen de la propiedad" />
-                            <?php endif; ?>
-                        </div>
-                    </a>
+        <div class="row contenedor-publicaciones">
+            <?php if (empty($publicaciones)): ?>
+                <div class="col d-flex justify-content-center align-items-center">
+                    <img src="public/img/noPublicaciones.png"
+                        alt="Sin publicaciones"
+                        class="img-fluid opacity-50"
+                        style="max-height: 450px;">
                 </div>
-
-            <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach ($publicaciones as $publicacion): ?>
+                    <div class="col-4 contenedor-publicacion">
+                        <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>"
+                            data-id="<?php echo $publicacion->id; ?>">
+                            <div class="my-2 mx-auto" id="cont_img_publi_perfil">
+                                <?php
+                                $imagenes = json_decode($publicacion->fotos, true);
+                                $foto = (is_array($imagenes) && !empty($imagenes))
+                                    ? trim($imagenes[0])
+                                    : 'imgPublicacionBase.png';
+                                ?>
+                                <img src="assets/uploads/img_publicacion/<?php echo $foto; ?>"
+                                    class="rounded border border-1 border-success-subtle"
+                                    id="img_publi_perfil"
+                                    alt="Foto de la publicación" />
+                            </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
     </div>

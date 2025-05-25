@@ -15,7 +15,7 @@
                 <div class="row g-0 rounded-2">
 
                     <!-- Imagen de la propiedad -->
-                    <div class="col-md-6 d-flex align-items-center justify-content-center position-relative" id="contImagenPubli">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center position-relative p-0" id="contImagenPubli">
                         <span class="badge shadow-sm position-absolute top-0 start-0 z-2 text-bg-light mt-3 ms-2 px-5">
                             <?php echo $publicacion->tipo_publicitante; ?>
                         </span>
@@ -23,22 +23,10 @@
                         <?php
                         $imagenes = isset($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                         if (!empty($imagenes) && is_array($imagenes)): ?>
-                            <div id="carousel<?php echo $publicacion->id; ?>" class="carousel slide carousel-fade " data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <?php foreach ($imagenes as $index => $imagen): ?>
-                                        <div class="carousel-item rounded-start <?php echo $index === 0 ? 'active' : ''; ?>">
-                                            <img src="assets/uploads/img_publicacion/<?php echo $imagen; ?>" class="img-fluid rounded-start" id="imgPublicIndex" alt="Imagen de la propiedad">
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?php echo $publicacion->id; ?>" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel<?php echo $publicacion->id; ?>" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+                            <div id="<?php echo $publicacion->id; ?>">
+                                    <div class=" <?php echo $index === 0 ? 'active' : ''; ?>">
+                                        <img src="assets/uploads/img_publicacion/<?php echo $imagenes[0]; ?>" class="w-100 h-100 rounded-start" style="object-fit: cover;" id="imgPublicIndex" alt="Imagen de la propiedad">
+                                    </div>
                             </div>
                         <?php else: ?>
                             <img src="assets/uploads/img_publicacion/imgPublicacionBase.png" class="img-fluid rounded" alt="Imagen de la propiedad">

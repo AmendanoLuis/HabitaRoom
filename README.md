@@ -43,61 +43,79 @@
 La estructura de carpetas de **HabitaRoom** es la siguiente:
 
 ```
-HabitaRoom
-│── index.html  
-│── .gitignore  
-│── README.md  
-│  
-│── /public  
-│   ├── /css  
-│   ├── /js  
-│   ├── /img  
-│   ├── /fonts  
-│  
-│── /assets  
-│   ├── /uploads  
-│  
-│── /includes  
-│   ├── header.php  
-│   ├── footer.php  
-│   ├── headerIndex.php  
-│  
-│── /config   
-│   ├── /db
-│   │   ├── db.php  
-│   ├── /jQuery  
-│   ├── app.js  
-│  
-│── /routes  
-│   ├── web.php  
-│   ├── redireccionWeb.php  
-│  
-│── /controllers  
-│   ├── IndexController.php  
-│   ├── RegisterController.php  
-│   ├── CrearPublicacionController.php  
-│   ├── GuardadosController.php  
-│   ├── OfertasController.php  
-│   ├── LoginController.php  
-│  
-│── /models  
-│   ├── ModelObtenerPublicaciones.php  
-│   ├── RegisterModel.php  
-│   ├── CrearPublicacionModel.php  
-│   ├── GuardadosModel.php  
-│   ├── OfertasModel.php  
-│   ├── LoginModel.php  
-│  
-│── /views  
-│   ├── IndexView.php  
-│   ├── RegisterView.php  
-│   ├── OfertasView.php  
-│   ├── CrearPublicacionView.php  
-│   ├── GuardadosView.php  
-│   ├── LoginView.php  
-│  
-│── /chat  
-│   ├── chat.js  
+HabitaRoom/
+│
+├── .gitignore
+├── .htaccess
+├── estructutra.txt
+├── index.php
+├── README.md
+│
+├── assets/
+│   └── uploads/
+│       ├── img_perfil/
+│       │   └── [imágenes de perfil de usuario]
+│       └── img_publicacion/
+│           └── [imágenes de publicaciones]
+│
+├── config/
+│   ├── app.js
+│   ├── jQuery/
+│   │   └── jquery-3.7.1.min.js
+│   └── db/
+│       └── db.php
+│
+├── controllers/
+│   ├── CrearPublicacionController.php
+│   ├── GuardadosController.php
+│   ├── IndexController.php
+│   ├── LoginController.php
+│   ├── OfertasController.php
+│   ├── PerfilController.php
+│   ├── PublicacionUsuarioController.php
+│   └── RegistroController.php
+│
+├── includes/
+│   ├── footer.php
+│   ├── header.php
+│   ├── headerIndex.php
+│   └── headerLogin.php
+│
+├── models/
+│   ├── ModelGuardados.php
+│   ├── ModelInsertarPublicacion.php
+│   ├── ModelObtenerPublicaciones.php
+│   ├── ModelPublicacion.php
+│   ├── ModelUsuario.php
+│   └── validarFormularioLogin.php
+│
+├── public/
+│   ├── css/
+│   │   └── styles.css
+│   ├── img/
+│   │   └── [íconos, logos, capturas, multimedia]
+│   └── js/
+│       ├── crearPublicacion.js
+│       ├── index.js
+│       ├── loadingPage.js
+│       └── register.js
+│
+├── routes/
+│   ├── redireccionWeb.php
+│   └── web.php
+│
+└── views/
+    ├── CrearPublicacionView.php
+    ├── IndexView.php
+    ├── LoginView.php
+    ├── OfertasView.php
+    ├── PerfilView.php
+    ├── PublicacionesFiltrosView.php
+    ├── PublicacionesView.php
+    ├── PublicacionUsuarioView.php
+    ├── RegistroView.php
+    ├── ViewErrorGuardados.php
+    └── ViewGuardados.php
  
 
 ```

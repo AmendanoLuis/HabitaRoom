@@ -1,5 +1,5 @@
-<?php 
-    $activeRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); 
+<?php
+$activeRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 ?>
 
 <!-- BARRA DE NAVEGACIÓN -->
@@ -15,7 +15,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-end" href="/HabitaRoom/index">
-            <img class="ms-3" src="public/img/logo_HR_sinFondo.png" id="imgLogo" alt="Logo" width="65" height="65" >
+            <img class="ms-3" src="public/img/logo_HR_sinFondo.png" id="imgLogo" alt="Logo" width="65" height="65">
             <h2 for="imgLogo" class="ms-2 fs-1" id="text_logo">HabitaRoom</h2>
         </a>
 
@@ -83,14 +83,11 @@
                 </ul>
                 <hr>
 
-                 <!-- Barra de búsqueda Lateral Derecho-->
-                <form class="d-flex ms-auto ps-3" id="formBuscarLateral" role="search">
-        
-                    <input id="inputBuscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-
-                </form>
-
+                <!-- Barra de búsqueda Lateral Derecho-->
+                    <form class="d-flex ms-auto ps-3 <?php echo ($activeRoute === "/HabitaRoom/index") ? '' : 'invisible pe-none' ?>" id="formBuscarLateral" role="search">
+                        <input id="inputBuscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
                 <hr>
 
                 <!-- Contenedor Mapa en el Menú Lateral Derecho -->

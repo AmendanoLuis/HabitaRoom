@@ -36,7 +36,7 @@ class ModelObtenerPublicaciones
     public function obtenerPublicacionesOfertas()
     {
         try {
-            $sql = "SELECT * FROM publicaciones ORDER BY precio LIMIT 10";
+            $sql = "SELECT * FROM publicaciones ORDER BY precio LIMIT 12";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
 
@@ -55,8 +55,7 @@ class ModelObtenerPublicaciones
             $sql = "SELECT * FROM publicaciones
                     WHERE LOWER(titulo) LIKE :like_q
                        OR SOUNDEX(titulo) = SOUNDEX(:q)
-                    ORDER BY fecha_publicacion DESC
-                    LIMIT 20";
+                    ORDER BY fecha_publicacion";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
                 ':like_q' => "%{$q}%",
