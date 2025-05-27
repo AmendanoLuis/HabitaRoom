@@ -15,36 +15,30 @@ export function ocultarMapa() {
 export function inicializarToggleMapa() {
   console.log("Inicializando toggle mapa...");
 
-  $(document).off("click", "#btn-toggle-mapa"); // Evitar handlers duplicados
+  $(document).off("click", "#btn-toggle-mapa");
 
-  let bloqueado = false; // bandera para bloqueo temporal
+  let bloqueado = false;
 
   $(document).on("click", "#btn-toggle-mapa", async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     if (bloqueado) {
-      console.log("Click ignorado porque está bloqueado");
-      return; // ignorar si ya estamos procesando un click
+      return;
     }
 
-    bloqueado = true; // bloquear nuevos clicks
+    bloqueado = true;
 
     console.log("Click recibido en btn-toggle-mapa");
     const $mapa = $("#mapa");
 
     if ($mapa.hasClass("visible")) {
       ocultarMapa();
-      console.log("OCULTANDO MAPA");
     } else {
       await mostrarMapa();
-      console.log("MOSTRANDO MAPA");
     }
 
     // desbloqueamos después de 500ms (ajustable)
-    setTimeout(() => {
-      bloqueado = false;
-      console.log("Desbloqueado para nuevos clicks");
-    }, 500);
+    setTimeout(() => {bloqueado = false;}, 500);
   });
 }

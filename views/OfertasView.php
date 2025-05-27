@@ -1,10 +1,10 @@
 <div class="offer-wrapper mx-auto" id="ofertasContainer">
 
-<!-- Contenido de la publicación -->
+  <!-- Contenido de la publicación -->
   <div class="container-fluid mt-4 text-light offer-container">
     <div class="row offer-row">
 
-    <!-- Aquí se cargan las ofertas -->
+      <!-- Aquí se cargan las ofertas -->
       <?php if (!empty($ofertas)): ?>
         <?php foreach ($ofertas as $publicacion): ?>
           <div class="col-12 col-sm-6 col-md-3">
@@ -30,10 +30,15 @@
                   <div>
                     <!-- Precio y título de la publicación -->
                     <h2 class="card-title text-start offer-price fs-4 mb-2"><?= number_format((float)$publicacion->precio, 2, ',', '.') . ' €'; ?></h2>
-                    <h4 class="offer-title fs-5 mb-1"><?= htmlspecialchars($publicacion->titulo); ?></h4>
-                    
+                    <h4 class="offer-title fs-5 mb-1"><?= htmlspecialchars(ucfirst($publicacion->titulo)); ?></h4>
+
                     <!-- Ubicación y detalles de la propiedad -->
-                    <p class="text-muted offer-location fs-6 mb-1"><?= htmlspecialchars($publicacion->ubicacion); ?></p>
+                    <p class="text-muted offer-location fs-6 mb-1">
+                      <?php
+                      $ubic = htmlspecialchars($publicacion->ubicacion, ENT_QUOTES, 'UTF-8');
+                      echo mb_convert_case($ubic, MB_CASE_TITLE, 'UTF-8');
+                      ?>
+                    </p>
                     <p class="text-muted offer-info fs-6 mb-2">
                       <?php
                       $detalles = [];
@@ -52,10 +57,10 @@
                   </div>
 
                   <!-- Descripción -->
-                  <div class="offer-description-container flex-grow-1 d-flex flex-column justify-content-end mt-1">
+                  <div class="offer-description-container flex-grow-1 d-flex flex-column justify-content-end mt-1 ">
 
-                    <p class="card-text offer-description fs-6 mb-2"><?= nl2br(htmlspecialchars($publicacion->descripcion)); ?></p>
-                    
+                    <p class="card-text offer-description fs-6 mb-2 descripccionPubli"><?= ucfirst(nl2br(htmlspecialchars($publicacion->descripcion))); ?></p>
+
                     <!-- Botones de contacto -->
                     <div class="d-flex gap-2">
                       <button class="btn btn-primary btn-sm disabled">Contactar</button>

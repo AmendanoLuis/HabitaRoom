@@ -206,15 +206,31 @@
         </div>
 
         <!-- Contenedor Mapa -->
-        <div id="mapa" class="position-fixed end-0 bg-body shadow-lg rounded-bottom p-0 mt-4" >
+        <div id="mapa" class="position-fixed end-0 bg-body shadow-lg rounded-bottom p-0 mt-4">
             <div id="mapLeaflet" class="w-100 h-75 px-2 mb-2"></div>
 
             <form
-                class="form p-3 h-25 d-flex justify-content-center align-items-center bg-success bg-opacity-75 rounded-bottom"
+                class="form p-3 h-25 d-flex justify-content-center align-items-center bg-success rounded-bottom"
                 id="formBuscarMapa">
-                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <div style="position: relative; width: 100%;">
+                    <input id="inputBuscarMapa" name="display_name"
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Buscar"
+                        autocomplete="off" />
+                </div>
                 <button class="btn btn-primary" type="submit">Buscar</button>
+
+                <input type="hidden" name="latitud" id="inputLatitud" />
+                <input type="hidden" name="longitud" id="inputLongitud" />
+                <input type="hidden" name="calle" id="inputCalle" />
+                <input type="hidden" name="barrio" id="inputBarrio" />
+                <input type="hidden" name="ciudad" id="inputCiudad" />
+                <input type="hidden" name="provincia" id="inputProvincia" />
+                <input type="hidden" name="codigo_postal" id="inputCP" />
             </form>
+
+
         </div>
 
 
@@ -227,10 +243,10 @@
                 </button>
             </div>
             -->
-            
+
             <!-- Contenedor para boton del Mapa  -->
 
-            <div id="btn-toggle-mapa"class="position-absolute bottom-0 end-0 ">
+            <div id="btn-toggle-mapa" class="position-absolute bottom-0 end-0 ">
                 <button id="btn-toggle-mapa" class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
                     <i class="bi bi-map" style="font-size: 30px;"></i>
                 </button>

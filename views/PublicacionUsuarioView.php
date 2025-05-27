@@ -32,7 +32,7 @@ $imgs = !empty($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                         </div>
                     <?php else: ?>
                         <img src="<?= BASE_URL ?>/assets/uploads/img_publicacion/imgPublicacionBase.png"
-                             class="img-fluid rounded-start" alt="Sin imágenes">
+                            class="img-fluid rounded-start" alt="Sin imágenes">
                     <?php endif; ?>
 
                 </div>
@@ -41,13 +41,18 @@ $imgs = !empty($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                 <div class="col-md-5 p-4 d-flex flex-column">
                     <!-- Título y precio -->
                     <div class="mb-3">
-                        <h3 class="card-title"><?= htmlspecialchars($publicacion->titulo) ?></h3>
+                        <h3 class="card-title"><?= ucfirst(htmlspecialchars($publicacion->titulo)) ?></h3>
                         <h4 class="text-success"><?= number_format($publicacion->precio, 2, ',', '.') ?> €</h4>
                     </div>
 
                     <!-- Ubicación -->
-                    <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($publicacion->ubicacion) ?></p>
-
+                    <p class="text-muted mb-2">
+                        <i class="bi bi-geo-alt"></i>
+                        <?php
+                        $ubic = htmlspecialchars($publicacion->ubicacion, ENT_QUOTES, 'UTF-8');
+                        echo mb_convert_case($ubic, MB_CASE_TITLE, 'UTF-8');
+                        ?>
+                    </p>
                     <!-- Detalles -->
                     <ul class="list-inline mb-3">
                         <?php if ($publicacion->habitaciones): ?>
@@ -70,7 +75,7 @@ $imgs = !empty($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                     <!-- Descripción -->
                     <div class="flex-fill mb-3">
                         <h5>Descripción</h5>
-                        <p class="small"><?= nl2br(htmlspecialchars($publicacion->descripcion)) ?></p>
+                        <p class="small"> <?= ucfirst(nl2br(htmlspecialchars($publicacion->descripcion))) ?></p>
                     </div>
 
                     <!-- Botones de acción -->

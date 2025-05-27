@@ -243,7 +243,6 @@
     }
 }
 
-
 /*
 -------------------------------------------------
 -    MAP 
@@ -251,7 +250,7 @@
 */
 
 #mapa {
-    width: 320px;
+    width: 350px;
     height: 350px;
     position: fixed;
     right: 0;
@@ -261,7 +260,7 @@
     opacity: 0;
     transform: translate3d(0, 100px, 0);
     transition: transform 0.5s ease, opacity 0.5s ease;
-    
+
     visibility: hidden;
     pointer-events: none;
 }
@@ -273,9 +272,61 @@
     pointer-events: auto;
 }
 
-#formBuscarMapa {
+/* --- CSS específico para Crear Publicación--- */
+#mapLeaflet {
     width: 100%;
-    height: auto;
+    height: 300px;
+    margin-bottom: 1rem;
+}
+
+#formBuscarMapa {
+    position: relative;
+    width: 100%;
+}
+
+#formBuscarMapa .input-group {
+    width: 100%;
+}
+
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 160px;
+    /* 4 filas de 40px */
+    overflow-y: auto;
+    margin-top: 2px;
+    padding: 0;
+    list-style: none;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    z-index: 9999;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 10px 12px;
+    height: 40px;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background-color: #007bff;
+    color: #fff;
 }
 
 
@@ -485,7 +536,6 @@ ESTILO DE LA SECCION PERFIL USUARIO
     min-height: 600px;
 }
 
-
 #btn_accion_perfil {
     width: 100%;
     margin-top: 10px;
@@ -542,10 +592,6 @@ ESTILO DE LA SECCION DE CARGANDO
         transform: rotate(360deg);
     }
 }
-
-
-
-
 
 /*
 

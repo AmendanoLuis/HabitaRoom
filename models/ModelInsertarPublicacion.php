@@ -12,7 +12,7 @@ class ModelInsertarPublicacion
         $this->db = Database::connect();
     }
 
-    public function insertarPublicacion(array $d): bool
+    public function insertarPublicacion(array $d)   
     {
         $sql = "INSERT INTO publicaciones (
                 usuario_id, tipo_anuncio, tipo_inmueble, ubicacion,
@@ -29,7 +29,7 @@ class ModelInsertarPublicacion
             )";
 
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
+        $ok = $stmt->execute([
             ':usuario_id'         => $d['usuario_id'],
             ':tipo_anuncio'       => $d['tipo_anuncio'],
             ':tipo_inmueble'      => $d['tipo_inmueble'],
@@ -53,7 +53,11 @@ class ModelInsertarPublicacion
             ':fotos'              => $d['fotos'],
             ':videos'              => $d['videos']
         ]);
-        return $success ? $this->db->lastInsertId() : false;
 
+        if ($ok) {
+            return [$this->db->lastInsertId(), $ok ];
+        } else {
+            throw new Exception('Error al insertar la publicación: ' . implode(', ', $stmt->errorInfo()));
+        }
     }
 }

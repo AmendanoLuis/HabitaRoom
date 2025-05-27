@@ -8,8 +8,11 @@ import {
   mostrarImagenPrevia,
   asignarEventosFormRegistro,
 } from "../public/js/register.js";
-import { inicializarToggleMapa } from '../public/js/manejadorMapa.js';
-import { iniciarAutocompletarUbicacion } from '../public/js/ubicacionesAutocompletar.js';
+import {
+  inicializarToggleMapa,
+  mostrarMapa,
+} from "../public/js/manejadorMapa.js";
+import { iniciarAutocompletarUbicacion } from "../public/js/ubicacionesAutocompletar.js";
 
 import {
   detectarFinDePagina,
@@ -23,7 +26,7 @@ import {
 $(document).ready(function () {
   // ============ FUNCIONES ============
 
-  // CARGAR PAGINA CON AJAX
+  // Cargar página principal
   async function cargarPagina(url) {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -62,7 +65,7 @@ $(document).ready(function () {
     }
   }
 
-  // CARGAR PUBLICACIONES EN INDEX
+  // Cargar publicaciones en el index
   async function cargarPublicacionesIndex() {
     if (
       ruta_actual === "/HabitaRoom/index" ||
@@ -86,7 +89,7 @@ $(document).ready(function () {
     }
   }
 
-  // ASIGNAR EVENTOS A FORMULARIOS INDEX
+  // Asignar eventos a formularios en Index
   function asignarEventosFormularios() {
     $(document).on("submit", "#form-filtros-desp", function (event) {
       event.preventDefault();
@@ -96,7 +99,7 @@ $(document).ready(function () {
     });
   }
 
-  // VALIDAR FORMULARIO LOGIN
+  // Validar formulario login
   function validarFormularioLogin() {
     $(document).on("submit", "#form_login", function (event) {
       event.preventDefault();
@@ -128,7 +131,7 @@ $(document).ready(function () {
     });
   }
 
-  // OBSERVAR CARGA DE ELEMENTOS
+  // Observar carga de un elemento y ejecutar callback
   function observarCarga(selector, callback) {
     const contMain = document.getElementById("contenidoMain");
     if (!contMain) return;
@@ -143,7 +146,7 @@ $(document).ready(function () {
     observ.observe(contMain, { childList: true, subtree: true });
   }
 
-  // OBTENER IDs DE PUBLICACIONES
+  // Obtener y observar IDs de publicaciones
   function observarIdsPublicaciones(containerSelector, itemSelector) {
     observarCarga(containerSelector, () => {
       id_publis.length = 0;
@@ -172,7 +175,7 @@ $(document).ready(function () {
     );
   }
 
-  // MANEJAR ACCIONES DE GUARDAR PUBLICACION
+  // Manejar el evento de guardar publicación
   function accionGuardar(ruta_actual) {
     $(document).on("click", "#icono-guardar", function (e) {
       e.preventDefault();
@@ -182,88 +185,95 @@ $(document).ready(function () {
     });
   }
 
-  // MANEJAR RUTAS
+  // Iniciar mapa y autocompletar ubicación
+  async function initUbicacionSection() {
+    mostrarMapa();
+
+    iniciarAutocompletarUbicacion({
+      inputSelector: "#inputBuscarMapa",
+      onSelect: ({ lat, lon, address, display_name }) => {
+        // Recentrar el mapa y actualizar el marcador
+        const map = window.mapInstance;
+        if (map) {
+          map.setView([lat, lon], 14);
+          if (map.marker) {
+            map.marker.setLatLng([lat, lon]);
+          } else {
+            map.marker = L.marker([lat, lon]).addTo(map);
+          }
+        }
+      },
+    });
+  }
+
+  // ============ MANEJO DE RUTAS ============
+
   async function manejarRuta(ruta_actual) {
-    console.log("Ruta actual desde manejarRuta:", ruta_actual);
+    console.log("Ruta actual:", ruta_actual);
 
-    // INDEX
-    if (
-      ruta_actual === "/HabitaRoom/index" ||
-      ruta_actual === "/HabitaRoom/index.php"
-    ) {
+    if (ruta_actual === "/HabitaRoom/index") {
       await observarCarga("#contenedor-principal", async () => {
-        if ($("#contenedor-principal").length > 0) {
-          await cargarPublicacionesIndex();
+        inicializarToggleMapa();
+        await cargarPublicacionesIndex();
+        accionGuardar(ruta_actual);
 
-          // Detectar fin de página para cargar más publicaciones
-          detectarFinDePagina();
+        detectarFinDePagina();
+        observarIdsPublicaciones(
+          "#contenedor-principal",
+          ".contenedor-publicacion"
+        );
 
-          observarIdsPublicaciones(
-            "#contenedor-principal",
-            ".contenedor-publicacion"
-          );
-
-          // Iniciamos toggle map y el mapa
-          inicializarToggleMapa();
-
-          // Iniciamos autocomplete
-          iniciarAutocompletarUbicacion({
-            inputSelector: "#formBuscarMapa input[type='search']",
-            onSelect: ({ lat, lon, address }) => {
-              // Cuando el usuario selecciona una ubicación:
-              //   a) Recentrar mapa
-              window.mapInstance.setView([lat, lon], 13);
-              //   b) Mover o crear marcador (si lo tienes guardado en mapInstance.marker)
+        // Aquí sí existe el formulario de búsqueda
+        iniciarAutocompletarUbicacion({
+          inputSelector: "#formBuscarMapa input[type='search']",
+          onSelect: ({ lat, lon, address }) => {
+            // recenter + marcador
+            if (window.mapInstance) {
+              window.mapInstance.setView([lat, lon], 14);
               if (window.mapInstance.marker) {
                 window.mapInstance.marker.setLatLng([lat, lon]);
               } else {
-                window.mapInstance.marker = L.marker([lat, lon]).addTo(window.mapInstance);
+                window.mapInstance.marker = L.marker([lat, lon]).addTo(
+                  window.mapInstance
+                );
               }
-              //   c) Llamar AJAX para publicaciones cercanas
-              $.getJSON("/HabitaRoom/publicaciones/IndexController.php", {
-                ciudad:    address.city    || "",
-                provincia: address.state   || ""
-              }).done(renderPosts);
-            },
-          });
-          
+            }
+            // recarga publicaciones filtradas
+            $.getJSON("/HabitaRoom/controllers/IndexController.php", {
+              ciudad: address.city || "",
+              provincia: address.state || "",
+            }).done(renderPosts);
+          },
+        });
 
-          // Asignar evento a los iconos de guardar
-          accionGuardar(ruta_actual);
-
-          // Asignar evento a buscador
-          inicializarBuscadorLateral();
-
-          // Asignar evento a los filtros principales
-          filtrarTipoPublicitante();
-        }
+        inicializarBuscadorLateral();
+        filtrarTipoPublicitante();
       });
     }
 
-    // LOGIN
+    // ---- LOGIN ----
     else if (ruta_actual === "/HabitaRoom/login") {
       observarCarga("#form_login", validarFormularioLogin);
     }
 
-    // REGISTRO
+    // ---- REGISTRO ----
     else if (ruta_actual === "/HabitaRoom/registro") {
       observarCarga("#cont_registro", () => {
-        console.log("Contenedor de registro detectado, asignando eventos");
-
         asignarEventosFormRegistro();
+        initUbicacionSection();
         mostrarImagenPrevia();
       });
     }
 
-    // PERFIL
+    // ---- PERFIL ----
     else if (ruta_actual === "/HabitaRoom/perfil") {
       observarIdsPublicaciones("#contenidoPerfil", ".contenedor-publicacion");
     }
-
     // CREAR PUBLICACION
     else if (ruta_actual === "/HabitaRoom/crearpublicacion") {
       observarCarga("#form_crear_publi", () => {
         asignarEventosForm();
+        initUbicacionSection();
 
         $(document).off("submit", "#form_crear_publi");
         $(document).on("submit", "#form_crear_publi", function (event) {
@@ -288,54 +298,54 @@ $(document).ready(function () {
     }
 
     // PUBLICACION
-    else if (ruta_actual.startsWith("/HabitaRoom/publicacionusuario?id=")) {
+
+    // ---- DETALLE DE PUBLICACIÓN DE USUARIO ----
+    else if (ruta_actual.startsWith("/HabitaRoom/publicacionusuario")) {
       const urlParams = new URLSearchParams(window.location.search);
       const id_publi = urlParams.get("id");
-
       if (id_publi) {
-        console.log("ID de la URL:", id_publi);
         mostrarCargando();
-
         $.ajax({
           url: "controllers/PublicacionUsuarioController.php",
           type: "GET",
           data: { id_publi },
-          success: function (response) {
-            $("#contenidoMain").html(response);
-          },
-          error: function (xhr, status, error) {
-            console.error("Error al cargar la publicación:", error);
-            $("#contenidoMain").html(
-              "<p>Error al cargar la publicación. Intenta nuevamente.</p>"
-            );
-          },
-          complete: function () {
-            ocultarCargando();
-          },
+          success: (response) => $("#contenidoMain").html(response),
+          error: () =>
+            $("#contenidoMain").html("<p>Error al cargar la publicación.</p>"),
+          complete: () => ocultarCargando(),
         });
       } else {
         $("#contenidoMain").html(
-          "<p>No se encontró el id de la publicación.</p>"
+          "<p>No se encontró el ID de la publicación.</p>"
         );
       }
-    } else if (ruta_actual === "/HabitaRoom/ofertas") {
+    }
+
+    // ---- OFERTAS ----
+    else if (ruta_actual === "/HabitaRoom/ofertas") {
       observarIdsPublicaciones(
         "#ofertasContainer",
         ".offerContenedorPublicacion"
       );
-    } else if (ruta_actual === "/HabitaRoom/guardados") {
+    }
+
+    // ---- GUARDADOS ----
+    else if (ruta_actual === "/HabitaRoom/guardados") {
       observarCarga("#contenidoGuardadas", () => {
         observarIdsPublicaciones(
           "#contenidoGuardadas",
           ".contenedor-publicacion"
         );
       });
-    } else {
+    }
+
+    // ---- RUTA NO MANEJADA ----
+    else {
       console.warn("Ruta no manejada:", ruta_actual);
     }
   }
 
-  // ============ INICIO ============
+  // ============ INICIALIZACIÓN ============
 
   const ruta_actual = window.location.href.replace("http://localhost", "");
   const id_publis = [];

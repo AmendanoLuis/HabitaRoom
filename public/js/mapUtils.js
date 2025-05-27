@@ -40,3 +40,7 @@ export async function obtenerMapaConGeolocalizacion({ containerId = 'mapLeaflet'
   mapInstance = iniciarMapa({ containerId, center: coords, zoom });
   return mapInstance;
 }
+
+export function getMapInstance() {
+  return mapInstance;
+}

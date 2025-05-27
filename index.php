@@ -94,13 +94,12 @@ $dbConnection = Database::connect();
     <!-- En tu HTML principal -->
     <script type="module" src="public/js/loadingPage.js"></script>
     <script type="module" src="public/js/index.js"></script>
-    <script type="module" src="config/app.js"></script>
     <script type="module" src="public/js/crearPublicacion.js"></script>
     <script type="module" src="public/js/register.js"></script>
     <script type="module" src="public/js/mapUtils.js"></script>
-    <script type="module" src="public/js/ubicacionesAutocompletar.js"></script>
     <script type="module" src="public/js/manejadorMapa.js"></script>
-
+    <script type="module" src="public/js/ubicacionesAutocompletar.js"></script>
+    <script type="module" src="config/app.js"></script>
 
 </body>
 

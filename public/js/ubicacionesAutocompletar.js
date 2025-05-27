@@ -1,69 +1,113 @@
-// public/js/ubicacionAutocompletar.js
 import $ from "https://cdn.jsdelivr.net/npm/jquery@3.7.1/+esm";
+import { getMapInstance } from "./mapUtils.js";
 
-export function geocode(query) {
-  const url =
-    "https://nominatim.openstreetmap.org/search" +
-    "?format=json" +
-    "&addressdetails=1" +
-    "&limit=5" +
-    "&countrycodes=es" +
-    "&q=" +
-    encodeURIComponent(query);
+//////////////////////////////////////
+// Geocode con Nominatim
+/////////////////////////////////////
+async function geocode(query) {
+  const url = new URL("https://nominatim.openstreetmap.org/search");
+  url.searchParams.set("q", query);
+  url.searchParams.set("format", "json");
+  url.searchParams.set("addressdetails", "1");
+  url.searchParams.set("limit", "15");
+  url.searchParams.set("countrycodes", "es,pt");
 
-  return $.getJSON(url);
+  const resp = await fetch(url, {
+    headers: {
+      'User-Agent': 'HabitaRoom/1.0 (https://github.com/AmendanoLuis)'
+    }
+  });
+  const data = await resp.json();
+
+  return data.map(r => ({
+    display_name: r.display_name,
+    lat:          parseFloat(r.lat),
+    lon:          parseFloat(r.lon),
+    address:      r.address
+  }));
 }
+
+
+
+//////////////////////////////////////
+// Autocompletar ubicación
+/////////////////////////////////////
+let marcadorUbicacion = null;
 
 export function iniciarAutocompletarUbicacion({ inputSelector, onSelect }) {
   const $input = $(inputSelector);
-
-  // contenedor de sugerencias aparecerá flotante debajo del input
-  const $list = $(
-    `<ul class="autocomplete-list list-group position-absolute"></ul>`
-  )
-    .css({
-      zIndex: 9999,
-      maxHeight: "200px",
-      overflowY: "auto",
-      width: $input.outerWidth(),
-    })
-    .insertAfter($input)
-    .hide();
+  const $container = $input.parent();
+  const $list = $('<ul class="autocomplete-list"></ul>').appendTo($container);
 
   let debounce;
+
+  function ajustarAncho() {
+    $list.width($input.outerWidth());
+  }
+
+  ajustarAncho();
+  $(window).on("resize", ajustarAncho);
+
+  let resultadosActuales = [];
+
+  function seleccionarResultado(r) {
+    $input.val(r.display_name);
+    $("#inputLatitud").val(r.lat);
+    $("#inputLongitud").val(r.lon);
+    $("#inputCalle").val(r.address.road || "");
+    $("#inputBarrio").val(r.address.suburb || "");
+    $("#inputCiudad").val(
+      r.address.city || r.address.town || r.address.village || ""
+    );
+    $("#inputProvincia").val(r.address.state || "");
+    $("#inputCP").val(r.address.postcode || "");
+    $list.hide();
+
+    const map = getMapInstance();
+    if (map) {
+      map.setView([r.lat, r.lon], 16);
+      if (marcadorUbicacion) map.removeLayer(marcadorUbicacion);
+      marcadorUbicacion = L.marker([r.lat, r.lon])
+        .addTo(map)
+        .bindPopup(r.display_name)
+        .openPopup();
+    }
+
+    if (onSelect) onSelect(r);
+  }
 
   $input.on("input", function () {
     const term = this.value.trim();
     clearTimeout(debounce);
-    if (term.length < 3) {
-      return $list.hide();
-    }
+    if (term.length < 3) return $list.hide();
+
     debounce = setTimeout(async () => {
       const results = await geocode(term);
+      resultadosActuales = results; // Guardar resultados visibles
+
       $list.empty();
+
       if (results.length === 0) {
-        $list.append(`<li class="list-group-item">Sin resultados</li>`);
+        $('<li class="autocomplete-item">Sin resultados</li>').appendTo($list);
       } else {
-        results.forEach((r) => {
-          const text = r.display_name;
-          $("<li>")
-            .addClass("list-group-item list-group-item-action")
-            .text(text)
+        results.forEach((r, idx) => {
+          $('<li class="autocomplete-item"></li>')
+            .text(r.display_name)
             .appendTo($list)
-            .on("click", () => {
-              $input.val(text);
-              $list.hide();
-              onSelect &&
-                onSelect({
-                  lat: parseFloat(r.lat),
-                  lon: parseFloat(r.lon),
-                  address: r.address,
-                });
-            });
+            .on("click", () => seleccionarResultado(r));
         });
       }
+
       $list.show();
     }, 300);
+  });
+
+  // Al presionar Enter, selecciona el primer resultado visible
+  $input.on("keydown", (e) => {
+    if (e.key === "Enter" && resultadosActuales.length > 0) {
+      e.preventDefault();
+      seleccionarResultado(resultadosActuales[0]);
+    }
   });
 
   $input.on("blur", () => setTimeout(() => $list.hide(), 200));

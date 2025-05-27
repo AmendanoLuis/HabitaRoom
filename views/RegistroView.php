@@ -7,7 +7,7 @@
                 <h2 class="mb-3 mt-5 fs-1">Regístrate</h2>
 
                 <!-- Formulario de Registro -->
-                <form class="w-75" id="cont_registro"  method="POST" enctype="multipart/form-data"  novalidate>
+                <form class="w-75" id="cont_registro" method="POST" enctype="multipart/form-data" novalidate>
 
                     <!-- Nombre -->
                     <div class="form-group my-3">
@@ -63,9 +63,25 @@
                     </div>
 
                     <!-- Ubicación -->
-                    <div class="form-group my-3">
-                        <label class="py-2 fs-5" for="ubicacion">Ubicación</label>
-                        <input type="text" class="form-control border border-1 border-success-subtle" id="ubicacion" name="ubicacion" placeholder="Ingresa tu ubicación" minlength="2" maxlength="100">
+                    <div class="my-3 form-group">
+                        <h5 class="py-2 fs-5">Ubicación</h5>
+                        <div class="d-flex flex-column align-items-center mx-auto mt-3 w-100">
+
+                            <div id="mapLeaflet" class="w-100 rounded"></div>
+
+                            <div id="formBuscarMapa" class="d-flex justify-content-center align-items-center">
+                                <div class="input-group mb-3">
+                                    <input
+                                        id="inputBuscarMapa"
+                                        class="form-control rounded border border-1 border-success-subtle"
+                                        type="search"
+                                        name="ubicacion"
+                                        placeholder="Buscar"
+                                        autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <!-- Foto de Perfil -->

@@ -166,11 +166,11 @@ class CrearPublicacionController
     {
         try {
             $datos = $this->prepararDatos();
-            $id_publicacion = $this->model->insertarPublicacion($datos);
-
+            list($id_publicacion, $exito)= $this->model->insertarPublicacion($datos);
+            
             return [
-                'estado'  => $id_publicacion ? 'ok' : 'error',
-                'mensaje' => $id_publicacion ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
+                'estado'  => $exito ? 'ok' : 'error',
+                'mensaje' => $exito ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
                 'id_publicacion' => $id_publicacion,
                 'success' => true,
             ];

@@ -24,9 +24,9 @@
                         $imagenes = isset($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
                         if (!empty($imagenes) && is_array($imagenes)): ?>
                             <div id="<?php echo $publicacion->id; ?>">
-                                    <div class=" <?php echo $index === 0 ? 'active' : ''; ?>">
-                                        <img src="assets/uploads/img_publicacion/<?php echo $imagenes[0]; ?>" class="w-100 h-100 rounded-start" style="object-fit: cover;" id="imgPublicIndex" alt="Imagen de la propiedad">
-                                    </div>
+                                <div class=" <?php echo $index === 0 ? 'active' : ''; ?>">
+                                    <img src="assets/uploads/img_publicacion/<?php echo $imagenes[0]; ?>" class="w-100 h-100 rounded-start" style="object-fit: cover;" id="imgPublicIndex" alt="Imagen de la propiedad">
+                                </div>
                             </div>
                         <?php else: ?>
                             <img src="assets/uploads/img_publicacion/imgPublicacionBase.png" class="img-fluid rounded" alt="Imagen de la propiedad">
@@ -35,14 +35,24 @@
 
                     <!-- Contenido de la publicación -->
                     <div class="col-md-6 ps-3 pt-3 mb-3">
+
+                        <!-- Precio de la publicación -->
                         <h2 class="card-title precioPubli">
                             <?php echo number_format((float)$publicacion->precio, 2, ',', '.') . " €"; ?>
                         </h2>
 
-                        <h4 class="tituloPubli"><?php echo htmlspecialchars(ucfirst(strtolower($publicacion->titulo))); ?></h4>
+                        <!-- Título de la publicación -->
+                        <h4 class="tituloPubli"><?php echo htmlspecialchars(ucfirst($publicacion->titulo)); ?></h4>
 
-                        <p class="text-muted ubicacionVivPubli"><?php echo htmlspecialchars($publicacion->ubicacion); ?></p>
+                        <!-- Ubicación de la propiedad -->
+                        <p class="text-muted ubicacionVivPubli">
+                            <?php
+                            $ubic = htmlspecialchars($publicacion->ubicacion, ENT_QUOTES, 'UTF-8');
+                            echo mb_convert_case($ubic, MB_CASE_TITLE, 'UTF-8');
+                            ?>
+                        </p>
 
+                        <!-- Detalles de la propiedad -->
                         <p class="text-muted infoVivPubli">
                             <?php
                             $detalles = [];
@@ -63,6 +73,7 @@
                             ?>
                         </p>
 
+                        <!-- Descripción de la publicación -->
                         <p class="card-text descripccionPubli">
                             <?php echo nl2br(htmlspecialchars($publicacion->descripcion)); ?>
                         </p>
