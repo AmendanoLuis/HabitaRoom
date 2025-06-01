@@ -106,8 +106,7 @@ class Database
                     (5, 'Ana',     'Jiménez Ruiz',    'anaj',     'ana.jimenez@example.com',   '600-999-000',  '\$2y\$10\$yzabcdefg hijklmnopqrstu', 'propietario', 'Málaga, España',    'ana.jpg',    'Dueña de apartamentos de lujo',    'email',    1, '2025-05-24 10:05:00', '2025-05-24 10:05:00'),
                     (6, 'Carlos',  'Fernández Díaz',  'carlosf',  'carlos.fernandez@example.com','600-123-789', '\$2y\$10\$nopqrstuv abcdefghijklm',   'empresa',     'Bilbao, España',    'carlos.jpg', 'Inmobiliaria Bilbao Premium',      'mensaje',  1, '2025-05-25 12:50:00', '2025-05-25 12:50:00');
             ");
-            echo '<script>console.log("Datos de prueba insertados en `usuarios`.");</script>';
-
+                echo '<script>console.log("Datos de prueba insertados en `usuarios`.");</script>';
             }
 
             // 7. Crear tabla `publicaciones`
@@ -378,10 +377,7 @@ class Database
             $conn->commit();
 
             // Recargar página para reflejar los cambios
-            echo '<script>
-                console.log("Base de datos creada. Recargando página…");
-                window.location.reload();
-              </script>';
+            header("Location: " . $_SERVER['REQUEST_URI']);
             exit();
         } catch (PDOException $e) {
 
