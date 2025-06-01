@@ -420,7 +420,9 @@ class Database
             if ($conn->inTransaction()) {
                 $conn->rollBack();
             }
-            die("Error al crear la base de datos o las tablas: " . $e->getMessage());
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
+
         }
     }
 }
