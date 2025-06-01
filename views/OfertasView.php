@@ -1,3 +1,28 @@
+<?php
+/**
+ * Vista: Ofertas View
+ *
+ * Esta vista muestra un listado de ofertas o publicaciones disponibles.
+ * Cada oferta se presenta en una tarjeta con imagen, título, precio,
+ * ubicación y detalles (habitaciones, baños, superficie).
+ * 
+ * Características:
+ * - Uso de Bootstrap 5 para diseño responsive y estilizado.
+ * - Presentación en rejilla con tarjetas adaptadas para varios tamaños de pantalla.
+ * - Si no hay ofertas, muestra un mensaje informativo.
+ * - Los botones de contacto están deshabilitados (pendientes de implementación).
+ * 
+ * Variables esperadas:
+ * - $ofertas: array de objetos con datos de cada publicación/oferta.
+ * 
+ * Estructura:
+ * - Cada oferta es un enlace a la vista individual de publicación, identificada por su id.
+ * - La imagen principal se carga desde un JSON con las fotos de la publicación.
+ * 
+ * @package HabitaRoom\Views
+ */
+?>
+
 <div class="offer-wrapper mx-auto" id="ofertasContainer">
 
   <!-- Contenido de la publicación -->

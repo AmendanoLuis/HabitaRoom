@@ -1,3 +1,26 @@
+<?php
+/**
+ * Vista: Crear Publicación
+ *
+ * Esta vista contiene el formulario para que un usuario pueda crear una nueva publicación de vivienda.
+ * Está diseñada con Bootstrap 5 y conectada a scripts que validan y procesan el formulario (crearPublicacion.js).
+ *
+ * Elementos destacados:
+ * - Selección de tipo de inmueble y tipo de anuncio.
+ * - Mapa Leaflet para ubicación.
+ * - Campos para habitaciones, baños, precio, título, superficie y descripción.
+ * - Características adicionales (checkboxes).
+ * - Carga de imágenes y selección del tipo de contacto deseado.
+ *
+ * Dependencias:
+ * - JavaScript: crearPublicacion.js (validación, envío AJAX, preview de imágenes)
+ * - Bootstrap + Bootstrap Icons
+ * - Leaflet.js para el mapa interactivo
+ *
+ * Requiere autenticación del usuario y es cargada por CrearPublicacionController@cargarFormulario.
+ */
+?>
+
 <div class="container my-5 d-flex flex-column align-items-center text-light " id="contenedor-principal">
 
     <div class="row text-dark">
@@ -16,7 +39,7 @@
 
                             <div class="mb-3 position-relative">
                                 <label for="tipo_inmueble" id="label_tipo_inmueble" class="position-absolute top-0 start-0 pt-2">Tipo de inmueble</label>
-                                <select name="tipo_inmueble" class="form-select pt-4 tipo_inmueble" id="tipo_inmueble">
+                                <select name="tipo_inmueble" class="form-select pt-4 tipo_inmueble " id="tipo_inmueble">
                                     <option value="garaje">Garaje</option>
                                     <option value="apartamento">Apartamento</option>
                                     <option value="piso">Piso</option>
@@ -51,7 +74,7 @@
 
                             <div id="mapLeaflet" class="w-100 rounded"></div>
 
-                            <div id="formBuscarMapa" class="d-flex justify-content-center align-items-center">
+                            <div id="formBuscarMapa" class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="input-group mb-3">
                                     <input
                                         id="inputBuscarMapa"
@@ -59,7 +82,8 @@
                                         type="search"
                                         name="ubicacion"
                                         placeholder="Buscar"
-                                        autocomplete="off" />
+                                        autocomplete="off"
+                                        required />
                                 </div>
                             </div>
 

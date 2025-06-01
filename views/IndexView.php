@@ -1,3 +1,25 @@
+<?php
+/**
+ * Vista: Index View
+ *
+ * Esta vista representa la página principal donde se muestran las publicaciones.
+ * Incluye un sistema de filtros para refinar los resultados, opciones de categoría (habitantes, propietario, empresas),
+ * y un mapa interactivo (Leaflet) para ubicar publicaciones geográficamente.
+ *
+ * Componentes principales:
+ * - Barra lateral de filtros con formularios (sólo visible en escritorio).
+ * - Versión responsive de categorías para móvil.
+ * - Contenedor principal donde se cargan las publicaciones vía JS/AJAX.
+ * - Contenedor para el mapa Leaflet con campos ocultos para latitud, longitud, dirección, etc.
+ * - Botones de acción para abrir/cerrar el mapa.
+ *
+ * Esta vista no procesa datos directamente, sino que está diseñada para integrarse con scripts JS
+ * que la dinamizan (como index.js, mapUtils.js, ubicacionesAutocompletar.js).
+ *
+ * Controlador relacionado:
+ * - IndexController@cargarPagina
+ */
+?>
 <div class="container-fluid ">
     <div class="row ">
 

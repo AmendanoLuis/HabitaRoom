@@ -1,15 +1,38 @@
 <?php
-
+/**
+ * Class Database
+ *
+ * Proporciona una conexión PDO persistente a la base de datos MySQL para la aplicación HabitaRoom.
+ * Implementa el patrón Singleton para asegurar una única instancia de conexión.
+ *
+ * @package HabitaRoom\Core
+ */
 class Database
 {
-    // Variables de conexión
+    /** @var string Host de la base de datos */
     private static $host = "localhost";
+
+    /** @var string Nombre de la base de datos */
     private static $db = "habitaroom";
+
+    /** @var string Usuario de la base de datos */
     private static $username = "root";
+
+    /** @var string Contraseña de la base de datos */
     private static $password = "";
+
+    /** @var PDO|null Instancia única de PDO */
     private static $conn = null;
 
-    // Función para conectar a la base de datos
+    /**
+     * Establece y devuelve la conexión PDO a la base de datos.
+     *
+     * Verifica si ya existe una conexión, si no, crea una nueva. En caso de que la base de datos
+     * no exista (código de error 1049), intenta crearla y reconectar.
+     *
+     * @return PDO Instancia de PDO conectada a MySQL.
+     * @throws PDOException Si ocurre un error de conexión diferente a inexistencia de base de datos.
+     */
     public static function connect()
     {
         if (self::$conn === null) {
@@ -32,13 +55,25 @@ class Database
         return self::$conn;
     }
 
-    // Función para desconectar la base de datos
+    /**
+     * Cierra la conexión actual a la base de datos.
+     */
     public static function disconnect()
     {
         self::$conn = null;
     }
 
-    // Función para crear la base de datos, las tablas e insertar los datos
+    /**
+     * Crea la base de datos si no existe.
+     *
+     * Se conecta al servidor sin especificar base de datos, crea la base de datos
+     * con el nombre definido en la clase, y luego crea las tablas necesarias
+     * para el funcionamiento de la aplicación.
+     * Además, inserta datos de prueba en las tablas `usuarios` y `publicaciones`.
+     * Esta función es llamada automáticamente si se detecta que la base de datos
+     *
+     * @return void
+     */
     private static function createDatabase()
     {
         try {

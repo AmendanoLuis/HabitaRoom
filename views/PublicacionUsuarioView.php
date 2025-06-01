@@ -1,4 +1,29 @@
 <?php
+/**
+ * Vista: Publicacion Usuario View
+ *
+ * Muestra los detalles completos de una única publicación seleccionada.
+ * 
+ * Características principales:
+ * - Carousel de imágenes de la publicación (usa Bootstrap Carousel)
+ *   - Si no hay imágenes, muestra una imagen base por defecto.
+ * - Muestra título y precio formateado en euros.
+ * - Muestra ubicación con formato título.
+ * - Lista de detalles: habitaciones, baños, superficie, con iconos.
+ * - Descripción con salto de línea y escapado de HTML para seguridad.
+ * - Botones para contactar y WhatsApp (funcionalidad no implementada aquí).
+ * - Botón para volver al listado principal.
+ *
+ * Variables esperadas:
+ * - $publicacion: objeto con los datos completos de la publicación, con propiedades:
+ *      - titulo, precio, ubicacion, habitaciones, banos, superficie, descripcion, fotos (JSON string)
+ *
+ * Uso de constantes:
+ * - BASE_URL para rutas base de la web.
+ *
+ * @package HabitaRoom\Views
+ */
+
 // Solo asignamos una vez el valor de $imgs.
 $imgs = !empty($publicacion->fotos) ? json_decode($publicacion->fotos) : [];
 ?>

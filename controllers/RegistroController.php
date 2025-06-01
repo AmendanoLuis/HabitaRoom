@@ -1,14 +1,35 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelUsuario.php';
+/**
+ * Class RegistroController
+ *
+ * Controlador encargado de gestionar el proceso de registro de nuevos usuarios en HabitaRoom.
+ * Proporciona métodos para cargar el formulario de registro, validar los datos recibidos,
+ * procesar la imagen de perfil y crear un nuevo usuario.
+ *
+ * @package HabitaRoom\Controllers
+ */
+
+require_once '../models/ModelUsuario.php';
 
 class RegistroController
 {
+    /**
+     * Carga la vista del formulario de registro de usuario.
+     *
+     * @return void
+     */
     public function cargarRegistro()
     {
         require_once '../views/RegistroView.php';
     }
 
-    private function validarFotoPerfil()
+    /**
+     * Valida y procesa la foto de perfil del usuario durante el registro.
+     * Comprueba la existencia del archivo, su extensión y lo mueve al directorio de destino.
+     *
+     * @return array Retorna un array con la clave 'filename' si se guardó correctamente o 'error' en caso de fallo.
+     */
+    private function validarFotoPerfil(): array
     {
         if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] == 0) {
             $foto_tmp = $_FILES['foto_perfil']['tmp_name'];
@@ -28,7 +49,6 @@ class RegistroController
             }
 
             $ruta_final = $directorio_destino . $foto_nombre;
-
             if (move_uploaded_file($foto_tmp, $ruta_final)) {
                 return ['filename' => $foto_nombre];
             } else {
@@ -36,9 +56,16 @@ class RegistroController
             }
         }
 
-        return ['filename' => null]; // Foto opcional
+        // Retornar null si no se subió foto (opcional)
+        return ['filename' => null];
     }
 
+    /**
+     * Valida los datos del formulario de registro y crea un nuevo usuario.
+     * Envía una respuesta JSON indicando éxito o error.
+     *
+     * @return void
+     */
     public function validarRegistro()
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -51,6 +78,7 @@ class RegistroController
             exit;
         }
 
+        // Obtener y sanear datos del formulario
         $nombre = trim($_POST['nombre'] ?? '');
         $apellidos = trim($_POST['apellidos'] ?? '');
         $nombre_usuario = trim($_POST['nombre_usuario'] ?? '');
@@ -65,6 +93,7 @@ class RegistroController
 
         $errores = [];
 
+        // Validaciones de campos obligatorios y formatos
         if (empty($nombre)) $errores[] = "El nombre es obligatorio.";
         if (empty($apellidos)) $errores[] = "Los apellidos son obligatorios.";
         if (!filter_var($correo_electronico, FILTER_VALIDATE_EMAIL)) $errores[] = "El correo electrónico no es válido.";
@@ -74,7 +103,7 @@ class RegistroController
         if (strlen($descripcion) < 10 || strlen($descripcion) > 500) $errores[] = "La descripción debe tener entre 10 y 500 caracteres.";
         if ($terminos_aceptados !== 1) $errores[] = "Debes aceptar los términos y condiciones.";
 
-        // Validar imagen
+        // Validar imagen de perfil (opcional)
         $foto_perfil = $this->validarFotoPerfil();
         if (isset($foto_perfil['error'])) {
             $errores[] = $foto_perfil['error'];
@@ -82,12 +111,13 @@ class RegistroController
             $foto_perfil = $foto_perfil['filename'];
         }
 
-        // Comprobar si ya existe el correo
-        $usuario = new ModelUsuario();
-        if ($usuario->obtenerUsuarioEmail($correo_electronico)) {
+        // Verificar que el correo no esté registrado
+        $usuarioModel = new ModelUsuario();
+        if ($usuarioModel->obtenerUsuarioEmail($correo_electronico)) {
             $errores[] = "El correo electrónico ya está registrado.";
         }
 
+        // Si hay errores, retornar mensaje
         if (!empty($errores)) {
             echo json_encode([
                 'success' => false,
@@ -96,7 +126,8 @@ class RegistroController
             exit;
         }
 
-        $registrado = $usuario->registrarUsuario(
+        // Registrar usuario en la base de datos
+        $registrado = $usuarioModel->registrarUsuario(
             $nombre,
             $apellidos,
             $nombre_usuario,
@@ -127,6 +158,7 @@ class RegistroController
     }
 }
 
+// Procesamiento del formulario de registro si se envía
 if (isset($_POST['btn_registro'])) {
     $registroController = new RegistroController();
     $registroController->validarRegistro();

@@ -1,4 +1,28 @@
 <?php
+/**
+ * Vista: Perfil View
+ *
+ * Muestra el perfil del usuario actualmente autenticado.
+ * Incluye:
+ * - Información personal: nombre, apellidos, correo electrónico, descripción y foto de perfil.
+ * - Datos de contacto con iconos según preferencia (WhatsApp, email, mensaje).
+ * - Ubicación del usuario.
+ * - Listado de publicaciones asociadas al usuario con miniaturas.
+ * - Botón para cerrar sesión (botón de editar perfil comentado, pendiente de implementar).
+ *
+ * Características:
+ * - Diseño responsive y estilizado con Bootstrap 5.
+ * - Gestión de la sesión para mostrar datos sólo si el usuario está logueado.
+ * - Obtiene datos de usuario y publicaciones mediante el modelo ModelUsuario.
+ * - Muestra imagen base si no hay fotos en las publicaciones.
+ * 
+ * Variables utilizadas:
+ * - $_SESSION['id']: identificador del usuario logueado.
+ * - $usuario: objeto con datos del usuario obtenido desde ModelUsuario.
+ * - $publicaciones: array con las publicaciones asociadas al usuario.
+ *
+ * @package HabitaRoom\Views
+ */
 
 if (isset($_SESSION['id'])) {
     $userModel = new ModelUsuario();

@@ -2,44 +2,77 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelInsertarPublicacion.php';
 
+/**
+ * Class CrearPublicacionController
+ *
+ * Controlador encargado de gestionar la lógica de creación de publicaciones en HabitaRoom.
+ * Se encarga de cargar la vista del formulario, procesar y validar los datos recibidos,
+ * así como manejar la subida de imágenes y videos.
+ *
+ * @package HabitaRoom\Controllers
+ */
 class CrearPublicacionController
 {
 
+    /**
+     * @var ModelInsertarPublicacion Instancia del modelo para insertar publicaciones en la BD.
+     */
     private $model;
 
+    /**
+     * Constructor del controlador.
+     * Inicializa la instancia de ModelInsertarPublicacion.
+     */
     public function __construct()
     {
         $this->model = new ModelInsertarPublicacion();
     }
+
+    /**
+     * Carga el formulario de creación de publicación.
+     * Incluye la vista correspondiente para que el usuario ingrese los datos.
+     *
+     * @return void
+     */
     public function cargarFormulario()
     {
         require_once '../views/crearPublicacionView.php';
     }
 
     /**
-     * Procesa y valida imagen subida, devuelve nombre o lanza excepción en error.
+     * Procesa y valida las imágenes subidas en el formulario.
+     * Guarda cada imagen en el directorio correspondiente y retorna un JSON con sus nombres.
+     * Si no se sube ninguna imagen, devuelve null.
+     *
+     * @return string|null JSON con nombres de imágenes o null si no se subió ninguna.
+     * @throws Exception Si no se puede crear el directorio o no hay imágenes válidas.
      */
     private function procesarImagen(): ?string
     {
+        // Comprobar si se subieron imágenes
         if (empty($_FILES['imagenes'])) {
             return null;
         }
 
         $imagenesGuardadas = [];
 
+        // Crear directorio de subida si no existe
         $uploadDir = '../assets/uploads/img_publicacion/';
         if (!is_dir($uploadDir) && !mkdir($uploadDir, 0777, true)) {
             throw new Exception('No se pudo crear directorio de imágenes.');
         }
 
+        // Tipos de archivo permitidos
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
         // Si se subió solo una imagen, normalizamos para manejarlo como array
         $files = $_FILES['imagenes'];
         $isMultiple = is_array($files['name']);
 
+        // Si es un array, obtenemos la cantidad de archivos
         $n = $isMultiple ? count($files['name']) : 1;
 
+        // Iteramos sobre cada archivo subido
         for ($i = 0; $i < $n; $i++) {
             $name = $isMultiple ? $files['name'][$i] : $files['name'];
             $tmp  = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
@@ -50,9 +83,12 @@ class CrearPublicacionController
             $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
             if (!in_array($ext, $allowed)) continue;
 
+            // Generar nombre único para evitar colisiones
+            // Usamos uniqid para generar un ID único basado en el tiempo actual
             $filename = uniqid('pub_') . ".$ext";
             $dest = $uploadDir . $filename;
 
+            // Mover el archivo subido al directorio de destino
             if (move_uploaded_file($tmp, $dest)) {
                 $imagenesGuardadas[] = $filename;
             }
@@ -63,6 +99,13 @@ class CrearPublicacionController
     }
 
 
+    /**
+     * Procesa y valida video subido, devuelve nombre o lanza excepción en error.
+     * Si se subieron varios videos, los guarda todos y devuelve JSON con sus nombres.
+     * Si no se subió ningún video, devuelve null.
+     * @return string|null JSON con nombres de videos o null si no se subió ninguno.
+     * @throws Exception Si no se pudo crear el directorio o si no se subieron videos válidos.
+     */
     private function procesarVideo(): ?string
     {
         if (empty($_FILES['videos'])) {
@@ -108,7 +151,10 @@ class CrearPublicacionController
 
 
     /**
-     * Valida y prepara datos de publicación, lanza excepción si faltan obligatorios.
+     * Prepara los datos del formulario para insertar en la base de datos.
+     * Recoge los datos del formulario, los valida y los formatea.
+     * @return array Datos preparados para insertar.
+     * @throws Exception Si falta algún dato obligatorio o si el usuario no está autenticado.
      */
     private function prepararDatos(): array
     {
@@ -161,13 +207,17 @@ class CrearPublicacionController
     }
 
 
-
+    /**
+     * Valida el formulario y guarda la publicación en la base de datos.
+     * @return array Resultado de la operación, incluyendo estado y mensaje.
+     * @throws Exception Si ocurre un error al procesar los datos o al insertar en la base de datos.
+     */
     public function validarFormulario(): array
     {
         try {
             $datos = $this->prepararDatos();
-            list($id_publicacion, $exito)= $this->model->insertarPublicacion($datos);
-            
+            list($id_publicacion, $exito) = $this->model->insertarPublicacion($datos);
+
             return [
                 'estado'  => $exito ? 'ok' : 'error',
                 'mensaje' => $exito ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
@@ -190,12 +240,13 @@ class CrearPublicacionController
 
 
 // Instanciar el controlador y procesar el formulario
+
 $controller = new CrearPublicacionController();
 
 if (isset($_POST['btn_crear_publi'])) {
     // Cabecera JSON
     header('Content-Type: application/json; charset=utf-8');
-    
+
     echo json_encode($controller->validarFormulario());
     exit;
 } else {

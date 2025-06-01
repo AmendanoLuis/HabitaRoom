@@ -1,3 +1,38 @@
+<?php
+/**
+ * Vista: Registro View
+ *
+ * Muestra el formulario para que un nuevo usuario pueda registrarse en la plataforma HabitaRoom.
+ * 
+ * Estructura y características:
+ * - Formulario con método POST y enctype multipart/form-data para permitir carga de imagen.
+ * - Campos del formulario:
+ *     - Nombre (texto, obligatorio, validación de letras y espacios)
+ *     - Apellidos (texto, obligatorio, validación de letras y espacios)
+ *     - Nombre de Usuario (texto, obligatorio, solo letras, números y guion bajo)
+ *     - Correo Electrónico (email, obligatorio)
+ *     - Teléfono (tel, obligatorio, solo números entre 7 y 15 dígitos)
+ *     - Contraseña (password, obligatorio, mínimo 8 caracteres)
+ *     - Repetir Contraseña (password, obligatorio, mínimo 8 caracteres)
+ *     - Tipo de Usuario (select, obligatorio, opciones: habitante, propietario, empresa)
+ *     - Ubicación (input de búsqueda integrada con mapa Leaflet para selección)
+ *     - Foto de Perfil (input file, acepta imágenes, con vista previa)
+ *     - Descripción (textarea, obligatorio, min 10 caracteres, max 500)
+ *     - Preferencia de Contacto (select, obligatorio, opciones: whatsapp, email, mensaje)
+ *     - Aceptación de Términos y Condiciones (checkbox obligatorio)
+ * - Botón de envío para guardar el registro.
+ * - Enlaces para recuperación de contraseña y login.
+ * - Diseño responsive:
+ *     - Formulario ocupa la mitad izquierda en pantallas md+.
+ *     - La mitad derecha muestra un video de fondo con logo, texto y redes sociales (oculto en móviles).
+ *
+ * Uso de clases Bootstrap para estilos y validaciones HTML5.
+ * Se espera que la lógica de validación y procesamiento esté en el controlador correspondiente.
+ *
+ * @package HabitaRoom\Views
+ */
+?>
+
 <div class="container-fluid">
     <div class="row min-vh-100">
 

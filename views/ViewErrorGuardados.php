@@ -1,3 +1,21 @@
+<?php
+/**
+ * Vista: Error Sesión Guardados View
+ *
+ * Muestra un mensaje de error cuando un usuario intenta acceder a la sección de artículos guardados
+ * sin estar registrado o haber iniciado sesión.
+ *
+ * Características:
+ * - Diseño centrado vertical y horizontalmente en pantalla completa (vh-100).
+ * - Mensaje claro indicando que el usuario no está registrado.
+ * - Enlace al formulario de registro con texto y botón llamativo.
+ * - Imagen ilustrativa con enlace también al registro.
+ * - Uso de Bootstrap para estilos responsivos, bordes y centrado.
+ *
+ * @package HabitaRoom\Views
+ */
+?>
+
 <div class="container-fluid bg-white">
   <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
     <div class="row w-100">

@@ -6,6 +6,8 @@
     min-height: 100vh;
 }
 
+
+
 /* LOGIN */
 #cont_logo {
     height: 100px;
@@ -150,7 +152,6 @@
 ------------------------------------------------- 
 */
 
-/* 1) Contenedor de la tarjeta */
 .card.contenedor-publicacion {
     display: flex;
     flex-direction: column;
@@ -158,7 +159,6 @@
     width: 100%;
 }
 
-/* 2) Contenido textual */
 .card-body {
     display: flex;
     flex-direction: column;
@@ -166,17 +166,13 @@
     padding: 1rem;
 }
 
-/* 3) Contenedor de la imagen con proporción 4:3 */
-/*    Cambia 4/3 por 16/9, 1/1, etc. según necesites */
 #contImagenPubli {
     position: relative;
     width: 50%;
     aspect-ratio: 4 / 3;
-    /* Alto = Ancho × (3/4) */
     overflow: hidden;
 }
 
-/* 4) Imagen que cubre todo el contenedor */
 #contImagenPubli img {
     position: absolute;
     top: 0;
@@ -189,7 +185,6 @@
     border-radius: 0 !important;
 }
 
-/* 5) Texto descriptivo limitado */
 .descripccionPubli {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -199,13 +194,11 @@
     margin-top: auto;
 }
 
-/* 6) Título y precio */
 .precioPubli,
 .tituloPubli {
     margin-bottom: 0.5rem;
 }
 
-/* 7) Enlaces y botones no rompen el layout */
 .card a {
     display: block;
     text-decoration: none;
@@ -223,7 +216,6 @@
     height: auto;
 }
 
-/* 8) Responsivo: ancho de la tarjeta */
 @media (min-width: 576px) {
     .card.contenedor-publicacion {
         width: 80%;
@@ -236,7 +228,6 @@
     }
 }
 
-/* 9) Mobile first: para pantallas < 576px, imagen full width */
 @media (max-width: 580px) {
     #contImagenPubli {
         width: 100% !important;
@@ -272,7 +263,7 @@
     pointer-events: auto;
 }
 
-/* --- CSS específico para Crear Publicación--- */
+/* --- ESPECÍFICO PARA CREAR PUBLICACIÓN --- */
 #mapLeaflet {
     width: 100%;
     height: 300px;

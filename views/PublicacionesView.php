@@ -1,3 +1,33 @@
+<?php
+/**
+ * Vista: Publicaciones View
+ *
+ * Muestra una lista de publicaciones disponibles o guardadas por el usuario.
+ * Cada publicación se representa en una tarjeta con:
+ * - Imagen principal (la primera del array de fotos o imagen base si no hay)
+ * - Tipo de publicitante mostrado en un badge
+ * - Precio formateado en euros
+ * - Título capitalizado y seguro contra XSS
+ * - Ubicación en formato título
+ * - Detalles de la propiedad (habitaciones, baños, superficie) o "No disponible"
+ * - Descripción segura con saltos de línea
+ * - Botones visuales (deshabilitados) para acciones de contacto
+ * - Icono de guardado (bookmark) que cambia según si la publicación está guardada por el usuario
+ *
+ * Soporta:
+ * - Comprobación si existen publicaciones para mostrar
+ * - Mensajes informativos si no hay resultados, con distinción si se usaron filtros o no
+ * - Seguridad con htmlspecialchars y manejo seguro de JSON en fotos
+ *
+ * Variables esperadas:
+ * - $publicaciones: array de objetos con las publicaciones a mostrar
+ * - $publicaciones_guardadas: array con publicaciones guardadas por el usuario (opcional)
+ * - $filtros: array con filtros aplicados (opcional)
+ *
+ * @package HabitaRoom\Views
+ */
+?>
+
 <!-- PUBLICACION -->
 <?php if ($publicaciones): ?>
     <?php

@@ -1,3 +1,11 @@
+<?php
+/**
+ * Vista: Perfil View
+ *
+
+*/
+ ?>
+
 <!-- PUBLICACION -->
 <?php if ($publicaciones): ?>
                 <?php foreach ($publicaciones as $publicacion): ?>

@@ -1,3 +1,40 @@
+<?php
+/**
+ * Vista: Guardados View
+ *
+ * Muestra la lista de publicaciones que un usuario ha guardado como favoritas.
+ * 
+ * Características principales:
+ * - Solo se muestra si el usuario ha iniciado sesión (verifica $_SESSION['id']).
+ * - Presenta las publicaciones guardadas en tarjetas responsive con Bootstrap.
+ * - Cada tarjeta muestra:
+ *   - Imagen principal de la publicación (o imagen base si no hay fotos).
+ *   - Tipo de publicitante en un badge.
+ *   - Precio formateado en euros con dos decimales y separadores de miles.
+ *   - Título de la publicación con la primera letra en mayúscula.
+ *   - Ubicación formateada en formato título.
+ *   - Detalles: habitaciones, baños y superficie, si están disponibles.
+ *   - Descripción con saltos de línea preservados y escapada para seguridad.
+ *   - Botones deshabilitados para Contactar, Mensaje y WhatsApp (funcionalidad pendiente).
+ * - Si no hay guardados, muestra un mensaje informativo.
+ *
+ * Variables esperadas:
+ * - $_SESSION['id']: Indica que el usuario está autenticado.
+ * - $guardados: array de objetos con las publicaciones guardadas, cada objeto contiene propiedades:
+ *      - id, fotos (JSON), tipo_publicitante, precio, titulo, ubicacion, habitaciones, banos, superficie, descripcion.
+ *
+ * Seguridad:
+ * - Escapado de salida con htmlspecialchars para prevenir XSS.
+ * - nl2br para preservar saltos de línea en descripciones.
+ *
+ * Uso en MVC:
+ * - El controlador debe pasar la variable $guardados con los datos de las publicaciones guardadas.
+ * - La vista se encarga de mostrar los datos de forma visual.
+ *
+ * @package HabitaRoom\Views
+ */
+?>
+
 <?php if (isset($_SESSION['id'])): ?>
 
   <div class="saved-wrapper mx-auto" id="guardadosContainer">

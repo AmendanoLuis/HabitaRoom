@@ -1,3 +1,23 @@
+<?php
+/**
+ * Vista: Login View
+ *
+ * Esta vista muestra el formulario de inicio de sesión para los usuarios.
+ * Está dividida en dos columnas:
+ * - Izquierda: video de fondo con información general y enlaces a redes sociales.
+ * - Derecha: formulario de inicio de sesión con email y contraseña.
+ *
+ * Características:
+ * - Compatible con Bootstrap 5 y responsive.
+ * - Estilizada con clases personalizadas y componentes de Bootstrap.
+ * - El formulario es procesado vía POST por LoginController@login.
+ *
+ * JS asociado:
+ * - login.js (validaciones y envío AJAX si se desea).
+ *
+ * @package HabitaRoom\Views
+ */
+?>
 <div class="container-fluid">
     <div class="row min-vh-100">
         <!-- Columna con video como fondo -->

@@ -1,28 +1,59 @@
 <?php
+
+/**
+ * Archivo: IndexController.php
+ *
+ * Controlador principal para la página de inicio de HabitaRoom.
+ * Gestiona la carga inicial de la vista, la obtención y filtrado de publicaciones,
+ * así como la lógica de búsqueda y scroll infinito.
+ *
+ * @package HabitaRoom\Controllers
+ */
+
 // Determinar la página actual
 $pagina_actual = trim(basename($_SERVER['PHP_SELF']));
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/config/db/db.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/HabitaRoom/models/ModelObtenerPublicaciones.php';
 
-
+/**
+ * Class IndexController
+ *
+ * Controlador encargado de obtener y mostrar publicaciones en la página de inicio.
+ * Incluye métodos para carga inicial, scroll infinito, filtros y búsqueda.
+ */
 class IndexController
 {
+    /**
+     * @var ModelObtenerPublicaciones Instancia del modelo para obtener publicaciones.
+     */
     private $model;
 
+    /**
+     * Constructor: instancia el modelo para publicaciones.
+     */
     public function __construct()
     {
-        // Instancia del modelo
         $this->model = new ModelObtenerPublicaciones();
     }
 
-
+    /**
+     * Carga la vista principal de la página de inicio.
+     * Incluye IndexView.php para mostrar la interfaz.
+     *
+     * @return void
+     */
     public function cargarPagina()
     {
-        // Verificamos si las publicaciones se obtuvieron
         require_once '../views/IndexView.php';
     }
 
+    /**
+     * Obtiene todas las publicaciones y las mostrará en la vista.
+     * También obtiene las publicaciones guardadas para el usuario autenticado.
+     *
+     * @return void
+     */
     public function cargarPublicaciones()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -41,7 +72,12 @@ class IndexController
         }
     }
 
-    // Función para cargar más publicaciones (infinite scroll)
+    /**
+     * Carga más publicaciones para scroll infinito.
+     * Recibe offset y límite por POST, obtiene más registros y retorna la vista parcial.
+     *
+     * @return void
+     */
     public function cargarMasPublicaciones()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -64,7 +100,12 @@ class IndexController
     }
 
 
-    // Función para cargar las publicaciones por filtro
+     /**
+     * Obtiene y muestra publicaciones filtradas según parámetros.
+     *
+     * @param array $filtros Array asociativo con claves de campo y valor a filtrar.
+     * @return void
+     */
     public function cargarPublicacionesFiltro($filtros)
     {
 
@@ -78,7 +119,13 @@ class IndexController
         }
     }
 
-    // Función para cargar las publicaciones por titulo
+    /**
+     * Busca publicaciones por término de título.
+     * Utiliza LIKE u otros algoritmos según el modelo.
+     *
+     * @param string $q Palabra o frase a buscar.
+     * @return void
+     */
     public function buscarAnuncios($q)
     {
         // Lógica de búsqueda en el modelo (LIKE, SOUNDEX, Levenshtein…)
@@ -93,7 +140,13 @@ class IndexController
 }
 
 
+// -----------------------------------------------------------
+// Lógica de enrutamiento y procesamiento de peticiones AJAX
+// -----------------------------------------------------------
 
+
+
+// Leer body JSON si existe
 $raw   = file_get_contents('php://input');
 $datos = json_decode($raw, true);
 
@@ -122,17 +175,15 @@ if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublic
     exit;
 }
 
-// Cargar más publicaciones (infinite scroll)
+// Cargar más publicaciones (scroll infinito)
 if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
     $ctl = new IndexController();
     $ctl->cargarMasPublicaciones();
     exit;
 }
 
-
-// Lógica genérica de índice
+// Lógica genérica de índice: carga inicial o con filtros
 if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
-
     $ctl = new IndexController();
     ob_start();
     if ($esFiltros) {
@@ -143,4 +194,3 @@ if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
     echo ob_get_clean();
     exit;
 }
-

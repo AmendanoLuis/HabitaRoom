@@ -1,19 +1,38 @@
 <?php
+/**
+ * Class ModelObtenerPublicaciones
+ *
+ * Modelo encargado de recuperar publicaciones desde la base de datos de HabitaRoom.
+ * Proporciona métodos para obtener listas de publicaciones, ofertas, búsquedas,
+ * guardados y filtros avanzados.
+ *
+ * @package HabitaRoom\Models
+ */
+
 require_once __DIR__ . '/../config/db/db.php';
-
-
 
 class ModelObtenerPublicaciones
 {
+    /**
+     * @var PDO Instancia de la conexión a la base de datos.
+     */
     private $conn;
 
+    /**
+     * Constructor: establece la conexión a la base de datos utilizando la clase Database.
+     */
     public function __construct()
     {
-
         $this->conn = Database::connect();
     }
 
-    // Función para cargar las publicaciones
+    /**
+     * Obtiene un conjunto de publicaciones ordenadas por fecha de publicación descendente.
+     *
+     * @param int $limite Número máximo de registros a devolver (por defecto 10).
+     * @param int $offset Desplazamiento para paginación (por defecto 0).
+     * @return array Lista de objetos con los datos de las publicaciones o array vacío en caso de error.
+     */
     public function obtenerPublicaciones($limite = 10, $offset = 0)
     {
         try {
@@ -30,9 +49,11 @@ class ModelObtenerPublicaciones
         }
     }
 
-
-
-    // Función para cargar una publicación por fecha de publicación
+    /**
+     * Obtiene las publicaciones con precio más bajo (ofertas) limitadas a 12.
+     *
+     * @return array Lista de objetos con los datos de las publicaciones en oferta o array vacío en caso de error.
+     */
     public function obtenerPublicacionesOfertas()
     {
         try {
@@ -42,13 +63,17 @@ class ModelObtenerPublicaciones
 
             return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
         } catch (PDOException $e) {
-            error_log("Error en obtenerPublicaciones: " . $e->getMessage());
-            echo "Error al obtener las publicaciones.";
+            error_log("Error en obtenerPublicacionesOfertas: " . $e->getMessage());
             return [];
         }
     }
 
-    // Funcion para obtener publicaciones por titulo
+    /**
+     * Busca publicaciones cuyo título coincida parcial o fonéticamente con el término dado.
+     *
+     * @param string $q Término de búsqueda (palabra o frase).
+     * @return array Lista de objetos con publicaciones encontradas o array vacío en caso de error.
+     */
     public function buscarAnuncios(string $q): array
     {
         try {
@@ -68,8 +93,11 @@ class ModelObtenerPublicaciones
         }
     }
 
-
-    // Funcion para obtener publicaciones guardadas
+    /**
+     * Obtiene las publicaciones marcadas como guardadas por el usuario autenticado.
+     *
+     * @return array Lista de objetos con las publicaciones guardadas o array vacío si no hay usuario autenticado o error.
+     */
     public function obtenerPublicacionesGuardadas()
     {
         if (!isset($_SESSION['id'])) {
@@ -78,37 +106,55 @@ class ModelObtenerPublicaciones
 
         $id_usuario = $_SESSION['id'];
 
-        // Selecciona todas las columnas de la tabla publicaciones
         $sql = "SELECT publicaciones.* FROM publicaciones 
-            JOIN guardados ON publicaciones.id = guardados.id_publicacion 
-            WHERE guardados.id_usuario = :id_usuario";
+                JOIN guardados ON publicaciones.id = guardados.id_publicacion 
+                WHERE guardados.id_usuario = :id_usuario";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_OBJ); // Devuelve toda la información de las publicaciones guardadas
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             error_log("Error en obtenerPublicacionesGuardadas: " . $e->getMessage());
             return [];
         }
     }
 
-
-    // Funcion para mostrar publicaciones por filtros
-
+    /**
+     * Obtiene publicaciones según un conjunto de filtros avanzados.
+     * Los filtros pueden incluir tipo de anuncio, tipo de inmueble, rango de precio,
+     * número mínimo de habitaciones/baños, estado, características booleanas,
+     * búsqueda parcial en ubicación/título/descripcion, rango de fechas,
+     * ordenamiento y paginación.
+     *
+     * @param array $filtros Array asociativo con las claves posibles: 
+     *      - tipo_anuncio (string)
+     *      - tipo_inmueble (string)
+     *      - tipo_publicitante (string)
+     *      - precio_min (numeric)
+     *      - precio_max (numeric)
+     *      - habitaciones (int)
+     *      - banos (int)
+     *      - estado (string)
+     *      - ascensor, piscina, gimnasio, garaje, terraza, jardin, aire_acondicionado, calefaccion (valores '1' para true)
+     *      - ubicacion, titulo, descripcion (string para búsqueda LIKE)
+     *      - order_by (string: 'precio', 'fecha_publicacion', 'superficie')
+     *      - order_dir (string: 'ASC' o 'DESC')
+     *      - limit (int)
+     *      - offset (int)
+     * @return array Lista de objetos con las publicaciones filtradas o array con clave 'error' en caso de fallo.
+     */
     public function obtenerPublicacionesFiltro(array $filtros)
     {
         try {
-            // Columnas explícitas para mejor rendimiento
             $columns = ['*'];
-
             $select = "SELECT " . implode(", ", $columns) . " FROM publicaciones WHERE 1=1";
             $sql = $select;
             $params = [];
 
-            // 1. Tipo de anuncio e inmueble
+            // Filtros de tipo de anuncio e inmueble
             if (!empty($filtros['tipo_anuncio'])) {
                 $sql .= " AND tipo_anuncio = :tipo_anuncio";
                 $params[':tipo_anuncio'] = $filtros['tipo_anuncio'];
@@ -118,13 +164,13 @@ class ModelObtenerPublicaciones
                 $params[':tipo_inmueble'] = $filtros['tipo_inmueble'];
             }
 
-            // 1.b Tipo de publicitante
+            // Filtro de tipo de publicitante
             if (!empty($filtros['tipo_publicitante'])) {
                 $sql .= " AND tipo_publicitante = :tipo_publicitante";
                 $params[':tipo_publicitante'] = $filtros['tipo_publicitante'];
             }
 
-            // 2. Rango de precio
+            // Rango de precio
             if (isset($filtros['precio_min']) && $filtros['precio_min'] !== '') {
                 $sql .= " AND precio >= :precio_min";
                 $params[':precio_min'] = $filtros['precio_min'];
@@ -134,7 +180,7 @@ class ModelObtenerPublicaciones
                 $params[':precio_max'] = $filtros['precio_max'];
             }
 
-            // 3. Habitaciones y baños como mínimos
+            // Habitaciones y baños mínimos
             if (isset($filtros['habitaciones']) && $filtros['habitaciones'] !== '') {
                 $sql .= " AND habitaciones >= :habitaciones";
                 $params[':habitaciones'] = $filtros['habitaciones'];
@@ -144,51 +190,33 @@ class ModelObtenerPublicaciones
                 $params[':banos'] = $filtros['banos'];
             }
 
-            // 4. Estado exacto
+            // Estado exacto
             if (!empty($filtros['estado'])) {
                 $sql .= " AND estado = :estado";
                 $params[':estado'] = $filtros['estado'];
             }
 
-            // 5. Características booleanas
-            foreach (
-                [
-                    'ascensor',
-                    'piscina',
-                    'gimnasio',
-                    'garaje',
-                    'terraza',
-                    'jardin',
-                    'aire_acondicionado',
-                    'calefaccion'
-                ] as $c
-            ) {
+            // Características booleanas
+            foreach ([
+                'ascensor', 'piscina', 'gimnasio', 'garaje',
+                'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'
+            ] as $c) {
                 if (!empty($filtros[$c]) && $filtros[$c] === '1') {
                     $sql .= " AND {$c} = 1";
                 }
             }
 
-            // 6. Búsqueda parcial con escape de caracteres
+            // Búsqueda parcial en ubicación, título y descripción
             foreach (['ubicacion', 'titulo', 'descripcion'] as $campo) {
                 if (!empty($filtros[$campo])) {
-                    // Escapa % y _
                     $valor = addcslashes($filtros[$campo], '%_');
                     $sql .= " AND {$campo} LIKE :{$campo} ESCAPE '\\'";
                     $params[":{$campo}"] = "%{$valor}%";
                 }
             }
 
-            // 7. Rango de fechas
-            if (!empty($filtros['fecha_desde']) && DateTime::createFromFormat('Y-m-d', $filtros['fecha_desde'])) {
-                $sql .= " AND fecha_publicacion >= :fecha_desde";
-                $params[':fecha_desde'] = $filtros['fecha_desde'];
-            }
-            if (!empty($filtros['fecha_hasta']) && DateTime::createFromFormat('Y-m-d', $filtros['fecha_hasta'])) {
-                $sql .= " AND fecha_publicacion <= :fecha_hasta";
-                $params[':fecha_hasta'] = $filtros['fecha_hasta'];
-            }
 
-            // 8. Ordenamiento seguro con whitelist
+            // Ordenamiento seguro con whitelist
             $orderByWhitelist = ['precio', 'fecha_publicacion', 'superficie'];
             $orderDirWhitelist = ['ASC', 'DESC'];
             $orderBy = 'fecha_publicacion';
@@ -201,14 +229,14 @@ class ModelObtenerPublicaciones
             }
             $sql .= " ORDER BY {$orderBy} {$orderDir}";
 
-            // 9. Paginación (Directo en la query para evitar problemas con MySQL y PDO)
+            // Paginación: limit y offset
             $limit = isset($filtros['limit']) && is_numeric($filtros['limit']) ? (int)$filtros['limit'] : 20;
             $offset = isset($filtros['offset']) && is_numeric($filtros['offset']) ? (int)$filtros['offset'] : 0;
             $sql .= " LIMIT {$limit} OFFSET {$offset}";
 
             $stmt = $this->conn->prepare($sql);
 
-            // Vincular el resto de parámetros (excepto limit y offset que van directos)
+            // Vincular parámetros (excluyendo limit y offset)
             foreach ($params as $key => $val) {
                 $stmt->bindValue($key, $val);
             }

@@ -1,0 +1,15 @@
+{
+    "name": "loger/habita-room",
+    "autoload": {
+        "psr-4": {
+            "Loger\\HabitaRoom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AmendanoLuis",
+            "email": "1uis4ugus70@gmail.com"
+        }
+    ],
+    "require": {}
+}
