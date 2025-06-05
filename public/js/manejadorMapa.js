@@ -1,6 +1,7 @@
 // manejadorMapa.js
 import $ from "https://cdn.jsdelivr.net/npm/jquery@3.7.1/+esm";
 import { obtenerMapaConGeolocalizacion } from "./mapUtils.js";
+import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
 
 export async function mostrarMapa() {
   const $mapa = $("#mapa");
@@ -39,63 +40,76 @@ export function inicializarToggleMapa() {
     }
 
     // desbloqueamos después de 500ms (ajustable)
-    setTimeout(() => {bloqueado = false;}, 500);
+    setTimeout(() => {
+      bloqueado = false;
+    }, 500);
   });
 }
 
 export function eventFormularioUbicacion() {
-    // Cuando el formulario de búsqueda se haga submit
+  // Cuando el formulario de búsqueda se haga submit
 
-    $(document).off("submit", "#formBuscarMapa");
-    $(document).on("submit", "#formBuscarMapa", function (event) {
-      event.preventDefault();
+  $(document).off("submit", "#formBuscarMapa");
+  $(document).on("submit", "#formBuscarMapa", function (event) {
+    event.preventDefault();
 
-      const lat = $("#inputLatitud").val();
-      const lon = $("#inputLongitud").val();
-      const ubicacionGeografica = obtenerDireccionDesdeInputs();
-      if (
-        !lat &&
-        !lon &&
-        !ubicacionGeografica.road &&
-        !ubicacionGeografica.suburb &&
-        !ubicacionGeografica.city &&
-        !ubicacionGeografica.state &&
-        !ubicacionGeografica.postcode
-      ) {
-        Swal.fire({
-          icon: "warning",
-          title: "Escribe la ubicación para buscar",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-      $.ajax({
-        url: "controllers/IndexController.php",
-        type: "POST",
-        data: {
-          latitud: lat,
-          longitud: lon,
-          calle: ubicacionGeografica.road,
-          barrio: ubicacionGeografica.suburb,
-          ciudad: ubicacionGeografica.city,
-          provincia: ubicacionGeografica.state,
-          cp: ubicacionGeografica.postcode,
-        },
-        beforeSend: () => {
-          mostrarCargando();
-        },
-        success: (response) => {
-          console.log("Buscar por ubicación:", response);
-        },
-        error: (xhr, status, error) => {
-          console.error("Error al buscar por ubicación:", error);
-        },
-        complete: () => {
-          ocultarCargando();
-        },
+    const lat = $("#inputLatitud").val();
+    const lon = $("#inputLongitud").val();
+    const ubicacionGeografica = obtenerDireccionDesdeInputs();
+    if (
+      !lat &&
+      !lon &&
+      !ubicacionGeografica.road &&
+      !ubicacionGeografica.suburb &&
+      !ubicacionGeografica.city &&
+      !ubicacionGeografica.state &&
+      !ubicacionGeografica.postcode
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Escribe la ubicación para buscar",
+        confirmButtonText: "Aceptar",
       });
+      return;
+    }
+    console.log("Datos enviados al servidor:", {
+      latitud: lat,
+      longitud: lon,
+      calle: ubicacionGeografica.road,
+      barrio: ubicacionGeografica.suburb,
+      ciudad: ubicacionGeografica.city,
+      provincia: ubicacionGeografica.state,
+      cp: ubicacionGeografica.postcode,
     });
-  }
+    $.ajax({
+      url: "controllers/IndexController.php",
+      type: "POST",
+      data: {
+        latitud: lat,
+        longitud: lon,
+        calle: ubicacionGeografica.road,
+        barrio: ubicacionGeografica.suburb,
+        ciudad: ubicacionGeografica.city,
+        provincia: ubicacionGeografica.state,
+        cp: ubicacionGeografica.postcode,
+      },
+      beforeSend: () => {
+        mostrarCargando();
+      },
+      success: (response) => {
+        if (response.success) {
+          console.log("Respuesta del servidor:", response.publicaciones);
+        }
+      },
+      error: (xhr, status, error) => {
+        console.error("Error al buscar por ubicación:", error);
+      },
+      complete: () => {
+        ocultarCargando();
+      },
+    });
+  });
+}
 
 export function obtenerDireccionDesdeInputs() {
   return {

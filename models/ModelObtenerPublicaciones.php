@@ -85,9 +85,6 @@ class ModelObtenerPublicaciones
         }
     }
 
-
-
-
     /**
      * Obtiene las publicaciones con precio más bajo (ofertas) limitadas a 12.
      *
@@ -160,6 +157,189 @@ class ModelObtenerPublicaciones
             return [];
         }
     }
+
+
+    /**
+     * Busca publicaciones que coincidan EXACTAMENTE en ciudad.
+     *
+     * @param string $ciudad
+     * @return array Array de objetos con las publicaciones encontradas.
+     */
+    public function buscarPorCiudad(string $ciudad): array
+    {
+        try {
+            $sql = "
+            SELECT
+                id,
+                usuario_id,
+                tipo_anuncio,
+                tipo_inmueble,
+                ubicacion,
+                titulo,
+                descripcion,
+                precio,
+                habitaciones,
+                banos,
+                estado,
+                ascensor,
+                piscina,
+                gimnasio,
+                garaje,
+                terraza,
+                jardin,
+                aire_acondicionado,
+                calefaccion,
+                tipo_publicitante,
+                superficie,
+                fotos,
+                videos,
+                latitud,
+                longitud,
+                calle,
+                barrio,
+                ciudad,
+                provincia,
+                codigo_postal
+            FROM publicaciones
+            WHERE ciudad = :ciudad
+            ORDER BY fecha_publicacion DESC
+        ";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':ciudad' => $ciudad
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en buscarPorCiudad: " . $e->getMessage());
+            return [];
+        }
+    }
+
+
+    /**
+     * Busca publicaciones que coincidan EXACTAMENTE en provincia.
+     *
+     * @param string $provincia
+     * @return array Array de objetos con las publicaciones encontradas.
+     */
+    public function buscarPorProvincia(string $provincia): array
+    {
+        try {
+            $sql = "
+            SELECT
+                id,
+                usuario_id,
+                tipo_anuncio,
+                tipo_inmueble,
+                ubicacion,
+                titulo,
+                descripcion,
+                precio,
+                habitaciones,
+                banos,
+                estado,
+                ascensor,
+                piscina,
+                gimnasio,
+                garaje,
+                terraza,
+                jardin,
+                aire_acondicionado,
+                calefaccion,
+                tipo_publicitante,
+                superficie,
+                fotos,
+                videos,
+                latitud,
+                longitud,
+                calle,
+                barrio,
+                ciudad,
+                provincia,
+                codigo_postal
+            FROM publicaciones
+            WHERE provincia = :provincia
+            ORDER BY fecha_publicacion DESC
+        ";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':provincia' => $provincia
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en buscarPorProvincia: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Busca publicaciones que coincidan EXACTAMENTE en barrio, ciudad y provincia.
+     *
+     * @param string $barrio
+     * @param string $ciudad
+     * @param string $provincia
+     * @return array Array de objetos (PDO::FETCH_OBJ) con las publicaciones encontradas.
+     */
+    public function buscarPorBarrioCiudadProvincia(string $barrio, string $ciudad, string $provincia): array
+    {
+        try {
+            $sql = "
+            SELECT
+                id,
+                usuario_id,
+                tipo_anuncio,
+                tipo_inmueble,
+                ubicacion,
+                titulo,
+                descripcion,
+                precio,
+                habitaciones,
+                banos,
+                estado,
+                ascensor,
+                piscina,
+                gimnasio,
+                garaje,
+                terraza,
+                jardin,
+                aire_acondicionado,
+                calefaccion,
+                tipo_publicitante,
+                superficie,
+                fotos,
+                videos,
+                latitud,
+                longitud,
+                calle,
+                barrio,
+                ciudad,
+                provincia,
+                codigo_postal
+            FROM publicaciones
+            WHERE barrio    = :barrio
+              AND ciudad    = :ciudad
+              AND provincia = :provincia
+            ORDER BY fecha_publicacion DESC
+        ";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':barrio' => $barrio,
+                ':ciudad' => $ciudad,
+                ':provincia' => $provincia
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error en buscarPorBarrioCiudadProvincia: " . $e->getMessage());
+            return [];
+        }
+    }
+
 
     /**
      * Obtiene publicaciones según un conjunto de filtros avanzados.

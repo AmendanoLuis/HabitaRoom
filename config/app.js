@@ -242,7 +242,16 @@ $(document).ready(function () {
                 );
               }
             }
-
+                // Mostrar en consola los datos enviados a AJAX
+                console.log("Datos enviados a AJAX:", {
+                  latitud: lat,
+                  longitud: lon,
+                  calle: address.road || "",
+                  barrio: address.suburb || "",
+                  ciudad: address.city || address.town || address.village || "",
+                  provincia: address.state || "",
+                  cp: address.postcode || "",
+                });
             // recarga publicaciones filtradas
             $.ajax({
               url: "controllers/IndexController.php",
@@ -255,13 +264,14 @@ $(document).ready(function () {
                 ciudad: address.city || address.town || address.village || "",
                 provincia: address.state || "",
                 cp: address.postcode || "",
+                accion: "buscarPorUbicacion",
                 ruta: ruta_actual,
               },
               beforeSend: () => {
                 mostrarCargando();
               },
               success: (response) => {
-                console.log("Buscar por ubicación:", response);
+                $("#contenedor-principal").html(response);
               },
               error: (xhr, status, error) => {
                 console.error("Error al buscar por ubicación:", error);

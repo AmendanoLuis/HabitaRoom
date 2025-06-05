@@ -119,6 +119,52 @@ class IndexController
         }
     }
 
+    public function cargarPublicacionesPorUbicacion()
+    {
+        // 1) Recoger y sanear parámetros
+        $latitud = isset($_POST['latitud']) ? floatval($_POST['latitud']) : null;
+        $longitud = isset($_POST['longitud']) ? floatval($_POST['longitud']) : null;
+        $calle = trim($_POST['calle'] ?? '');
+        $barrio = trim($_POST['barrio'] ?? '');
+        $ciudad = trim($_POST['ciudad'] ?? '');
+        $provincia = trim($_POST['provincia'] ?? '');
+        $cp = trim($_POST['cp'] ?? '');
+
+        // 2) Validaciones mínimas: ciudad y provincia son obligatorios
+        if (empty($ciudad) || empty($provincia)) {
+            echo '<div class="alert alert-warning">';
+            echo 'Debes indicar al menos ciudad y provincia para filtrar.';
+            echo '</div>';
+            return;
+        }
+
+        $publicaciones = [];
+        if (!empty($barrio) && !empty($ciudad) && !empty($provincia)) {
+            $publicaciones = $this->model->buscarPorBarrioCiudadProvincia($barrio, $ciudad, $provincia);
+        }
+
+        // 4) Intento 2: si no hay resultados (o no había barrio), buscamos sólo por ciudad
+        if (empty($publicaciones) && !empty($ciudad)) {
+            $publicaciones = $this->model->buscarPorCiudad($ciudad);
+        }
+
+        // 5) Intento 3: si sigue vacío, buscamos sólo por provincia
+        if (empty($publicaciones) && !empty($provincia)) {
+            $publicaciones = $this->model->buscarPorProvincia($provincia);
+        }
+        // 4) Si hay resultados, incluimos la vista parcial
+        if (!empty($publicaciones)) {
+            // La vista "PublicacionesView.php" debe usar la variable $publicaciones
+            require_once '../views/PublicacionesView.php';
+        } else {
+            // 5) Si no hay publicaciones, mostramos un mensaje en HTML
+            echo '<div class="alert alert-info">';
+            echo 'No hay publicaciones disponibles con los filtros.';
+            echo '</div>';
+        }
+    }
+
+
     /**
      * Busca publicaciones por término de título.
      * Utiliza LIKE u otros algoritmos según el modelo.
@@ -143,19 +189,19 @@ class IndexController
 // -----------------------------------------------------------
 // Lógica de enrutamiento y procesamiento de peticiones AJAX
 // -----------------------------------------------------------
-
-
-
-// Leer body JSON si existe
+// Leer body JSON si existe (lo usas para otros filtros, no para ubicación)
 $raw = file_get_contents('php://input');
 $datos = json_decode($raw, true);
 
+// Estas variables vendrán bien en POST o en body JSON
 $esFiltros = $datos['esFiltros'] ?? false;
 $filtros = $datos['filtros'] ?? [];
 $ruta = $_POST['ruta'] ?? $datos['ruta'] ?? '';
 $accion = $_POST['accion'] ?? '';
 
-// Búsqueda por título
+// —————————————————————————————————————————————————————————————————————————
+// 1) Búsqueda por título
+// —————————————————————————————————————————————————————————————————————————
 if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
     $q = trim(strtolower($_POST['q'] ?? ''));
     $ctl = new IndexController();
@@ -165,8 +211,10 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
     exit;
 }
 
-// Filtro por tipo de publicitante
-if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublicitante') {
+// —————————————————————————————————————————————————————————————————————————
+// 2) Filtro por tipo de publicitante
+// —————————————————————————————————————————————————————————————————————————
+if (strpos($ruta, '/HabitaRoom/index') === 0 && $accion === 'filtrarTipoPublicitante') {
     $tipo = trim(strtolower($_POST['tipo_publicitante'] ?? ''));
     $ctl = new IndexController();
     ob_start();
@@ -175,7 +223,21 @@ if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublic
     exit;
 }
 
-// Cargar más publicaciones (scroll infinito)
+// —————————————————————————————————————————————————————————————————————————
+// 3) Búsqueda POR UBICACIÓN GEOGRÁFICA
+//    Aquí es donde debemos llamar a cargarPublicacionesPorUbicacion()
+// —————————————————————————————————————————————————————————————————————————
+if (strpos($ruta, '/HabitaRoom/index') === 0 && $accion === 'buscarPorUbicacion') {
+    $ctl = new IndexController();
+    ob_start();
+    $ctl->cargarPublicacionesPorUbicacion();
+    echo ob_get_clean();
+    exit;
+}
+
+// —————————————————————————————————————————————————————————————————————————
+// 4) Scroll infinito: cargar más publicaciones
+// —————————————————————————————————————————————————————————————————————————
 if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
     $id_publis_cargadas = $_POST['id_publis_cargadas'] ?? [];
     $ctl = new IndexController();
@@ -183,7 +245,9 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
     exit;
 }
 
-// Lógica genérica de índice: carga inicial o con filtros
+// —————————————————————————————————————————————————————————————————————————
+// 5) Carga inicial o con filtros genéricos
+// —————————————————————————————————————————————————————————————————————————
 if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
     $ctl = new IndexController();
     ob_start();
