@@ -78,16 +78,16 @@ class IndexController
      *
      * @return void
      */
-    public function cargarMasPublicaciones()
+    public function cargarMasPublicaciones($id_publis_cargadas = [])
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        $offset = isset($_POST['offset']) ? (int)$_POST['offset'] : 0;
-        $limite = isset($_POST['limite']) ? (int)$_POST['limite'] : 10;
+        $offset = isset($_POST['offset']) ? (int) $_POST['offset'] : 0;
+        $limite = isset($_POST['limite']) ? (int) $_POST['limite'] : 10;
 
-        $publicaciones = $this->model->obtenerPublicaciones($limite, $offset);
+        $publicaciones = $this->model->obtenerMasPublicaciones($limite, $offset, $id_publis_cargadas);
 
         if ($publicaciones) {
             // Incluye la vista parcial que renderiza SOLO las publicaciones (sin layout completo)
@@ -100,7 +100,7 @@ class IndexController
     }
 
 
-     /**
+    /**
      * Obtiene y muestra publicaciones filtradas según parámetros.
      *
      * @param array $filtros Array asociativo con claves de campo y valor a filtrar.
@@ -129,7 +129,7 @@ class IndexController
     public function buscarAnuncios($q)
     {
         // Lógica de búsqueda en el modelo (LIKE, SOUNDEX, Levenshtein…)
-        $publicaciones = $this->model->buscarAnuncios($q);
+        $publicaciones = $this->model->obtenerPublicacionesTitulo($q);
 
         if ($publicaciones !== "") {
             require_once '../views/PublicacionesView.php';
@@ -147,17 +147,17 @@ class IndexController
 
 
 // Leer body JSON si existe
-$raw   = file_get_contents('php://input');
+$raw = file_get_contents('php://input');
 $datos = json_decode($raw, true);
 
 $esFiltros = $datos['esFiltros'] ?? false;
-$filtros   = $datos['filtros']   ?? [];
-$ruta      = $_POST['ruta']      ?? $datos['ruta'] ?? '';
-$accion    = $_POST['accion']    ?? '';
+$filtros = $datos['filtros'] ?? [];
+$ruta = $_POST['ruta'] ?? $datos['ruta'] ?? '';
+$accion = $_POST['accion'] ?? '';
 
 // Búsqueda por título
 if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
-    $q   = trim(strtolower($_POST['q'] ?? ''));
+    $q = trim(strtolower($_POST['q'] ?? ''));
     $ctl = new IndexController();
     ob_start();
     $ctl->buscarAnuncios($q);
@@ -168,7 +168,7 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'buscar') {
 // Filtro por tipo de publicitante
 if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublicitante') {
     $tipo = trim(strtolower($_POST['tipo_publicitante'] ?? ''));
-    $ctl  = new IndexController();
+    $ctl = new IndexController();
     ob_start();
     $ctl->cargarPublicacionesFiltro(['tipo_publicitante' => $tipo]);
     echo ob_get_clean();
@@ -177,8 +177,9 @@ if ((strpos($ruta, '/HabitaRoom/index') === 0) && $accion === 'filtrarTipoPublic
 
 // Cargar más publicaciones (scroll infinito)
 if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
+    $id_publis_cargadas = $_POST['id_publis_cargadas'] ?? [];
     $ctl = new IndexController();
-    $ctl->cargarMasPublicaciones();
+    $ctl->cargarMasPublicaciones($id_publis_cargadas);
     exit;
 }
 

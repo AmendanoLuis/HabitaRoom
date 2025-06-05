@@ -156,7 +156,8 @@ $(document).ready(function () {
         if (id_publi) id_publis.push(id_publi);
       });
 
-      console.log(`IDs cargados en ${containerSelector}:`, id_publis);
+      sessionStorage.setItem("id_publis", JSON.stringify(id_publis));
+      console.log("IDs guardados en sessionStorage:", id_publis);
     });
 
     $(document).off(`mouseover.${itemSelector}`);
@@ -206,6 +207,67 @@ $(document).ready(function () {
     });
   }
 
+  function eventFormularioUbicacion() {
+    // Cuando el formulario de búsqueda se haga submit
+    $(document).off("submit", "#formBuscarMapa");
+    $(document).on("submit", "#formBuscarMapa", function (event) {
+      event.preventDefault();
+
+      const lat = $("#inputLatitud").val();
+      const lon = $("#inputLongitud").val();
+      const address = {
+        road: $("#inputCalle").val() || "",
+        suburb: $("#inputBarrio").val() || "",
+        city: $("#inputCiudad").val() || "",
+        state: $("#inputProvincia").val() || "",
+        postcode: $("#inputCP").val() || "",
+      };
+      if (
+        !lat &&
+        !lon &&
+        !address.road &&
+        !address.suburb &&
+        !address.city &&
+        !address.state &&
+        !address.postcode
+      ) {
+        Swal.fire({
+          icon: "warning",
+          title: "Escribe la ubicación para buscar",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+      // recarga publicaciones filtradas
+      $.ajax({
+        url: "controllers/IndexController.php",
+        type: "POST",
+        data: {
+          latitud: lat,
+          longitud: lon,
+          calle: address.road,
+          barrio: address.suburb,
+          ciudad: address.city,
+          provincia: address.state,
+          cp: address.postcode,
+          ruta: ruta_actual,
+        },
+        beforeSend: () => {
+          mostrarCargando();
+        },
+        success: (response) => {
+          console.log("Buscar por ubicación:", response);
+        },
+        error: (xhr, status, error) => {
+          console.error("Error al buscar por ubicación:", error);
+        },
+        complete: () => {
+          ocultarCargando();
+        },
+      });
+    });
+  }
+
   // ============ MANEJO DE RUTAS ============
 
   async function manejarRuta(ruta_actual) {
@@ -238,14 +300,39 @@ $(document).ready(function () {
                 );
               }
             }
+
             // recarga publicaciones filtradas
-            $.getJSON("/HabitaRoom/controllers/IndexController.php", {
-              ciudad: address.city || "",
-              provincia: address.state || "",
-            }).done(renderPosts);
+            $.ajax({
+              url: "controllers/IndexController.php",
+              type: "POST",
+              data: {
+                latitud: lat,
+                longitud: lon,
+                calle: address.road || "",
+                barrio: address.suburb || "",
+                ciudad: address.city || address.town || address.village || "",
+                provincia: address.state || "",
+                cp: address.postcode || "",
+                ruta: ruta_actual,
+              },
+              beforeSend: () => {
+                mostrarCargando();
+              },
+              success: (response) => {
+                console.log("Buscar por ubicación:", response);
+              },
+              error: (xhr, status, error) => {
+                console.error("Error al buscar por ubicación:", error);
+              },
+              complete: () => {
+                ocultarCargando();
+              },
+            });
           },
         });
 
+        // Asignar eventos al formularios
+        eventFormularioUbicacion();
         inicializarBuscadorLateral();
         filtrarTipoPublicitante();
       });

@@ -33,7 +33,7 @@ class ModelObtenerPublicaciones
      * @param int $offset Desplazamiento para paginación (por defecto 0).
      * @return array Lista de objetos con los datos de las publicaciones o array vacío en caso de error.
      */
-    public function obtenerPublicaciones($limite = 10, $offset = 0)
+    public function obtenerPublicaciones(int $limite = 10, int $offset = 0): array
     {
         try {
             $sql = "SELECT * FROM publicaciones ORDER BY fecha_publicacion DESC LIMIT ? OFFSET ?";
@@ -48,6 +48,45 @@ class ModelObtenerPublicaciones
             return [];
         }
     }
+    public function obtenerMasPublicaciones(int $limite = 10, int $offset = 0, array $id_publis_cargadas = []): array
+    {
+        try {
+            $params = [];
+            $sql = "SELECT * FROM publicaciones";
+
+            // Si hay publicaciones ya cargadas, las excluimos
+            if (!empty($id_publis_cargadas)) {
+                // Convertir todos los IDs a enteros
+                $id_publis_cargadas = array_map('intval', $id_publis_cargadas);
+
+                $placeholders = implode(',', array_fill(0, count($id_publis_cargadas), '?'));
+                $sql .= " WHERE id NOT IN ($placeholders)";
+                $params = array_merge($params, $id_publis_cargadas);
+            }
+
+            // Añadir orden y paginación
+            $sql .= " ORDER BY fecha_publicacion DESC LIMIT ? OFFSET ?";
+            $params[] = $limite;
+            $params[] = $offset;
+
+            $stmt = $this->conn->prepare($sql);
+
+            // Bind dinámico
+            foreach ($params as $i => $param) {
+                $stmt->bindValue($i + 1, $param, PDO::PARAM_INT);
+            }
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+
+        } catch (PDOException $e) {
+            error_log("Error en obtenerMasPublicaciones: " . $e->getMessage());
+            return [];
+        }
+    }
+
+
+
 
     /**
      * Obtiene las publicaciones con precio más bajo (ofertas) limitadas a 12.
@@ -74,7 +113,7 @@ class ModelObtenerPublicaciones
      * @param string $q Término de búsqueda (palabra o frase).
      * @return array Lista de objetos con publicaciones encontradas o array vacío en caso de error.
      */
-    public function buscarAnuncios(string $q): array
+    public function obtenerPublicacionesTitulo(string $q): array
     {
         try {
             $sql = "SELECT * FROM publicaciones
@@ -84,7 +123,7 @@ class ModelObtenerPublicaciones
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
                 ':like_q' => "%{$q}%",
-                ':q'      => $q
+                ':q' => $q
             ]);
             return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
         } catch (PDOException $e) {
@@ -197,10 +236,7 @@ class ModelObtenerPublicaciones
             }
 
             // Características booleanas
-            foreach ([
-                'ascensor', 'piscina', 'gimnasio', 'garaje',
-                'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'
-            ] as $c) {
+            foreach (['ascensor', 'piscina', 'gimnasio', 'garaje', 'terraza', 'jardin', 'aire_acondicionado', 'calefaccion'] as $c) {
                 if (!empty($filtros[$c]) && $filtros[$c] === '1') {
                     $sql .= " AND {$c} = 1";
                 }
@@ -230,8 +266,8 @@ class ModelObtenerPublicaciones
             $sql .= " ORDER BY {$orderBy} {$orderDir}";
 
             // Paginación: limit y offset
-            $limit = isset($filtros['limit']) && is_numeric($filtros['limit']) ? (int)$filtros['limit'] : 20;
-            $offset = isset($filtros['offset']) && is_numeric($filtros['offset']) ? (int)$filtros['offset'] : 0;
+            $limit = isset($filtros['limit']) && is_numeric($filtros['limit']) ? (int) $filtros['limit'] : 20;
+            $offset = isset($filtros['offset']) && is_numeric($filtros['offset']) ? (int) $filtros['offset'] : 0;
             $sql .= " LIMIT {$limit} OFFSET {$offset}";
 
             $stmt = $this->conn->prepare($sql);

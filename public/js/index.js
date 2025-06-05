@@ -4,11 +4,7 @@ import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
 // FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
 //------------------------------------------------------------------
 export function detectarFinDePagina() {
-  let offset = 10;
-  var ancho_cont_categ = $("#row_filtros").outerWidth();
-  var alturaFooter = $("#footer_hbr").outerHeight();
-
-  $("#row_filtros").css("width", ancho_cont_categ + "px");
+  let offset = $("#contenedor-publicacion").length;
 
   $(window).scroll(function () {
     if (
@@ -19,6 +15,7 @@ export function detectarFinDePagina() {
       if (!window.cargandoMas) {
         window.cargandoMas = true;
 
+        const id_publis_cargadas = sessionStorage.getItem("id_publis");
         const timeoutId = mostrarCargandoConRetardo();
 
         $.ajax({
@@ -28,7 +25,9 @@ export function detectarFinDePagina() {
             ruta: "/HabitaRoom/index",
             accion: "cargarMasPublicaciones",
             offset: offset,
-            limite: 10,
+            id_publis_cargadas: id_publis_cargadas
+              ? JSON.parse(id_publis_cargadas)
+              : [],
           },
           success: function (html) {
             if (html.trim().length > 0) {
