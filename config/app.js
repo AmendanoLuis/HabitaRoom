@@ -210,6 +210,54 @@ $(document).ready(function () {
     eventFormularioUbicacion();
   }
 
+  function eventosUbicacionIndex() {
+    // Aquí sí existe el formulario de búsqueda
+    iniciarAutocompletarUbicacion({
+      inputSelector: "#formBuscarMapa input[type='search']",
+      onSelect: ({ lat, lon, address }) => {
+        // recenter + marcador
+        if (window.mapInstance) {
+          window.mapInstance.setView([lat, lon], 14);
+          if (window.mapInstance.marker) {
+            window.mapInstance.marker.setLatLng([lat, lon]);
+          } else {
+            window.mapInstance.marker = L.marker([lat, lon]).addTo(
+              window.mapInstance
+            );
+          }
+        }
+        // recarga publicaciones filtradas
+        $.ajax({
+          url: "controllers/IndexController.php",
+          type: "POST",
+          data: {
+            latitud: lat,
+            longitud: lon,
+            calle: address.road || "",
+            barrio: address.suburb || "",
+            ciudad: address.city || address.town || address.village || "",
+            provincia: address.state || "",
+            cp: address.postcode || "",
+            accion: "buscarPorUbicacion",
+            ruta: ruta_actual,
+          },
+          beforeSend: () => {
+            mostrarCargando();
+          },
+          success: (response) => {
+            $("#contenedor-principal").html(response);
+          },
+          error: (xhr, status, error) => {
+            console.error("Error al buscar por ubicación:", error);
+          },
+          complete: () => {
+            ocultarCargando();
+          },
+        });
+      },
+    });
+  }
+
   // ============ MANEJO DE RUTAS ============
 
   async function manejarRuta(ruta_actual) {
@@ -217,6 +265,11 @@ $(document).ready(function () {
 
     if (ruta_actual === "/HabitaRoom/index") {
       await observarCarga("#contenedor-principal", async () => {
+        if (sessionStorage.getItem("mostrarMapaTrasReload") === "1") {
+          sessionStorage.removeItem("mostrarMapaTrasReload");
+          mostrarMapa();
+        }
+
         inicializarToggleMapa();
         await cargarPublicacionesIndex();
         accionGuardar(ruta_actual);
@@ -226,67 +279,13 @@ $(document).ready(function () {
           "#contenedor-principal",
           ".contenedor-publicacion"
         );
-
-        // Aquí sí existe el formulario de búsqueda
-        iniciarAutocompletarUbicacion({
-          inputSelector: "#formBuscarMapa input[type='search']",
-          onSelect: ({ lat, lon, address }) => {
-            // recenter + marcador
-            if (window.mapInstance) {
-              window.mapInstance.setView([lat, lon], 14);
-              if (window.mapInstance.marker) {
-                window.mapInstance.marker.setLatLng([lat, lon]);
-              } else {
-                window.mapInstance.marker = L.marker([lat, lon]).addTo(
-                  window.mapInstance
-                );
-              }
-            }
-                // Mostrar en consola los datos enviados a AJAX
-                console.log("Datos enviados a AJAX:", {
-                  latitud: lat,
-                  longitud: lon,
-                  calle: address.road || "",
-                  barrio: address.suburb || "",
-                  ciudad: address.city || address.town || address.village || "",
-                  provincia: address.state || "",
-                  cp: address.postcode || "",
-                });
-            // recarga publicaciones filtradas
-            $.ajax({
-              url: "controllers/IndexController.php",
-              type: "POST",
-              data: {
-                latitud: lat,
-                longitud: lon,
-                calle: address.road || "",
-                barrio: address.suburb || "",
-                ciudad: address.city || address.town || address.village || "",
-                provincia: address.state || "",
-                cp: address.postcode || "",
-                accion: "buscarPorUbicacion",
-                ruta: ruta_actual,
-              },
-              beforeSend: () => {
-                mostrarCargando();
-              },
-              success: (response) => {
-                $("#contenedor-principal").html(response);
-              },
-              error: (xhr, status, error) => {
-                console.error("Error al buscar por ubicación:", error);
-              },
-              complete: () => {
-                ocultarCargando();
-              },
-            });
-          },
-        });
+        // Asignar eventos a mapa y autocompletar index
+        eventosUbicacionIndex();
 
         // Asignar eventos al formularios
         eventFormularioUbicacion();
         inicializarBuscadorLateral();
-        filtrarTipoPublicitante();
+        filtrarTipoPublicitante( $("#inputBuscar"));
       });
     }
 

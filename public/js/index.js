@@ -263,7 +263,7 @@ export function inicializarBuscadorLateral() {
 //------------------------------------------------------------------
 // Inicializa el filtro de tipo de publicitante
 //------------------------------------------------------------------
-export function filtrarTipoPublicitante() {
+export function filtrarTipoPublicitante(inputBuscar) {
   // Delegación para móviles
   $(document).on(
     "click",
@@ -277,7 +277,12 @@ export function filtrarTipoPublicitante() {
     "#btn-habitantes-desk, #btn-propietario-desk, #btn-empresa-desk",
     filtrar
   );
-
+  
+  inputBuscar.on("search", function () {
+    if (!this.value) {
+      location.reload();
+    }
+  });
   // Función para filtrar por tipo de publicitante
   function filtrar() {
     let tipo;

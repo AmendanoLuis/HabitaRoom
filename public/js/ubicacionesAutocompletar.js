@@ -14,20 +14,18 @@ async function geocode(query) {
 
   const resp = await fetch(url, {
     headers: {
-      'User-Agent': 'HabitaRoom/1.0 (https://github.com/AmendanoLuis)'
-    }
+      "User-Agent": "HabitaRoom/1.0 (https://github.com/AmendanoLuis)",
+    },
   });
   const data = await resp.json();
 
-  return data.map(r => ({
+  return data.map((r) => ({
     display_name: r.display_name,
-    lat:          parseFloat(r.lat),
-    lon:          parseFloat(r.lon),
-    address:      r.address
+    lat: parseFloat(r.lat),
+    lon: parseFloat(r.lon),
+    address: r.address,
   }));
 }
-
-
 
 //////////////////////////////////////
 // Autocompletar ubicación
@@ -101,6 +99,13 @@ export function iniciarAutocompletarUbicacion({ inputSelector, onSelect }) {
       $list.show();
     }, 300);
   });
+
+$("#inputBuscarMapa").on("search", function () {
+  if (!this.value) {
+    sessionStorage.setItem("mostrarMapaTrasReload", "1");
+    location.reload();
+  }
+});
 
   // Al presionar Enter, selecciona el primer resultado visible
   $input.on("keydown", (e) => {

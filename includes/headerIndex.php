@@ -85,7 +85,7 @@ $activeRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
                 <!-- Barra de búsqueda Lateral Derecho-->
                     <form class="d-flex ms-auto ps-3 <?php echo ($activeRoute === "/HabitaRoom/index") ? '' : 'invisible pe-none' ?>" id="formBuscarLateral" role="search">
-                        <input id="inputBuscar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input id="inputBuscar" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 <hr>
