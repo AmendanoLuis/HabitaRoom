@@ -75,13 +75,15 @@ class CrearPublicacionController
         // Iteramos sobre cada archivo subido
         for ($i = 0; $i < $n; $i++) {
             $name = $isMultiple ? $files['name'][$i] : $files['name'];
-            $tmp  = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
+            $tmp = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
             $error = $isMultiple ? $files['error'][$i] : $files['error'];
 
-            if ($error !== UPLOAD_ERR_OK) continue;
+            if ($error !== UPLOAD_ERR_OK)
+                continue;
 
             $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            if (!in_array($ext, $allowed)) continue;
+            if (!in_array($ext, $allowed))
+                continue;
 
             // Generar nombre único para evitar colisiones
             // Usamos uniqid para generar un ID único basado en el tiempo actual
@@ -129,13 +131,15 @@ class CrearPublicacionController
 
         for ($i = 0; $i < $n; $i++) {
             $name = $isMultiple ? $files['name'][$i] : $files['name'];
-            $tmp  = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
+            $tmp = $isMultiple ? $files['tmp_name'][$i] : $files['tmp_name'];
             $error = $isMultiple ? $files['error'][$i] : $files['error'];
 
-            if ($error !== UPLOAD_ERR_OK) continue;
+            if ($error !== UPLOAD_ERR_OK)
+                continue;
 
             $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            if (!in_array($ext, $allowed)) continue;
+            if (!in_array($ext, $allowed))
+                continue;
 
             $filename = uniqid('vid_') . ".$ext";
             $dest = $uploadDir . $filename;
@@ -165,29 +169,77 @@ class CrearPublicacionController
             throw new Exception('No estás Registrado.\nPor favor, inicia sesión para continuar.');
         }
 
+        // Ubicacion geográfica
+        $ubicacionGeografica = $_POST['ubicacion_geografica'] ?? null;
+        if ($ubicacionGeografica) {
+            if (is_string($ubicacionGeografica)) {
+                $ubicacionGeografica = json_decode($ubicacionGeografica, true);
+            }
+
+            if (!is_array($ubicacionGeografica)) {
+                throw new Exception('Ubicación geográfica inválida.');
+            }
+
+            // Validar y asignar con valores por defecto si falta alguno
+            $campos = [
+                'latitud' => null,
+                'longitud' => null,
+                'road' => '',
+                'suburb' => '',
+                'city' => '',
+                'state' => '',
+                'postcode' => '',
+            ];
+
+            foreach ($campos as $campo => $default) {
+                $ubicacionGeografica[$campo] = $ubicacionGeografica[$campo] ?? $default;
+            }
+        } else {
+            // Si no se envió nada, establecer todos los campos como nulos o vacíos
+            $ubicacionGeografica = [
+                'latitud' => null,
+                'longitud' => null,
+                'road' => '',
+                'suburb' => '',
+                'city' => '',
+                'state' => '',
+                'postcode' => '',
+            ];
+        }
+
+
         // Recoger y sanear campos
         $datos = [
-            'usuario_id'         => intval($usuarioId),
-            'tipo_anuncio'       => $_POST['tipo_anuncio']                ?? '',
-            'tipo_inmueble'      => $_POST['tipo_inmueble']               ?? '',
-            'ubicacion'          => trim($_POST['ubicacion']     ?? ''),
-            'titulo'             => trim($_POST['titulo']        ?? ''),
-            'descripcion'        => trim($_POST['descripcion']   ?? ''),
-            'precio'             => floatval($_POST['precio']      ?? 0),
-            'habitaciones'       => intval($_POST['habitaciones']  ?? 0),
-            'banos'              => intval($_POST['banos']         ?? 0),
-            'estado'             => $_POST['estado']                      ?? '',
-            'ascensor'           => isset($_POST['ascensor'])           ? 1 : 0,
-            'piscina'            => isset($_POST['piscina'])            ? 1 : 0,
-            'gimnasio'           => isset($_POST['gimnasio'])           ? 1 : 0,
-            'garaje'             => isset($_POST['garaje'])             ? 1 : 0,
-            'terraza'            => isset($_POST['terraza'])            ? 1 : 0,
-            'jardin'             => isset($_POST['jardin'])             ? 1 : 0,
+            'usuario_id' => intval($usuarioId),
+            'tipo_anuncio' => $_POST['tipo_anuncio'] ?? '',
+            'tipo_inmueble' => $_POST['tipo_inmueble'] ?? '',
+            'ubicacion' => trim($_POST['ubicacion'] ?? ''),
+            'titulo' => trim($_POST['titulo'] ?? ''),
+            'descripcion' => trim($_POST['descripcion'] ?? ''),
+            'precio' => floatval($_POST['precio'] ?? 0),
+            'habitaciones' => intval($_POST['habitaciones'] ?? 0),
+            'banos' => intval($_POST['banos'] ?? 0),
+            'estado' => $_POST['estado'] ?? '',
+            'ascensor' => isset($_POST['ascensor']) ? 1 : 0,
+            'piscina' => isset($_POST['piscina']) ? 1 : 0,
+            'gimnasio' => isset($_POST['gimnasio']) ? 1 : 0,
+            'garaje' => isset($_POST['garaje']) ? 1 : 0,
+            'terraza' => isset($_POST['terraza']) ? 1 : 0,
+            'jardin' => isset($_POST['jardin']) ? 1 : 0,
             'aire_acondicionado' => isset($_POST['aire_acondicionado']) ? 1 : 0,
-            'calefaccion'        => isset($_POST['calefaccion'])        ? 1 : 0,
-            'tipo_publicitante'  => $_POST['tipo_publicitante'] ?? '',
-            'superficie'         => floatval($_POST['superficie'] ?? 0),
+            'calefaccion' => isset($_POST['calefaccion']) ? 1 : 0,
+            'tipo_publicitante' => $_POST['tipo_publicitante'] ?? '',
+            'superficie' => floatval($_POST['superficie'] ?? 0),
+            // Agregas los campos de ubicación
+            'latitud' => floatval($ubicacionGeografica['latitud']),
+            'longitud' => floatval($ubicacionGeografica['longitud']),
+            'calle' => trim($ubicacionGeografica['road']),
+            'barrio' => trim($ubicacionGeografica['suburb']),
+            'ciudad' => trim($ubicacionGeografica['city']),
+            'provincia' => trim($ubicacionGeografica['state']),
+            'codigo_postal' => trim($ubicacionGeografica['postcode']),
         ];
+
 
         // Campos obligatorios
         if (
@@ -219,7 +271,7 @@ class CrearPublicacionController
             list($id_publicacion, $exito) = $this->model->insertarPublicacion($datos);
 
             return [
-                'estado'  => $exito ? 'ok' : 'error',
+                'estado' => $exito ? 'ok' : 'error',
                 'mensaje' => $exito ? 'Publicación creada con éxito.' : 'Error al crear la publicación.',
                 'id_publicacion' => $id_publicacion,
                 'success' => true,
@@ -227,12 +279,12 @@ class CrearPublicacionController
         } catch (\Exception $e) {
 
             return [
-                'estado'  => 'error',
+                'estado' => 'error',
                 'success' => false,
                 'mensaje' => $e->getMessage(),
                 'archivo' => $e->getFile(),
-                'linea'   => $e->getLine(),
-                'codigo'  => $e->getCode()
+                'linea' => $e->getLine(),
+                'codigo' => $e->getCode()
             ];
         }
     }
@@ -250,6 +302,5 @@ if (isset($_POST['btn_crear_publi'])) {
     echo json_encode($controller->validarFormulario());
     exit;
 } else {
-
     $controller->cargarFormulario();
 }

@@ -11,6 +11,7 @@ import {
 import {
   inicializarToggleMapa,
   mostrarMapa,
+  eventFormularioUbicacion,
 } from "../public/js/manejadorMapa.js";
 import { iniciarAutocompletarUbicacion } from "../public/js/ubicacionesAutocompletar.js";
 
@@ -205,67 +206,8 @@ $(document).ready(function () {
         }
       },
     });
-  }
 
-  function eventFormularioUbicacion() {
-    // Cuando el formulario de búsqueda se haga submit
-    $(document).off("submit", "#formBuscarMapa");
-    $(document).on("submit", "#formBuscarMapa", function (event) {
-      event.preventDefault();
-
-      const lat = $("#inputLatitud").val();
-      const lon = $("#inputLongitud").val();
-      const address = {
-        road: $("#inputCalle").val() || "",
-        suburb: $("#inputBarrio").val() || "",
-        city: $("#inputCiudad").val() || "",
-        state: $("#inputProvincia").val() || "",
-        postcode: $("#inputCP").val() || "",
-      };
-      if (
-        !lat &&
-        !lon &&
-        !address.road &&
-        !address.suburb &&
-        !address.city &&
-        !address.state &&
-        !address.postcode
-      ) {
-        Swal.fire({
-          icon: "warning",
-          title: "Escribe la ubicación para buscar",
-          confirmButtonText: "Aceptar",
-        });
-        return;
-      }
-      // recarga publicaciones filtradas
-      $.ajax({
-        url: "controllers/IndexController.php",
-        type: "POST",
-        data: {
-          latitud: lat,
-          longitud: lon,
-          calle: address.road,
-          barrio: address.suburb,
-          ciudad: address.city,
-          provincia: address.state,
-          cp: address.postcode,
-          ruta: ruta_actual,
-        },
-        beforeSend: () => {
-          mostrarCargando();
-        },
-        success: (response) => {
-          console.log("Buscar por ubicación:", response);
-        },
-        error: (xhr, status, error) => {
-          console.error("Error al buscar por ubicación:", error);
-        },
-        complete: () => {
-          ocultarCargando();
-        },
-      });
-    });
+    eventFormularioUbicacion();
   }
 
   // ============ MANEJO DE RUTAS ============
@@ -368,7 +310,6 @@ $(document).ready(function () {
 
           const form = document.getElementById("form_crear_publi");
           const campos = form.querySelectorAll("input, select, textarea");
-
           let formularioValido = true;
 
           campos.forEach((campo) => {

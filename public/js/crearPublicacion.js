@@ -1,3 +1,7 @@
+import {
+  obtenerDireccionDesdeInputs,
+} from "./manejadorMapa.js";
+
 // ————————————————————————————————
 //  Funcion para cambiar el valor de habitaciones o baños
 // ————————————————————————————————
@@ -247,6 +251,9 @@ export function procesarFormularioCrearPublicacion() {
       formData.append("imagenes[]", file, file.name);
     });
   }
+
+  const ubicacionGeografica = obtenerDireccionDesdeInputs();
+  formData.append("ubicacion_geografica", JSON.stringify(ubicacionGeografica));
 
   console.log("Formulario de crear publicación enviado.");
   for (const [key, value] of formData.entries()) {

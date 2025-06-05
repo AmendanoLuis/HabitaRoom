@@ -42,3 +42,69 @@ export function inicializarToggleMapa() {
     setTimeout(() => {bloqueado = false;}, 500);
   });
 }
+
+export function eventFormularioUbicacion() {
+    // Cuando el formulario de búsqueda se haga submit
+
+    $(document).off("submit", "#formBuscarMapa");
+    $(document).on("submit", "#formBuscarMapa", function (event) {
+      event.preventDefault();
+
+      const lat = $("#inputLatitud").val();
+      const lon = $("#inputLongitud").val();
+      const ubicacionGeografica = obtenerDireccionDesdeInputs();
+      if (
+        !lat &&
+        !lon &&
+        !ubicacionGeografica.road &&
+        !ubicacionGeografica.suburb &&
+        !ubicacionGeografica.city &&
+        !ubicacionGeografica.state &&
+        !ubicacionGeografica.postcode
+      ) {
+        Swal.fire({
+          icon: "warning",
+          title: "Escribe la ubicación para buscar",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+      $.ajax({
+        url: "controllers/IndexController.php",
+        type: "POST",
+        data: {
+          latitud: lat,
+          longitud: lon,
+          calle: ubicacionGeografica.road,
+          barrio: ubicacionGeografica.suburb,
+          ciudad: ubicacionGeografica.city,
+          provincia: ubicacionGeografica.state,
+          cp: ubicacionGeografica.postcode,
+        },
+        beforeSend: () => {
+          mostrarCargando();
+        },
+        success: (response) => {
+          console.log("Buscar por ubicación:", response);
+        },
+        error: (xhr, status, error) => {
+          console.error("Error al buscar por ubicación:", error);
+        },
+        complete: () => {
+          ocultarCargando();
+        },
+      });
+    });
+  }
+
+export function obtenerDireccionDesdeInputs() {
+  return {
+    latitud: $("#inputLatitud").val() || "",
+    longitud: $("#inputLongitud").val() || "",
+    road: $("#inputCalle").val() || "",
+    suburb: $("#inputBarrio").val() || "",
+    city: $("#inputCiudad").val() || "",
+    state: $("#inputProvincia").val() || "",
+    postcode: $("#inputCP").val() || "",
+  };
+}
