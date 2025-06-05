@@ -31,7 +31,7 @@
 
                     <!-- Categorias -->
                     <div class="mt-5 pt-5 px-5 mb-4   ">
-                        <h4 class="mt-4 my-3">Categoria Publicaciones</h4>
+                        <h4 class="my-3">Categoria Publicaciones</h4>
 
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-desk"
@@ -55,7 +55,7 @@
                         <form id="form-filtros-desp" method="POST" class="ps-4">
 
                             <!-- Tipo de anuncio -->
-                            <h5 class="fw-bold fs-md-6 fs-sm-5">Tipo de anuncio</h5>
+                            <h6 class="fw-bold fs-6">Tipo de anuncio</h6>
                             <select class="form-select" id="tipo_anuncio" name="tipo_anuncio">
                                 <option value="">Cualquiera</option>
                                 <option value="venta">Venta</option>
@@ -63,7 +63,7 @@
                             </select>
 
                             <!-- Tipo de Inmueble -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Tipo de inmueble</h5>
+                            <h6 class="fw-bold mt-3 fs-6">Tipo de inmueble</h6>
                             <select class="form-select" id="tipo_inmueble" name="tipo_inmueble">
                                 <option value="">Cualquiera</option>
                                 <option value="apartamento">Apartamento</option>
@@ -74,30 +74,30 @@
                             </select>
 
                             <!-- Precio Inmueble -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Precio (€)</h5>
+                            <h6 class="fw-bold mt-3 fs-6">Precio</h6>
                             <div class="row">
                                 <div class="col">
                                     <select class="form-select" id="precio_min" name="precio_min">
                                         <option value="">Min.</option>
-                                        <option value="50000">50 000</option>
-                                        <option value="100000">100 000</option>
-                                        <option value="150000">150 000</option>
-                                        <option value="200000">200 000</option>
+                                        <option value="50000">50 000 €</option>
+                                        <option value="100000">100 000 €</option>
+                                        <option value="150000">150 000 €</option>
+                                        <option value="200000">200 000 €</option>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <select class="form-select" id="precio_max" name="precio_max">
                                         <option value="">Max.</option>
-                                        <option value="250000">250 000</option>
-                                        <option value="400000">400 000</option>
-                                        <option value="600000">600 000</option>
-                                        <option value="1000000">1 000 000</option>
+                                        <option value="250000">250 000 €</option>
+                                        <option value="400000">400 000 €</option>
+                                        <option value="600000">600 000 €</option>
+                                        <option value="1000000">1 000 000 €</option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- Habitaciones -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Habitaciones (≥)</h5>
+                            <h6 class="fw-semibold mt-3 fs-6">Habitaciones</h6>
                             <div class="btn-group" role="group">
                                 <input type="radio" class="btn-check" name="habitaciones" id="hab-1" value="1">
                                 <label class="btn btn-outline-primary" for="hab-1">1</label>
@@ -113,7 +113,7 @@
                             </div>
 
                             <!-- Baños -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Baños (≥)</h5>
+                            <h6 class="fw-bold mt-3 fs-6">Baños</h6>
                             <div class="btn-group" role="group">
                                 <input type="radio" class="btn-check" name="banos" id="bano-1" value="1">
                                 <label class="btn btn-outline-primary" for="bano-1">1</label>
@@ -126,7 +126,7 @@
                             </div>
 
                             <!-- Estado inmueble -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Estado</h5>
+                            <h6 class="fw-bold mt-3 fs-6">Estado</h6>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="estado" id="estado-nuevo" value="nuevo">
                                 <label class="form-check-label" for="estado-nuevo">Nuevo</label>
@@ -145,7 +145,7 @@
                             </div>
 
                             <!-- Características -->
-                            <h5 class="fw-bold mt-3 fs-md-6 fs-sm-5">Características</h5>
+                            <h6 class="fw-bold mt-3 fs-6">Características</h6>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-check">
@@ -219,12 +219,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- CONTENIDO PRINICIPAL -->
-        <div class=" col-9 pt-2 mt-5 d-flex flex-column align-items-center" id="contenedor-principal">
-
+        <div 
+            class="col-9 py-5 mb-5 d-flex flex-column align-items-center overflow-auto"
+            id="contenedor-principal"
+        >
         </div>
 
         <!-- Contenedor Mapa -->

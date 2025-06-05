@@ -64,7 +64,7 @@ $dbConnection = Database::connect();
     </div>
 
     <!-- Footer dinámico -->
-    <?php if ($url !== '/HabitaRoom/login' && $url !== '/HabitaRoom/registro') {
+    <?php if ($url !== '/HabitaRoom/index' && $url !== '/HabitaRoom/login' && $url !== '/HabitaRoom/registro') {
         include __DIR__ . '/includes/footer.php';
     } ?>
 
