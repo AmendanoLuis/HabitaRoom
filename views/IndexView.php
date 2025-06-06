@@ -57,7 +57,7 @@
                             <!-- Tipo de anuncio -->
                             <h6 class="fw-bold fs-6">Tipo de anuncio</h6>
                             <select class="form-select" id="tipo_anuncio" name="tipo_anuncio">
-                                <option value="">Cualquiera</option>
+                                <option value="">Seleccionar...</option>
                                 <option value="venta">Venta</option>
                                 <option value="alquiler">Alquiler</option>
                             </select>
@@ -65,12 +65,15 @@
                             <!-- Tipo de Inmueble -->
                             <h6 class="fw-bold mt-3 fs-6">Tipo de inmueble</h6>
                             <select class="form-select" id="tipo_inmueble" name="tipo_inmueble">
-                                <option value="">Cualquiera</option>
+                                <option value="">Seleccionar...</option>
+                                <option value="garaje">Garaje</option>
                                 <option value="apartamento">Apartamento</option>
+                                <option value="piso">Piso</option>
                                 <option value="casa">Casa</option>
-                                <option value="oficina">Oficina</option>
                                 <option value="local">Local</option>
+                                <option value="oficina">Oficina</option>
                                 <option value="terreno">Terreno</option>
+                                <option value="otro">Otro...</option>
                             </select>
 
                             <!-- Precio Inmueble -->
@@ -128,19 +131,23 @@
                             <!-- Estado inmueble -->
                             <h6 class="fw-bold mt-3 fs-6">Estado</h6>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="estado-nuevo" value="nuevo">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-nuevo"
+                                    value="nuevo">
                                 <label class="form-check-label" for="estado-nuevo">Nuevo</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="estado-semi" value="semi-nuevo">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-semi"
+                                    value="semi-nuevo">
                                 <label class="form-check-label" for="estado-semi">Semi-nuevo</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="estado-usado" value="usado">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-usado"
+                                    value="usado">
                                 <label class="form-check-label" for="estado-usado">Usado</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="estado" id="estado-renovado" value="renovado">
+                                <input class="form-check-input" type="radio" name="estado" id="estado-renovado"
+                                    value="renovado">
                                 <label class="form-check-label" for="estado-renovado">Renovado</label>
                             </div>
 
@@ -149,37 +156,46 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="ascensor" id="carac-ascensor" value="1">
+                                        <input class="form-check-input" type="checkbox" name="ascensor"
+                                            id="carac-ascensor" value="1">
                                         <label class="form-check-label" for="carac-ascensor">Ascensor</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="piscina" id="carac-piscina" value="1">
+                                        <input class="form-check-input" type="checkbox" name="piscina"
+                                            id="carac-piscina" value="1">
                                         <label class="form-check-label" for="carac-piscina">Piscina</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="gimnasio" id="carac-gimnasio" value="1">
+                                        <input class="form-check-input" type="checkbox" name="gimnasio"
+                                            id="carac-gimnasio" value="1">
                                         <label class="form-check-label" for="carac-gimnasio">Gimnasio</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="garaje" id="carac-garaje" value="1">
+                                        <input class="form-check-input" type="checkbox" name="garaje" id="carac-garaje"
+                                            value="1">
                                         <label class="form-check-label" for="carac-garaje">Garaje</label>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="terraza" id="carac-terraza" value="1">
+                                        <input class="form-check-input" type="checkbox" name="terraza"
+                                            id="carac-terraza" value="1">
                                         <label class="form-check-label" for="carac-terraza">Terraza</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="jardin" id="carac-jardin" value="1">
+                                        <input class="form-check-input" type="checkbox" name="jardin" id="carac-jardin"
+                                            value="1">
                                         <label class="form-check-label" for="carac-jardin">Jardín</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="aire_acondicionado" id="carac-acondicionado" value="1">
-                                        <label class="form-check-label" for="carac-acondicionado">Aire acondicionado</label>
+                                        <input class="form-check-input" type="checkbox" name="aire_acondicionado"
+                                            id="carac-acondicionado" value="1">
+                                        <label class="form-check-label" for="carac-acondicionado">Aire
+                                            acondicionado</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="calefaccion" id="carac-calefaccion" value="1">
+                                        <input class="form-check-input" type="checkbox" name="calefaccion"
+                                            id="carac-calefaccion" value="1">
                                         <label class="form-check-label" for="carac-calefaccion">Calefacción</label>
                                     </div>
                                 </div>
@@ -222,25 +238,18 @@
         </div>
 
         <!-- CONTENIDO PRINICIPAL -->
-        <div 
-            class="col-9 py-5 mb-5 d-flex flex-column align-items-center overflow-auto"
-            id="contenedor-principal"
-        >
+        <div class="col-9 py-5 mb-5 d-flex flex-column align-items-center overflow-auto" id="contenedor-principal">
         </div>
 
         <!-- Contenedor Mapa -->
         <div id="mapa" class="position-fixed end-0 bg-body shadow-lg rounded-bottom p-0 mt-4">
             <div id="mapLeaflet" class="w-100 h-75 px-2 mb-2"></div>
 
-            <form
-                class="form p-3 h-25 d-flex justify-content-center align-items-center bg-success rounded-bottom"
+            <form class="form p-3 h-25 d-flex justify-content-center align-items-center bg-success rounded-bottom"
                 id="formBuscarMapa">
                 <div style="position: relative; width: 100%;">
-                    <input id="inputBuscarMapa" name="display_name"
-                        class="form-control me-2"
-                        type="search"
-                        placeholder="Buscar"
-                        autocomplete="off" />
+                    <input id="inputBuscarMapa" name="display_name" class="form-control me-2" type="search"
+                        placeholder="Buscar" autocomplete="off" />
                 </div>
                 <button class="btn btn-primary" type="submit">Buscar</button>
 
@@ -270,7 +279,8 @@
             <!-- Contenedor para boton del Mapa  -->
 
             <div id="btn-toggle-mapa" class="position-absolute bottom-0 end-0 ">
-                <button id="btn-toggle-mapa" class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
+                <button id="btn-toggle-mapa"
+                    class="btn btn-light p-2 px-3 rounded-circle border border-1 border-success">
                     <i class="bi bi-map" style="font-size: 30px;"></i>
                 </button>
             </div>

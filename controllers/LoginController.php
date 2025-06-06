@@ -41,6 +41,7 @@ class LoginController
         // Verificar si el usuario existe y la contraseña coincide
         if ($user && password_verify($password, trim($user->contrasena))) {
             $_SESSION['id'] = $user->id;
+            $_SESSION['tipo_usuario'] = $user->tipo_usuario;
             $respuesta['status'] = true;
         } else {
             $respuesta['status'] = false;

@@ -111,7 +111,7 @@ class IndexController
 
         // Obtener las publicaciones por filtro
         $publicaciones = $this->model->obtenerPublicacionesFiltro($filtros);
-
+        echo "<script>console.log(" . json_encode($publicaciones) . ");</script>";
         if ($publicaciones !== "") {
             require_once '../views/PublicacionesView.php';
         } else {
@@ -248,7 +248,7 @@ if ($ruta === '/HabitaRoom/index' && $accion === 'cargarMasPublicaciones') {
 // —————————————————————————————————————————————————————————————————————————
 // 5) Carga inicial o con filtros genéricos
 // —————————————————————————————————————————————————————————————————————————
-if ($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php') {
+if (($ruta === '/HabitaRoom/index' || $ruta === '/HabitaRoom/index.php')) {
     $ctl = new IndexController();
     ob_start();
     if ($esFiltros) {

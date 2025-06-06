@@ -32,7 +32,10 @@ async function geocode(query) {
 /////////////////////////////////////
 let marcadorUbicacion = null;
 
-export function iniciarAutocompletarUbicacion({ inputSelector, onSelect }) {
+export function iniciarAutocompletarUbicacion(
+  { inputSelector, onSelect },
+  ruta_actual
+) {
   const $input = $(inputSelector);
   const $container = $input.parent();
   const $list = $('<ul class="autocomplete-list"></ul>').appendTo($container);
@@ -99,13 +102,15 @@ export function iniciarAutocompletarUbicacion({ inputSelector, onSelect }) {
       $list.show();
     }, 300);
   });
-
-$("#inputBuscarMapa").on("search", function () {
-  if (!this.value) {
-    sessionStorage.setItem("mostrarMapaTrasReload", "1");
-    location.reload();
+  console.log("Ruta actual" + ruta_actual);
+  if (ruta_actual === "/HabitaRoom/index") {
+    $("#inputBuscarMapa").on("search", function () {
+      if (!this.value) {
+        sessionStorage.setItem("mostrarMapaTrasReload", "1");
+        location.reload();
+      }
+    });
   }
-});
 
   // Al presionar Enter, selecciona el primer resultado visible
   $input.on("keydown", (e) => {

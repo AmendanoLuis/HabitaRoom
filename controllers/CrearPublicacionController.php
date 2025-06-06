@@ -228,7 +228,7 @@ class CrearPublicacionController
             'jardin' => isset($_POST['jardin']) ? 1 : 0,
             'aire_acondicionado' => isset($_POST['aire_acondicionado']) ? 1 : 0,
             'calefaccion' => isset($_POST['calefaccion']) ? 1 : 0,
-            'tipo_publicitante' => $_POST['tipo_publicitante'] ?? '',
+            'tipo_publicitante' => $_SESSION['tipo_usuario'] ?? '',
             'superficie' => floatval($_POST['superficie'] ?? 0),
             // Agregas los campos de ubicación
             'latitud' => floatval($ubicacionGeografica['latitud']),

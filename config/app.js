@@ -29,28 +29,31 @@ $(document).ready(function () {
 
   // Cargar página principal
   async function cargarPagina(url) {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get("id");
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
 
-      const data = { site: url };
-      if (id) {
-        data.id = id;
-      }
-
-      mostrarCargando();
-
-      const response = await $.ajax({
-        url: "routes/redireccionWeb.php",
-        type: "POST",
-        data: data,
-      });
-      $("#contenidoMain").html(response);
-    } catch (error) {
-      console.error("Error al cargar el contenido: ", error);
-    } finally {
-      ocultarCargando();
+    const data = { site: url };
+    if (id) {
+      data.id = id;
     }
+
+    $.ajax({
+      url: "routes/redireccionWeb.php",
+      type: "POST",
+      data: data,
+      beforeSend: function () {
+        mostrarCargando();
+      },
+      success: function (response) {
+        $("#contenidoMain").html(response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar el contenido:", error);
+      },
+      complete: function () {
+        ocultarCargando();
+      },
+    });
   }
 
   // Cargar publicaciones en el index
@@ -59,21 +62,23 @@ $(document).ready(function () {
       ruta_actual === "/HabitaRoom/index" ||
       ruta_actual === "/HabitaRoom/index.php"
     ) {
-      try {
-        mostrarCargando();
-
-        const response = await $.ajax({
-          url: "controllers/IndexController.php",
-          type: "POST",
-          data: { ruta: ruta_actual },
-        });
-
-        $("#contenedor-principal").html(response);
-      } catch (error) {
-        console.error("Error al cargar publicaciones: ", error);
-      } finally {
-        ocultarCargando();
-      }
+      await $.ajax({
+        url: "controllers/IndexController.php",
+        type: "POST",
+        data: { ruta: ruta_actual },
+        beforeSend: function () {
+          mostrarCargando();
+        },
+        success: function (response) {
+          $("#contenedor-principal").html(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error al cargar publicaciones:", error);
+        },
+        complete: function () {
+          ocultarCargando();
+        },
+      });
     }
   }
 
@@ -177,78 +182,82 @@ $(document).ready(function () {
   async function initUbicacionSection() {
     mostrarMapa();
 
-    iniciarAutocompletarUbicacion({
-      inputSelector: "#inputBuscarMapa",
-      onSelect: ({ lat, lon, address, display_name }) => {
-        // Recentrar el mapa y actualizar el marcador
-        const map = window.mapInstance;
-        if (map) {
-          map.setView([lat, lon], 14);
-          if (map.marker) {
-            map.marker.setLatLng([lat, lon]);
-          } else {
-            map.marker = L.marker([lat, lon]).addTo(map);
+    iniciarAutocompletarUbicacion(
+      {
+        inputSelector: "#inputBuscarMapa",
+        onSelect: ({ lat, lon, address, display_name }) => {
+          // Recentrar el mapa y actualizar el marcador
+          const map = window.mapInstance;
+          if (map) {
+            map.setView([lat, lon], 14);
+            if (map.marker) {
+              map.marker.setLatLng([lat, lon]);
+            } else {
+              map.marker = L.marker([lat, lon]).addTo(map);
+            }
           }
-        }
+        },
       },
-    });
+      ruta_actual
+    );
 
     eventFormularioUbicacion();
   }
 
   function eventosUbicacionIndex() {
     // Aquí sí existe el formulario de búsqueda
-    iniciarAutocompletarUbicacion({
-      inputSelector: "#formBuscarMapa input[type='search']",
-      onSelect: ({ lat, lon, address }) => {
-        // recenter + marcador
-        if (window.mapInstance) {
-          window.mapInstance.setView([lat, lon], 14);
-          if (window.mapInstance.marker) {
-            window.mapInstance.marker.setLatLng([lat, lon]);
-          } else {
-            window.mapInstance.marker = L.marker([lat, lon]).addTo(
-              window.mapInstance
-            );
+    iniciarAutocompletarUbicacion(
+      {
+        inputSelector: "#formBuscarMapa input[type='search']",
+        onSelect: ({ lat, lon, address }) => {
+          // recenter + marcador
+          if (window.mapInstance) {
+            window.mapInstance.setView([lat, lon], 14);
+            if (window.mapInstance.marker) {
+              window.mapInstance.marker.setLatLng([lat, lon]);
+            } else {
+              window.mapInstance.marker = L.marker([lat, lon]).addTo(
+                window.mapInstance
+              );
+            }
           }
-        }
-        // recarga publicaciones filtradas
-        $.ajax({
-          url: "controllers/IndexController.php",
-          type: "POST",
-          data: {
-            latitud: lat,
-            longitud: lon,
-            calle: address.road || "",
-            barrio: address.suburb || "",
-            ciudad: address.city || address.town || address.village || "",
-            provincia: address.state || "",
-            cp: address.postcode || "",
-            accion: "buscarPorUbicacion",
-            ruta: ruta_actual,
-          },
-          beforeSend: () => {
-            mostrarCargando();
-          },
-          success: (response) => {
-            $("#contenedor-principal").html(response);
-          },
-          error: (xhr, status, error) => {
-            console.error("Error al buscar por ubicación:", error);
-          },
-          complete: () => {
-            ocultarCargando();
-          },
-        });
+          // recarga publicaciones filtradas
+          $.ajax({
+            url: "controllers/IndexController.php",
+            type: "POST",
+            data: {
+              latitud: lat,
+              longitud: lon,
+              calle: address.road || "",
+              barrio: address.suburb || "",
+              ciudad: address.city || address.town || address.village || "",
+              provincia: address.state || "",
+              cp: address.postcode || "",
+              accion: "buscarPorUbicacion",
+              ruta: ruta_actual,
+            },
+            beforeSend: () => {
+              mostrarCargando();
+            },
+            success: (response) => {
+              $("#contenedor-principal").html(response);
+            },
+            error: (xhr, status, error) => {
+              console.error("Error al buscar por ubicación:", error);
+            },
+            complete: () => {
+              ocultarCargando();
+            },
+          });
+        },
       },
-    });
+      ruta_actual
+    );
   }
 
   // ============ MANEJO DE RUTAS ============
 
   async function manejarRuta(ruta_actual) {
-    console.log("Ruta actual:", ruta_actual);
-
     if (ruta_actual === "/HabitaRoom/index") {
       await observarCargaIndex("#contenedor-principal", async () => {
         if (sessionStorage.getItem("mostrarMapaTrasReload") === "1") {
@@ -260,7 +269,6 @@ $(document).ready(function () {
         await cargarPublicacionesIndex();
         accionGuardar(ruta_actual);
 
-        detectarFinDePagina();
         observarIdsPublicaciones(
           "#contenedor-principal",
           ".contenedor-publicacion"
@@ -274,6 +282,8 @@ $(document).ready(function () {
         eventFormularioUbicacion();
         inicializarBuscadorLateral();
         filtrarTipoPublicitante($("#inputBuscar"));
+
+        detectarFinDePagina();
       });
     }
 

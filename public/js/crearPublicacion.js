@@ -15,7 +15,7 @@ function cambiarValor(numero, incremento, maximo) {
   let valorActual = parseInt($(numero).text());
   let nuevoValor = valorActual + incremento;
 
-  if (nuevoValor >= 1 && nuevoValor <= maximo) {
+  if (nuevoValor >= 0 && nuevoValor <= maximo) {
     $(numero).text(nuevoValor);
   }
 }
@@ -66,6 +66,10 @@ function formatearDatosPublicacion(form) {
     return isNaN(v) ? fallback : v;
   };
 
+  const getRadioValue = (name, fallback = "") => {
+  const selected = form.querySelector(`input[name="${name}"]:checked`);
+  return selected ? selected.value : fallback;
+};
   // Obtenemos los valores de punto flotante de los campos del formulario
   const getFloat = (name, fallback = 0.0) => {
     const v = parseFloat(getValue(name));
@@ -90,15 +94,15 @@ function formatearDatosPublicacion(form) {
 
   return {
     usuario_id: getInt("usuario_id"),
-    tipo_anuncio: getValue("tipo_anuncio", "venta"),
-    tipo_inmueble: getValue("tipo_inmueble", "casa"),
-    ubicacion: getValue("ubicacion", "Sin especificar").toLowerCase(),
-    titulo: getValue("titulo", "Título no proporcionado").toLowerCase(),
-    descripcion: getValue("descripcion", "Sin descripción.").toLowerCase(),
+    tipo_anuncio: getValue("tipo_anuncio"),
+    tipo_inmueble: getValue("tipo_inmueble"),
+    ubicacion: getValue("ubicacion").toLowerCase(),
+    titulo: getValue("titulo").toLowerCase(),
+    descripcion: getValue("descripcion").toLowerCase(),
     precio: getFloat("precio"),
     habitaciones,
     banos,
-    estado: getValue("estado", "usado"),
+    estado: getValue("estado"),
     ascensor: getBool("ascensor"),
     piscina: getBool("piscina"),
     gimnasio: getBool("gimnasio"),

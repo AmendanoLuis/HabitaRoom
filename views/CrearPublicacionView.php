@@ -45,6 +45,10 @@
                                     <option value="apartamento">Apartamento</option>
                                     <option value="piso">Piso</option>
                                     <option value="casa">Casa</option>
+                                    <option value="local">Local</option>
+                                    <option value="oficina">Oficina</option>
+                                    <option value="terreno">Terreno</option>
+                                    <option value="otro">Otro...</option>
                                 </select>
                             </div>
 
@@ -135,7 +139,7 @@
                                     <button type="button"
                                         class="btn btn-outline-success  fs-5 rounded-circle px-3 fw-bold"
                                         id="btn_menos_hab"> - </button>
-                                    <span id="num_habitaciones" class="mx-3 pe-1" data-name="num_habitaciones"> 1
+                                    <span id="num_habitaciones" class="mx-3 pe-1" data-name="num_habitaciones"> 0
                                     </span>
                                     <button type="button"
                                         class="btn btn-outline-success  fs-5 rounded-circle ps-3 pe-3 fw-bold"
@@ -149,7 +153,7 @@
                                     <button type="button"
                                         class="btn btn-outline-success  fs-5 rounded-circle px-3 fw-bold"
                                         id="btn_menos_banos">-</button>
-                                    <span id="num_banos" class="mx-3 pe-1" data-name="num_banos">1</span>
+                                    <span id="num_banos" class="mx-3 pe-1" data-name="num_banos">0</span>
                                     <button type="button"
                                         class="btn btn-outline-success  fs-5 rounded-circle ps-3 pe-3 fw-bold"
                                         id="btn_mas_banos">+</button>

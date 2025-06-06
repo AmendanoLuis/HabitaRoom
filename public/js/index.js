@@ -10,11 +10,12 @@ export function detectarFinDePagina() {
   $(window).scroll(function () {
     if (
       $(window).scrollTop() + $(window).height() >=
-      $(document).height() - 2
+      $(document).height() - 5
     ) {
       // Evitar llamadas múltiples rápidas
       if (!window.cargandoMas) {
         window.cargandoMas = true;
+        offset = $("#contenedor-publicacion").length;
 
         const id_publis_cargadas = sessionStorage.getItem("id_publis");
         const timeoutId = mostrarCargandoConRetardo();
