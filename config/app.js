@@ -45,20 +45,7 @@ $(document).ready(function () {
         type: "POST",
         data: data,
       });
-
-      if (response.includes("<!DOCTYPE html>")) {
-        console.warn(
-          "Respuesta no válida para AJAX, parece una página completa."
-        );
-        return;
-      }
-
       $("#contenidoMain").html(response);
-
-      if (url === "/HabitaRoom/index" || url === "/HabitaRoom/index.php") {
-        asignarEventosFormularios();
-        cargarFiltros();
-      }
     } catch (error) {
       console.error("Error al cargar el contenido: ", error);
     } finally {
@@ -95,7 +82,6 @@ $(document).ready(function () {
     $(document).on("submit", "#form-filtros-desp", function (event) {
       event.preventDefault();
 
-      console.log("Formulario desp enviado.");
       procesarFormularioFiltros(this);
     });
   }
@@ -132,24 +118,9 @@ $(document).ready(function () {
     });
   }
 
-  // Observar carga de un elemento y ejecutar callback
-  function observarCarga(selector, callback) {
-    const contMain = document.getElementById("contenidoMain");
-    if (!contMain) return;
-
-    const observ = new MutationObserver(() => {
-      if ($(selector).length > 0) {
-        callback();
-        observ.disconnect();
-      }
-    });
-
-    observ.observe(contMain, { childList: true, subtree: true });
-  }
-
   // Obtener y observar IDs de publicaciones
   function observarIdsPublicaciones(containerSelector, itemSelector) {
-    observarCarga(containerSelector, () => {
+    observarCargaIndex(containerSelector, () => {
       id_publis.length = 0;
 
       $(`${containerSelector} ${itemSelector}`).each(function () {
@@ -175,6 +146,21 @@ $(document).ready(function () {
         }
       }
     );
+  }
+
+  // Observar carga de un elemento y ejecutar callback
+  function observarCargaIndex(selector, callback) {
+    const contMain = document.getElementById("contenidoMain");
+    if (!contMain) return;
+
+    const observ = new MutationObserver(() => {
+      if ($(selector).length > 0) {
+        callback();
+        observ.disconnect();
+      }
+    });
+
+    observ.observe(contMain, { childList: true, subtree: true });
   }
 
   // Manejar el evento de guardar publicación
@@ -264,7 +250,7 @@ $(document).ready(function () {
     console.log("Ruta actual:", ruta_actual);
 
     if (ruta_actual === "/HabitaRoom/index") {
-      await observarCarga("#contenedor-principal", async () => {
+      await observarCargaIndex("#contenedor-principal", async () => {
         if (sessionStorage.getItem("mostrarMapaTrasReload") === "1") {
           sessionStorage.removeItem("mostrarMapaTrasReload");
           mostrarMapa();
@@ -281,22 +267,24 @@ $(document).ready(function () {
         );
         // Asignar eventos a mapa y autocompletar index
         eventosUbicacionIndex();
+        asignarEventosFormularios();
+        cargarFiltros();
 
         // Asignar eventos al formularios
         eventFormularioUbicacion();
         inicializarBuscadorLateral();
-        filtrarTipoPublicitante( $("#inputBuscar"));
+        filtrarTipoPublicitante($("#inputBuscar"));
       });
     }
 
     // ---- LOGIN ----
     else if (ruta_actual === "/HabitaRoom/login") {
-      observarCarga("#form_login", validarFormularioLogin);
+      observarCargaIndex("#form_login", validarFormularioLogin);
     }
 
     // ---- REGISTRO ----
     else if (ruta_actual === "/HabitaRoom/registro") {
-      observarCarga("#cont_registro", () => {
+      observarCargaIndex("#cont_registro", () => {
         asignarEventosFormRegistro();
         initUbicacionSection();
         mostrarImagenPrevia();
@@ -309,7 +297,7 @@ $(document).ready(function () {
     }
     // CREAR PUBLICACION
     else if (ruta_actual === "/HabitaRoom/crearpublicacion") {
-      observarCarga("#form_crear_publi", () => {
+      observarCargaIndex("#form_crear_publi", () => {
         asignarEventosForm();
         initUbicacionSection();
 
@@ -368,7 +356,7 @@ $(document).ready(function () {
 
     // ---- GUARDADOS ----
     else if (ruta_actual === "/HabitaRoom/guardados") {
-      observarCarga("#contenidoGuardadas", () => {
+      observarCargaIndex("#contenidoGuardadas", () => {
         observarIdsPublicaciones(
           "#contenidoGuardadas",
           ".contenedor-publicacion"
@@ -385,8 +373,6 @@ $(document).ready(function () {
   // ============ INICIALIZACIÓN ============
 
   const ruta_actual = window.location.href.replace("http://localhost", "");
-  const id_publis = [];
-  const id_publi = null;
 
   cargarPagina(ruta_actual);
   manejarRuta(ruta_actual);
@@ -397,3 +383,51 @@ $(document).ready(function () {
     manejarRuta(ruta);
   });
 });
+
+const id_publis = [];
+const id_publi = null;
+
+// Observar IDs de publicaciones en un contenedor específico
+export async function actualizarIdPublicaciones(
+  containerSelector,
+  itemSelector
+) {
+  observarCarga(containerSelector, () => {
+    id_publis.length = 0;
+    sessionStorage.setItem("id_publis", JSON.stringify([]));
+
+    $(`${containerSelector} ${itemSelector}`).each(function () {
+      const id = $(this).data("id");
+      if (id) id_publis.push(id);
+    });
+
+    sessionStorage.setItem("id_publis", JSON.stringify(id_publis));
+    console.log(`ID de publicaciones actualizadas: ${id_publis}`);
+  });
+}
+
+// Observar carga de un elemento y ejecutar callback
+async function observarCarga(selector, callback) {
+  const target = document.querySelector(selector);
+  console.log("Observando selector:", selector, "target:", target);
+  if (!target) return;
+
+  if (target.children.length > 0) {
+    console.log("Contenido ya existe, ejecutando callback inmediatamente");
+    callback();
+    return;
+  }
+
+  const observer = new MutationObserver((mutationsList, observerInstance) => {
+    console.log("Mutaciones detectadas:", mutationsList.length);
+    if (target.children.length > 0) {
+      callback();
+      observerInstance.disconnect();
+    }
+  });
+
+  observer.observe(target, {
+    childList: true,
+    subtree: true,
+  });
+}

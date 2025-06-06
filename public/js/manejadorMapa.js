@@ -2,6 +2,7 @@
 import $ from "https://cdn.jsdelivr.net/npm/jquery@3.7.1/+esm";
 import { obtenerMapaConGeolocalizacion } from "./mapUtils.js";
 import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
+import { actualizarIdPublicaciones } from "../../config/app.js";
 
 export async function mostrarMapa() {
   const $mapa = $("#mapa");
@@ -72,15 +73,6 @@ export function eventFormularioUbicacion() {
       });
       return;
     }
-    console.log("Datos enviados al servidor:", {
-      latitud: lat,
-      longitud: lon,
-      calle: ubicacionGeografica.road,
-      barrio: ubicacionGeografica.suburb,
-      ciudad: ubicacionGeografica.city,
-      provincia: ubicacionGeografica.state,
-      cp: ubicacionGeografica.postcode,
-    });
     $.ajax({
       url: "controllers/IndexController.php",
       type: "POST",
@@ -97,9 +89,11 @@ export function eventFormularioUbicacion() {
         mostrarCargando();
       },
       success: (response) => {
-        if (response.success) {
-          console.log("Respuesta del servidor:", response.publicaciones);
-        }
+        $("#contenedor-principal").html(response);
+        actualizarIdPublicaciones(
+          "#contenedorPrincipal",
+          ".contenedor-publicacion"
+        );
       },
       error: (xhr, status, error) => {
         console.error("Error al buscar por ubicación:", error);

@@ -1,4 +1,5 @@
 import { mostrarCargando, ocultarCargando } from "./loadingPage.js";
+import { actualizarIdPublicaciones } from "../../config/app.js";
 
 //------------------------------------------------------------------
 // FUNCION PARA GUARDAR DETECCION DE FIN DE PAGINA
@@ -32,6 +33,11 @@ export function detectarFinDePagina() {
           success: function (html) {
             if (html.trim().length > 0) {
               $("#contenedor-principal").append(html);
+              actualizarIdPublicaciones(
+                "#contenedor-principal",
+                ".contenedor-publicacion"
+              );
+
               offset += 10;
             }
             window.cargandoMas = false;
@@ -160,7 +166,13 @@ export function procesarFormularioFiltros(form) {
     type: "POST",
     data: JSON.stringify({ filtros, esFiltros, ruta }),
     contentType: "application/json",
-    success: (resp) => $("#contenedor-principal").html(resp),
+    success: (resp) => {
+      $("#contenedor-principal").html(resp);
+      actualizarIdPublicaciones(
+        "#contenedor-principal",
+        ".contenedor-publicacion"
+      );
+    },
     error: (xhr, status, err) => console.error("Error AJAX:", err),
     complete: function () {
       clearTimeout(timeoutId);
@@ -177,7 +189,7 @@ export function cargarFiltros() {
   if (!raw) return;
   const filtros = JSON.parse(raw);
   const form = document.getElementById("form-filtros-desp");
-  if (!form) return;
+  if (!filtros) return;
 
   // Campos de texto, selects y radios
   [
@@ -245,6 +257,10 @@ export function inicializarBuscadorLateral() {
       data: { accion: "buscar", q, ruta: window.location.pathname },
       success: function (html) {
         $("#contenedor-principal").html(html);
+        actualizarIdPublicaciones(
+          "#contenedor-principal",
+          ".contenedor-publicacion"
+        );
       },
       error: function (xhr, status, err) {
         console.error("Error en búsqueda:", err);
@@ -277,7 +293,7 @@ export function filtrarTipoPublicitante(inputBuscar) {
     "#btn-habitantes-desk, #btn-propietario-desk, #btn-empresa-desk",
     filtrar
   );
-  
+
   inputBuscar.on("search", function () {
     if (!this.value) {
       location.reload();
@@ -315,6 +331,10 @@ export function filtrarTipoPublicitante(inputBuscar) {
       },
       success: function (html) {
         $("#contenedor-principal").html(html);
+        actualizarIdPublicaciones(
+          "#contenedor-principal",
+          ".contenedor-publicacion"
+        );
       },
       error: function (xhr, status, err) {
         console.error("Error al filtrar tipo publicitante:", err);
