@@ -85,7 +85,7 @@ class Database
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
 
-            // 2. Crear base de datos
+            // 2. Crear la base de datos si no existe
             $conn->exec("
             CREATE DATABASE IF NOT EXISTS `" . self::$db . "`
             CHARACTER SET utf8
@@ -93,19 +93,24 @@ class Database
         ");
             echo '<script>console.log("Base de datos creada: ' . self::$db . '");</script>';
 
-            // 3. Usar la base de datos
+            // 3. Usar la base de datos creada
             $conn->exec("USE `" . self::$db . "`");
 
-            // 4. Cargar el contenido del archivo SQL
-            $sqlFilePath = 'habitaroom.sql';
+            // 4. Cargar el archivo SQL desde el mismo directorio
+            $sqlFilePath = __DIR__ . '/habitaroom.sql';
             $sqlContent = file_get_contents($sqlFilePath);
 
-            // 5. Ejecutar el contenido SQL
+            if ($sqlContent === false) {
+                throw new Exception("No se pudo leer el archivo SQL.");
+            }
+
+            // 5. Ejecutar el contenido del archivo SQL
             $conn->exec($sqlContent);
 
         } catch (PDOException $e) {
             die("Error al crear la base de datos: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
-
 }
