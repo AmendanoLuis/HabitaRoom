@@ -236,7 +236,7 @@
             </div>
         </div>
 
-        <!-- CONTENIDO PRINICIPAL -->
+        <!-- CONTENIDO PUBLICACIONES -->
         <div class="col-12 p-0 col-md-9 py-5 mt-5 mt-lg-0 mb-5 d-flex flex-column align-items-center overflow-auto" id="contenedor-principal">
         </div>
 
