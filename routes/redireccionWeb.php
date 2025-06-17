@@ -30,8 +30,8 @@ $ruta_actual = $partes_url['path'];
 parse_str($partes_url['query'] ?? '', $query_params);
 $id = $query_params['id'] ?? ($_POST['id'] ?? null);
 
-// Verificar si la ruta solicitada existe en el array de rutas definidas
 if (array_key_exists($ruta_actual, $rutas)) {
+
     // Obtener la acción (string "Controlador@metodo") definida para esa ruta
     $accion = $rutas[$ruta_actual] ?? 'PublicacionUsuarioController@mostrarPublicacionUsuario';
 

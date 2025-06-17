@@ -1,4 +1,4 @@
-<footer class="bg-success text-light py-4" id="footer_hbr">
+<footer class="bg-success text-light py-4 shadow shadow-xl" id="footer_hbr">
     <div class="container-fluid">
         <div class="row">
             <!-- Columna de enlaces de navegación -->
@@ -13,7 +13,7 @@
                 </ul>
             </div>
 
-            <!-- Columna de redes sociales (si quieres incluirlas) -->
+            <!-- Columna de redes sociales -->
             <div class="col ms-5">
                 <h5>Redes sociales</h5>
                 <ul class="list-unstyled">
@@ -28,7 +28,7 @@
             <div class="col ms-5">
                 <h5>Contacto</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/contactanos" class="text-light">Contáctanos</a></li>
+                    <li><a href="#" class="text-light">Contáctanos</a></li>
                 </ul>
             </div>
 
@@ -37,7 +37,7 @@
 
         <!-- Columna de copyright -->
         <div class="container-fluid mb-0 text-center">
-                <p >© 2025 TuWeb. Todos los derechos reservados.</p>
+                <p >© 2025 HabitaRoom. Todos los derechos reservados.</p>
             </div>
     </div>
 </footer>

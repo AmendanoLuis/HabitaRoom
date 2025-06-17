@@ -83,7 +83,7 @@
 }
 
 #menuLateralIndex li a {
-    color: black;
+    color: #222;
 }
 
 #offcanvasNavbarLeft {
@@ -93,6 +93,7 @@
 .color_fondo_header {
     background-color: #ffffff;
 }
+
 
 /*
 -------------------------------------------------
@@ -503,10 +504,6 @@ ESTILO DE LA SECCION PERFIL USUARIO
 -------------------------------------------------
 
 */
-
-.profile-header {
-    height: 250px;
-}
 
 .profile-header img {
     width: 120px;

@@ -21,14 +21,13 @@
  */
 ?>
 
-<div class="container my-5 d-flex flex-column align-items-center text-light " id="contenedor-principal">
+<div class="container my-md-5 d-flex flex-column align-items-center text-light " id="contenedor-principal">
 
     <div class="row text-dark">
-        <div class="col-auto mt-4 bg-white py-3 px-5 rounded shadow-lg" style="min-width:550px;">
+        <div class="col-auto mt-3 bg-white py-md-3 px-5 rounded shadow-lg" style="min-width:550px;">
 
             <!-- Formulario -->
-            <form class="mt-4" method="POST" id="form_crear_publi" enctype="multipart/form-data">
-
+            <form class="col-12 mt-md-4 bg-white py-3 px-3 px-md-5 rounded shadow-lg" method="POST" id="form_crear_publi" enctype="multipart/form-data">
                 <!-- Tipo de inmueble -->
                 <div>
 

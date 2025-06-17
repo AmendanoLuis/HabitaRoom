@@ -338,24 +338,36 @@ $(document).ready(function () {
     else if (ruta_actual.startsWith("/HabitaRoom/publicacionusuario")) {
       const urlParams = new URLSearchParams(window.location.search);
       const id_publi = urlParams.get("id");
-      if (id_publi) {
-        mostrarCargando();
+
+      if (!id_publi) {
+        $("#contenidoMain").html(
+          "<p>No se encontró el ID de la publicación.</p>"
+        );
+      } else {
         $.ajax({
           url: "controllers/PublicacionUsuarioController.php",
           type: "GET",
           data: { id_publi },
-          success: (response) => $("#contenidoMain").html(response),
-          error: () =>
-            $("#contenidoMain").html("<p>Error al cargar la publicación.</p>"),
-          complete: () => ocultarCargando(),
+
+          beforeSend() {
+            $("#pantalla-cargando").css("display", "flex");
+            void $("#pantalla-cargando")[0].offsetHeight;
+          },
+
+          success(response) {
+            $("#contenidoMain").html(response);
+          },
+
+          error() {
+            $("#contenidoMain").html("<p>Error al cargar la publicación.</p>");
+          },
+
+          complete() {
+            ocultarCargando(); // siempre lo oculta al terminar
+          },
         });
-      } else {
-        $("#contenidoMain").html(
-          "<p>No se encontró el ID de la publicación.</p>"
-        );
       }
     }
-
     // ---- OFERTAS ----
     else if (ruta_actual === "/HabitaRoom/ofertas") {
       observarIdsPublicaciones(

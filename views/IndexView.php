@@ -21,10 +21,10 @@
  */
 ?>
 <div class="container-fluid ">
-    <div class="row ">
+    <div class="row">
 
         <!-- Contenedores Filtros -->
-        <div class="col-3">
+        <div class="col-0 col-md-3">
 
             <div class="row position-fixed d-lg-block d-none bg-light shadow-lg" id="row_filtros">
                 <div class="col ">
@@ -52,7 +52,7 @@
                     <!-- Filtros -->
                     <div class="d-lg-block d-none text-dark mb-2 z-3">
                         <!-- Formulario Filtros -->
-                        <form id="form-filtros-desp" method="POST" class="ps-4">
+                        <form id="form-filtros-desp" method="POST" class="ps-4 d-none d-md-block">
 
                             <!-- Tipo de anuncio -->
                             <h6 class="fw-bold fs-6">Tipo de anuncio</h6>
@@ -213,24 +213,23 @@
             </div>
 
             <!-- Categoria |  MOVIL -->
-            <div class="row my-2 pt-2 d-lg-none bg-light position-fixed z-1 shadow-lg">
-                <div class="container py-4  mb-5 rounded-bottom text-center text-body-secondary">
-                    <h5>Categoria</h5>
-                    <h5 class="mb-3">Publicaciones</h5>
-                    <div class="btn-group d-flex flex-column px-3" role="group"
+            <div class="row my-2 pt-2 d-lg-none bg-light position-fixed w-100 rounded rounded-bottom z-3 shadow-lg">
+                <div class="container pt-3 mb-3 mb-md-5 rounded-bottom text-center text-body-success">
+                    <h6>Categoria Publicaciones</h6>
+                    <div class="btn-group d-flex px-3" role="group"
                         aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check" name="btnradio" id="btn-habitantes-mob"
                             autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-top"
+                        <label class="btn btn-outline-success py-1 rounded-0 rounded-top rounded-bottom"
                             for="btn-habitantes-mob">Habitantes</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btn-propietario-mob"
                             autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0"
+                        <label class="btn btn-outline-success py-1 rounded-0 rounded-top rounded-bottom"
                             for="btn-propietario-mob">Propietario</label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btn-empresa-mob" autocomplete="off">
-                        <label class="btn btn-outline-secondary py-2 rounded-0 rounded-bottom"
+                        <label class="btn btn-outline-success py-1 rounded-0 rounded-top rounded-bottom"
                             for="btn-empresa-mob">Empresas</label>
                     </div>
                 </div>
@@ -238,7 +237,7 @@
         </div>
 
         <!-- CONTENIDO PRINICIPAL -->
-        <div class="col-9 py-5 mb-5 d-flex flex-column align-items-center overflow-auto" id="contenedor-principal">
+        <div class="col-12 p-0 col-md-9 py-5 mt-5 mt-lg-0 mb-5 d-flex flex-column align-items-center overflow-auto" id="contenedor-principal">
         </div>
 
         <!-- Contenedor Mapa -->

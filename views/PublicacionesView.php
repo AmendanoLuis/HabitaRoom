@@ -39,7 +39,7 @@
         $rawFotos = isset($publicacion->fotos) && !empty($publicacion->fotos) ? $publicacion->fotos : '[]';
         $imagenes = json_decode($rawFotos, true) ?: [];
     ?>
-        <div class="card mb-4 shadow mx-auto ms-5 contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
+        <div class="card mb-4 shadow mx-auto mt-5 mt-md-0 ms-md-5 contenedor-publicacion" data-id="<?php echo $publicacion->id; ?>">
             <!-- Enlace solo para la parte que debe ser clicable -->
             <a href="/HabitaRoom/publicacionusuario?id=<?php echo $publicacion->id; ?>" class="text-decoration-none text-reset">
                 <div class="row g-0 rounded-2">

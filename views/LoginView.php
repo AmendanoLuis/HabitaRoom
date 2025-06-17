@@ -37,9 +37,7 @@
                     </div>
 
                     <hr class="me-3 bg-light" style="height: 2px;">
-                    <p class="mt-3 fs-5 pe-1">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iusto corporis in voluptas maxime
-                        velit rem eligendi repudiandae qui soluta, ipsum, odio quas. Porro modi non eos quia veniam
-                        laborum?
+                    <p class="mt-3 fs-5 pe-1">Bienvenido a HabitaRoom, la plataforma que conecta a quienes buscan y ofrecen habitaciones de forma directa. Accede para gestionar tu perfil, tus anuncios y encontrar tu espacio ideal.
                     </p>
                 </div>
 

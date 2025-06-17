@@ -186,9 +186,7 @@
 
                     <!-- Descripción -->
                     <p class="mt-3 fs-5 pe-1 text-end text-break">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iusto corporis in voluptas maxime
-                        velit rem eligendi repudiandae qui soluta, ipsum, odio quas. Porro modi non eos quia veniam
-                        laborum?
+                        Bienvenido a HabitaRoom, la plataforma que conecta a quienes buscan y ofrecen habitaciones de forma directa. Accede para gestionar tu perfil, tus anuncios y encontrar tu espacio ideal.
                     </p>
                 </div>
 
